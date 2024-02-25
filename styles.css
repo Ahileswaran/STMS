@@ -20,15 +20,12 @@ body {
 .banner-image-full {
     width: 100%;
     height: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     z-index: -1;
 }
 
 .glass-container {
-    /*background: rgba(255, 255, 255, 0.8);*/
-    margin: 15px;
+    margin: 95px;
     padding: 60px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -36,16 +33,22 @@ body {
 }
 
 .title-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35%;
     text-align: left;
+    padding: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom-right-radius: 10px; /* Add this for a rounded corner effect */
 }
-
 .mini-gap {
     height: 10px;
 }
 
 .nav-container {
     background-color: #add8e6;
-    margin:7px;
+    margin: 7px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -70,17 +73,13 @@ nav form {
 
 .footer {
     text-align: center;
-    /*background-color: #add8e6;*/
     padding: 10px;
     font-weight: bold;
     color: #333;
     margin: 10px;
-    
 }
 
 .footer p {
     margin: 0;
     font-size: 12px;
 }
-
-
