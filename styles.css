@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+.glass-box-container {
+    position: relative;
+    overflow: hidden;
+    margin: 15px;
+    max-width: 900px; /* Adjust the maximum width as needed */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.banner-image-full {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.glass-container {
+    /*background: rgba(255, 255, 255, 0.8);*/
+    margin: 15px;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: auto;
+}
+
+.title-container {
+    text-align: left;
+}
+
+.mini-gap {
+    height: 10px;
+}
+
+.nav-container {
+    background-color: #add8e6;
+    margin:7px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+}
+
+nav button,
+nav select,
+nav form {
+    margin: 5px;
+}
+
+.content {
+    /* Add styles for your main content */
+}
+
+.footer {
+    text-align: center;
+    /*background-color: #add8e6;*/
+    padding: 10px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px;
+    
+}
+
+.footer p {
+    margin: 0;
+    font-size: 12px;
+}
+
+
