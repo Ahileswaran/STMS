@@ -25,23 +25,25 @@ body {
 }
 
 .glass-container {
-    margin: 95px;
-    padding: 60px;
+    margin: 15px;
+    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    position: auto;
+    position: relative;
 }
 
 .title-container {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    top: 140px; /* Adjust top position to leave space from the top */
+    left: 0; /* Adjust left position to leave space from the left */
     width: 35%;
     text-align: left;
-    padding: 0px;
+    padding: 1px;
     background-color: rgba(255, 255, 255, 0.8);
-    border-bottom-right-radius: 10px; /* Add this for a rounded corner effect */
+    border-bottom-right-radius: 10px;
+    z-index: 1; /* Ensure the title is above the slider */
 }
+
 .mini-gap {
     height: 10px;
 }
@@ -71,12 +73,53 @@ nav form {
     /* Add styles for your main content */
 }
 
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 15px;
+    padding: 10px;
+}
+
+.slider {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slider-img {
+    width: 100%;
+    height: auto;
+}
+
+.slider-nav {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 10px;
+    margin-top: 10px;
+}
+
+.nav-btn {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background-color: #333;
+}
+
 .footer {
     text-align: center;
     padding: 10px;
     font-weight: bold;
     color: #333;
     margin: 10px;
+    margin-top: 20px;
 }
 
 .footer p {
