@@ -126,3 +126,49 @@ nav form {
     margin: 0;
     font-size: 12px;
 }
+
+.master-table {
+    margin: 100px;
+    padding: 0;
+    border: #333;
+}
+
+.master-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.master-table th {
+    background-color: #3498db; /* Blue background for header */
+    color: #fff; /* White text color for header */
+    padding: 10px;
+    text-align: center;
+}
+
+.master-table td {
+    background-color: #fff; /* White background for columns */
+    color: #333; /* Dark text color for columns */
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd; /* Border for each cell */
+}
+
+.master-table table {
+    border: 2px solid #3498db; /* Blue border around the table */
+    border-radius: 10px; /* Rounded corners for the table */
+    overflow: hidden;
+    position: relative;
+}
+
+.master-table::before {
+    content: "";
+    display: block;
+    width: 50px; /* Adjust the size of the circle */
+    height: 50px; /* Adjust the size of the circle */
+    background-color: #3498db; /* Blue color for the circle */
+    border-radius: 50%; /* Make it a circle */
+    position: absolute;
+    top: -10px; /* Adjust the distance from the top */
+    left: -10px; /* Adjust the distance from the left */
+    z-index: 2; /* Ensure it is above the table border */
+}
