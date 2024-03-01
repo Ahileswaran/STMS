@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>School Teachers Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="javaScript.js"></script>
+</head>
+
+<body>
+    <!-- Main container with glass effect -->
+    <div class="glass-box-container">
+        <!-- Title container with glass effect -->
+        <div class="glass-container title-container">
+            <h4>School Teachers Management System</h4>
+        </div>
+
+        <!-- Banner image taking up the entire screen -->
+        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
+
+        <!-- Mini gap between the body and the second glass container -->
+        <div class="mini-gap"></div>
+
+        <!-- Body glass container with the navigation bar -->
+        <div class="glass-container nav-container">
+            <!-- Container for navigation -->
+            <nav>
+                <button value="home" name="home" type="button" link="../index.html">Home</button>
+                <button value="Register" name="Register" type="button" link="registering_page.html">Register</button>
+                <button value="login" name="login" type="button" link="login_page.html">Login</button>
+
+                <!-- Dropdown menu -->
+                <select name="menu">
+                    <option value="menu1">Menu 1</option>
+                    <option value="menu2">Menu 2</option>
+                    <option value="menu3">Menu 3</option>
+                </select>
+
+                <!-- Search field with button -->
+                <form>
+                    <input type="text" name="search" placeholder="Search...">
+                    <button type="submit">Search</button>
+                </form>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="mini-gap"></div>
+        </div>
+
+        <!-- Form container with glass effect -->
+        <div class="glass-container background-glass">
+            <div class="teacher-profile">
+                <form class="register-form">
+                    <label for="user-name">User Name/Mail: </label>
+                    <input id="user-name" name="user-name" type="text" required placeholder="User Name or Mail id..." autocomplete="username"><br><br>
+
+                    <label for="password">Password: </label>
+                    <input id="password" name="password" type="password" required placeholder="Password..." autocomplete="current-password"><br><br>
+
+                    <button type="submit" value="enter">Login</button>
+                </form>
+
+                <a href="register.html" class="login_link">Register</a><br>
+                <a href="reset-password.html" class="login_link">Forgot password</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with rich text -->
+    <footer class="footer">
+        <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+    </footer>
+
+</body>
+
+</html>
