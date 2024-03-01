@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>School Teachers Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="javaScript.js"></script>
+</head>
+
+<body>
+    <!-- Main container with glass effect -->
+    <div class="glass-box-container">
+        <!-- Banner glass container -->
+        <div class="glass-container title-container">
+            <h4>School Teachers Management System</h4>
+        </div>
+
+        <!-- Banner image taking up the entire screen -->
+        <img src="imgs/banner.png" alt="Banner" class="banner-image-full">
+
+        <!-- Mini gap between the body and the second glass container -->
+        <div class="mini-gap"></div>
+
+        <!-- Body glass container with the navigation bar -->
+        <div class="glass-container nav-container">
+            <!-- Container for navigation -->
+            <nav>
+                <button value="home" name="home" type="button">Home</button>
+                <button value="Register" name="Register" type="button">Register</button>
+                <button value="login" name="login" type="button">Login</button>
+
+                <!-- Dropdown menu -->
+                <select name="menu">
+                    <option value="menu1">Menu 1</option>
+                    <option value="menu2">Menu 2</option>
+                    <option value="menu3">Menu 3</option>
+                </select>
+
+                <!-- Search field with button -->
+                <form>
+                    <input type="text" name="search" placeholder="Search...">
+                    <button type="submit">Search</button>
+                </form>
+            </nav>
+        </div>
+
+        <div class="content">
+
+            <div class="teacher-profile">
+                <form class="register-form">
+                    <label for="first-name" id="first-name" name="first-name">First Name: </label>
+                    <input id="first-name" id="first-name"><br><br>
+                    <label for="last-name" id="last-name" name="last-name">Last Name: </label>
+                    <input id="last-name" id="last-name"><br><br>
+                    <label for="address" id="address" name="address">Address: </label>
+                    <input id="address" id="address"><br><br>
+                    <label for="age" id="age" name="age">Age: </label>
+                    <input id="age" id="age"><br><br>
+                    <label for="sex" id="sex" name="sex">Sex: </label>
+                    <input id="sex" id="sex"><br><br>
+                    <label for="marital-status" id="marital-status" name="marital-status">Marital Status: </label>
+                    <input id="marital-status" id="marital-status"><br><br>
+                    <label for="techer_id" id="techer_id" name="techer_id">Registeration Number: </label>
+                    <input id="techer_id" id="techer_id"><br><br>
+                    <label for="subject" id="subject" name="subject">Subject: </label>
+                    <input id="subject" id="subject"><br><br>
+                    <label for="mail_id" id="mail_idd" name="mail_id">Mail Address: </label>
+                    <input id="mail_id" id="mail_id"><br><br>
+                    <label for="passowrd" id="passowrd" name="passowrd">passowrd: </label>
+                    <input id="passowrd" id="passowrd"><br><br>
+                    <button type="submit" value="Submit">Submit</button>
+                    
+                </form>
+            </div>
+     
+        </div>
+
+
+        <!-- Master Time Table -->
+        <div class="teacher-table">
+            <table>
+                <caption>
+                    <h3>Teacher Time Table</h3>
+                </caption>
+                <tr>
+                    <th></th> <!-- An empty cell for spacing -->
+                    <th>Grade - 01</th>
+                    <th>Grade - 02</th>
+                    <th>Grade - 03</th>
+                    <th>Grade - 04</th>
+                    <th>Grade - 05</th>
+                    <th>Grade - 06</th>
+                </tr>
+                <tr>
+                    <th>Class - A</th>
+                    <td class="profile_circle"><span>Data 1</span></td>
+                    <td class="profile_circle"><span>Data 2</span></td>
+                    <td class="profile_circle"><span>Data 3</span></td>
+                    <td class="profile_circle"><span>Data 4</span></td>
+                    <td class="profile_circle"><span>Data 5</span></td>
+                    <td class="profile_circle"><span>Data 6</span></td>
+                </tr>
+                <tr>
+                    <th>Class - B</th>
+                    <td class="profile_circle"><span>Data 7</span></td>
+                    <td class="profile_circle"><span>Data 8</span></td>
+                    <td class="profile_circle"><span>Data 9</span></td>
+                    <td class="profile_circle"><span>Data 10</span></td>
+                    <td class="profile_circle"><span>Data 11</span></td>
+                    <td class="profile_circle"><span>Data 12</span></td>
+                </tr>
+                <tr>
+                    <th>Class - C</th>
+                    <td class="profile_circle"><span>Data 13</span></td>
+                    <td class="profile_circle"><span>Data 14</span></td>
+                    <td class="profile_circle"><span>Data 15</span></td>
+                    <td class="profile_circle"><span>Data 16</span></td>
+                    <td class="profile_circle"><span>Data 17</span></td>
+                    <td class="profile_circle"><span>Data 18</span></td>
+                </tr>
+            </table>
+        </div>
+        <div class="mini-gap"></div>
+
+        <!-- Footer with rich text -->
+        <footer class="footer">
+            <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
