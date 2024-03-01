@@ -12,9 +12,11 @@ body {
     position: relative;
     overflow: hidden;
     margin: 15px;
-    max-width: 900px; /* Adjust the maximum width as needed */
+    max-width: 900px;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .banner-image-full {
@@ -25,23 +27,24 @@ body {
 }
 
 .glass-container {
-    margin: 15px;
+    margin: 150px;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: relative;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .title-container {
     position: absolute;
-    top: 140px; /* Adjust top position to leave space from the top */
-    left: 0; /* Adjust left position to leave space from the left */
+    top: 20px;
+    left: 20px;
     width: 35%;
     text-align: left;
-    padding: 1px;
+    padding: 10px;
     background-color: rgba(255, 255, 255, 0.8);
     border-bottom-right-radius: 10px;
-    z-index: 1; /* Ensure the title is above the slider */
+    z-index: 1;
 }
 
 .mini-gap {
@@ -51,7 +54,7 @@ body {
 .nav-container {
     background-color: #add8e6;
     margin: 7px;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: right;
@@ -63,7 +66,6 @@ nav {
     justify-content: right;
 }
 
-
 nav button,
 nav select,
 nav form {
@@ -71,31 +73,16 @@ nav form {
 }
 
 .content {
-    /* Add styles for your main content */
-}
-
-
-
-.nav-btn {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #ccc;
-    margin: 0 5px;
-    cursor: pointer;
-}
-
-.nav-btn.active {
-    background-color: #333;
+    flex: 1;
 }
 
 .footer {
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     font-weight: bold;
     color: #333;
     margin: 10px;
-    margin-top: 20px;
+    margin-top: auto;
 }
 
 .footer p {
@@ -103,53 +90,62 @@ nav form {
     font-size: 12px;
 }
 
-.teacher-table {
-    margin: 20px; /* Adjust the margin around the table */
-    padding: 20px; /* Adjust the padding inside the table container */
-    border: 2px solid #3498db; /* Blue border around the table */
-    border-radius: 10px; /* Rounded corners for the table */
-    overflow: hidden;
-    position: relative;
+.teacher-profile form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: 20px auto;
 }
 
-.teacher-table  table {
+.teacher-profile form label {
+    text-align: left;
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px; /* Add margin at the bottom of the table */
+    margin-bottom: 8px;
 }
 
-.teacher-table  th,
-.teacher-table  td {
-    padding: 15px; /* Adjust the padding for header and data cells */
-    text-align: center;
+.teacher-profile form input,
+.teacher-profile form input[type="radio"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
-.teacher-table  th {
-    background-color: #3498db; /* Blue background for header */
-    color: #fff; /* White text color for header */
+.teacher-profile form input[type="radio"] {
+    margin-top: 10px;
 }
 
-.teacher-table  td {
-    position: relative;
+.teacher-profile form button {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.teacher-table  td.profile_circle::before {
-    content: "";
-    display: block;
-    width: 40px; /* Adjust the size of the circle */
-    height: 40px; /* Adjust the size of the circle */
-    background-color: #3498db; /* Blue color for the circle */
-    border-radius: 50%; /* Make it a circle */
-    position: absolute;
-    top: 0; /* Adjust the distance from the top */
-    left: 0; /* Adjust the distance from the left */
-    z-index: 2; /* Ensure it is above the table border */
+.teacher-profile form button:hover {
+    background-color: #2c3e50;
 }
 
-.teacher-table  td.profile_circle span {
-    display: inline-block; /* Make the text centered vertically and horizontally */
-    position: relative;
-    z-index: 3; /* Ensure it is above the circle */
+.teacher-profile form button:active {
+    background-color: #7f8c8d;
 }
 
+.radio-buttons {
+    display: flex;
+}
 
+.radio-buttons input[type="radio"] {
+    margin-right: 5px;
+}
+
+.radio-buttons label {
+    margin-right: 15px;
+}

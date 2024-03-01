@@ -11,13 +11,13 @@
 <body>
     <!-- Main container with glass effect -->
     <div class="glass-box-container">
-        <!-- Banner glass container -->
+        <!-- Title container with glass effect -->
         <div class="glass-container title-container">
             <h4>School Teachers Management System</h4>
         </div>
 
         <!-- Banner image taking up the entire screen -->
-        <img src="imgs/banner.png" alt="Banner" class="banner-image-full">
+        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
 
         <!-- Mini gap between the body and the second glass container -->
         <div class="mini-gap"></div>
@@ -46,88 +46,57 @@
         </div>
 
         <div class="content">
+            <div class="mini-gap"></div>
+        </div>
 
+        <!-- Form container with glass effect -->
+        <div class="glass-container background-glass">
             <div class="teacher-profile">
                 <form class="register-form">
-                    <label for="first-name" id="first-name" name="first-name">First Name: </label>
-                    <input id="first-name" id="first-name"><br><br>
-                    <label for="last-name" id="last-name" name="last-name">Last Name: </label>
-                    <input id="last-name" id="last-name"><br><br>
-                    <label for="address" id="address" name="address">Address: </label>
-                    <input id="address" id="address"><br><br>
-                    <label for="age" id="age" name="age">Age: </label>
-                    <input id="age" id="age"><br><br>
-                    <label for="sex" id="sex" name="sex">Sex: </label>
-                    <input id="sex" id="sex"><br><br>
-                    <label for="marital-status" id="marital-status" name="marital-status">Marital Status: </label>
-                    <input id="marital-status" id="marital-status"><br><br>
-                    <label for="techer_id" id="techer_id" name="techer_id">Registeration Number: </label>
-                    <input id="techer_id" id="techer_id"><br><br>
-                    <label for="subject" id="subject" name="subject">Subject: </label>
-                    <input id="subject" id="subject"><br><br>
-                    <label for="mail_id" id="mail_idd" name="mail_id">Mail Address: </label>
-                    <input id="mail_id" id="mail_id"><br><br>
-                    <label for="passowrd" id="passowrd" name="passowrd">passowrd: </label>
-                    <input id="passowrd" id="passowrd"><br><br>
+                    <label for="first-name">First Name: </label>
+                    <input id="first-name" name="first-name" type="text"><br><br>
+
+                    <label for="last-name">Last Name: </label>
+                    <input id="last-name" name="last-name" type="text"><br><br>
+
+                    <label for="address">Address: </label>
+                    <input id="address" name="address" type="text"><br><br>
+
+                    <label for="age">Age: </label>
+                    <input id="age" name="age" type="text"><br><br>
+
+                    <label for="sex">Sex: </label>
+                    <div class="radio-buttons">
+                        <input type="radio" id="male" name="sex" value="Male"> <label for="male">Male</label>
+                        <input type="radio" id="female" name="sex" value="Female"> <label for="female">Female</label>
+                    </div><br><br>
+
+                    <label for="marital-status">Marital Status: </label>
+                    <input id="marital-status" name="marital-status" type="text"><br><br>
+
+                    <label for="teacher_id">Registration Number: </label>
+                    <input id="teacher_id" name="teacher_id" type="text"><br><br>
+
+                    <label for="subject">Subject: </label>
+                    <input id="subject" name="subject" type="text"><br><br>
+
+                    <label for="mail_id">Mail Address: </label>
+                    <input id="mail_id" name="mail_id" type="text"><br><br>
+
+                    <label for="password">Password: </label>
+                    <input id="password" name="password" type="password"><br><br>
+
                     <button type="submit" value="Submit">Submit</button>
-                    
                 </form>
             </div>
-     
         </div>
-
-
-        <!-- Master Time Table -->
-        <div class="teacher-table">
-            <table>
-                <caption>
-                    <h3>Teacher Time Table</h3>
-                </caption>
-                <tr>
-                    <th></th> <!-- An empty cell for spacing -->
-                    <th>Grade - 01</th>
-                    <th>Grade - 02</th>
-                    <th>Grade - 03</th>
-                    <th>Grade - 04</th>
-                    <th>Grade - 05</th>
-                    <th>Grade - 06</th>
-                </tr>
-                <tr>
-                    <th>Class - A</th>
-                    <td class="profile_circle"><span>Data 1</span></td>
-                    <td class="profile_circle"><span>Data 2</span></td>
-                    <td class="profile_circle"><span>Data 3</span></td>
-                    <td class="profile_circle"><span>Data 4</span></td>
-                    <td class="profile_circle"><span>Data 5</span></td>
-                    <td class="profile_circle"><span>Data 6</span></td>
-                </tr>
-                <tr>
-                    <th>Class - B</th>
-                    <td class="profile_circle"><span>Data 7</span></td>
-                    <td class="profile_circle"><span>Data 8</span></td>
-                    <td class="profile_circle"><span>Data 9</span></td>
-                    <td class="profile_circle"><span>Data 10</span></td>
-                    <td class="profile_circle"><span>Data 11</span></td>
-                    <td class="profile_circle"><span>Data 12</span></td>
-                </tr>
-                <tr>
-                    <th>Class - C</th>
-                    <td class="profile_circle"><span>Data 13</span></td>
-                    <td class="profile_circle"><span>Data 14</span></td>
-                    <td class="profile_circle"><span>Data 15</span></td>
-                    <td class="profile_circle"><span>Data 16</span></td>
-                    <td class="profile_circle"><span>Data 17</span></td>
-                    <td class="profile_circle"><span>Data 18</span></td>
-                </tr>
-            </table>
-        </div>
-        <div class="mini-gap"></div>
-
-        <!-- Footer with rich text -->
-        <footer class="footer">
-            <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
-        </footer>
     </div>
+
+    <!-- Footer with rich text -->
+    <footer class="footer">
+        <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+    </footer>
+
 </body>
 
 </html>
