@@ -50,23 +50,63 @@ body {
 
 .nav-container {
     background-color: #add8e6;
-    margin: 7px;
+    margin: 10px;
     padding: 10px;
     display: flex;
-    flex-direction: column;
-    align-items: right;
+    flex-direction: row;
+    align-items: center; /* Align items vertically */
+    justify-content: flex-end; /* Align items to the right */
 }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: right;
+/* Add a hover effect for the navigation container */
+.nav-container:hover {
+    background-color: #87CEEB; /* Light Blue hover color */
 }
 
-nav button,
-nav select,
+/* Style for active state in navigation */
+nav a.active {
+    background-color: #3498db; /* Blue color for active state */
+    color: #fff; /* White text color for active state */
+}
+
+/* Style for all buttons in navigation */
+nav a.button,
+nav select{
+    padding: 8px; /* Adjust padding for buttons */
+    background-color: #3498db; /* Blue color for buttons */
+    color: #fff; /* White text color for buttons */
+    border: none; /* Remove border */
+    cursor: pointer;
+    margin-left: px; /* Add margin between buttons */
+    text-decoration: none; /* Remove underline */
+}
+
+.search_style{
+
+}
+
+/* Hover effect for all buttons in navigation */
+nav a.button:hover,
+nav form button:hover {
+    background-color: #2874a6; /* Darker blue on hover */
+}
+
+/* Align search input and button to the right */
 nav form {
-    margin: 5px;
+    display: flex; /* Enable flex layout for child items */
+    align-items: center; /* Align items vertically */
+}
+
+/* Align search input to the right */
+nav form input[type="text"] {
+    padding: 8px; /* Adjust padding for input */
+    margin-right: 5px; /* Add margin to the right of the input */
+}
+
+/* Align search button to the right */
+nav form button {
+    padding: 8px; /* Adjust padding for button */
+    margin-left: 5px; /* Add margin to the left of the button */
 }
 
 .content {
@@ -128,10 +168,10 @@ nav form {
 }
 
 .master-table {
-    margin: 20px; /* Adjust the margin around the table */
-    padding: 20px; /* Adjust the padding inside the table container */
-    border: 2px solid #3498db; /* Blue border around the table */
-    border-radius: 10px; /* Rounded corners for the table */
+    margin: 20px; 
+    padding: 20px; 
+    border: 2px solid #3498db; 
+    border-radius: 10px; 
     overflow: hidden;
     position: relative;
 }
@@ -139,12 +179,12 @@ nav form {
 .master-table table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px; /* Add margin at the bottom of the table */
+    margin-bottom: 20px; 
 }
 
 .master-table th,
 .master-table td {
-    padding: 15px; /* Adjust the padding for header and data cells */
+    padding: 15px; 
     text-align: center;
 }
 
@@ -175,5 +215,3 @@ nav form {
     position: relative;
     z-index: 3; /* Ensure it is above the circle */
 }
-
-

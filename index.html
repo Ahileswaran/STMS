@@ -26,9 +26,10 @@
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <button value="home" name="home" type="button" >Home</button>
-                <button value="Register" name="Register" type="button" href="/pages/registering_page.html">Register</button>
-                <button value="login" name="login" type="button" href="/pages/login_page.html">Login</button>
+                <a class="active button" href="index.html">Home</a>
+                <a class="active button" href="/pages/registering_page.html">Register</a>
+                <a class="active button" href="/pages/login_page.html">Login</a>
+                
 
                 <!-- Dropdown menu -->
                 <select name="menu">
@@ -38,7 +39,7 @@
                 </select>
 
                 <!-- Search field with button -->
-                <form>
+                <form class="search_style">
                     <input type="text" name="search" placeholder="Search...">
                     <button type="submit">Search</button>
                 </form>
