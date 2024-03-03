@@ -4,14 +4,14 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teachers Management System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <script src="javaScript.js"></script>
 </head>
 
 <body>
     <!-- Main container with glass effect -->
     <div class="glass-box-container">
-        <!-- Title container with glass effect -->
+        <!-- Banner glass container -->
         <div class="glass-container title-container">
             <h4>School Teachers Management System</h4>
         </div>
@@ -26,27 +26,35 @@
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <button value="home" name="home" type="button">Home</button>
-                <button value="Register" name="Register" type="button">Register</button>
-                <button value="login" name="login" type="button">Login</button>
-
-                <!-- Dropdown menu -->
-                <select name="menu">
-                    <option value="menu1">Menu 1</option>
-                    <option value="menu2">Menu 2</option>
-                    <option value="menu3">Menu 3</option>
-                </select>
-
-                <!-- Search field with button -->
-                <form>
-                    <input type="text" name="search" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
+                <a class="active button" href="../index.html">Home</a>
+                <a class="active button" href="/pages/registering_page.html">Register</a>
+                <a class="active button" href="/pages/login_page.html">Login</a>
             </nav>
-        </div>
 
-        <div class="content">
-            <div class="mini-gap"></div>
+            <!-- Dropdown menu -->
+            <div class="drop_menu">                
+                <select name="menu">
+                    <option value="menu0" disabled selected>Downloads</option>
+                    <option value="menu1">Teachers Guides</option>
+                    <option value="menu2">Syllabi</option>
+                    <option value="menu3">Resource Books</option>
+                </select></div>
+
+             <!-- Input Field -->
+            <div class="Search_field">                               
+                <input type="text" name="search" placeholder="Search...">
+            </div>
+
+            <!-- Search Button -->
+            <div class="search_button">
+                <button type="submit">Search</button>
+            </div>
+
+            <div class="content">
+                <!-- main content goes here -->
+            </div>
+
+
         </div>
 
         <!-- Form container with glass effect -->
