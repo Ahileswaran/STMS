@@ -39,7 +39,7 @@ body {
     width: 150px;
     text-align: left;
     padding: 10px;
-    background-color: rgb(255, 72, 0);
+    background-color: rgba(255, 30, 0, 0.747);
     border-bottom-right-radius: 50px;
     z-index: 1; /* Ensure the title is above the slider */
 }
