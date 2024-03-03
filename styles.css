@@ -55,7 +55,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center; /* Align items vertically */
-    justify-content: flex-end; /* Align items to the right */
+    justify-content: right; /* Align items to the right */
 }
 
 /* Add a hover effect for the navigation container */
@@ -71,42 +71,62 @@ nav a.active {
 
 /* Style for all buttons in navigation */
 nav a.button,
-nav select{
-    padding: 8px; /* Adjust padding for buttons */
+nav select {
+    padding: 10px; /* Set a consistent padding for buttons */
     background-color: #3498db; /* Blue color for buttons */
     color: #fff; /* White text color for buttons */
     border: none; /* Remove border */
     cursor: pointer;
-    margin-left: px; /* Add margin between buttons */
+    margin-right: 5px; /* Add margin between buttons */
     text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Add border-radius for rounded edges */
 }
 
-.search_style{
-
+/* Updated styles for the dropdown menu */
+.drop_menu select {
+    padding: 10px; /* Adjust padding for the dropdown */
+    background-color:  #3498db; /* Blue color for the dropdown */
+    color: #fff; /* White text color for the dropdown */
+    border: none; /* Remove border */
+    cursor: pointer;
+    margin-right: 15px; /* Add margin between dropdown menu and other buttons */
 }
 
-/* Hover effect for all buttons in navigation */
-nav a.button:hover,
-nav form button:hover {
-    background-color: #2874a6; /* Darker blue on hover */
+/* Updated styles for the search field */
+.Search_field {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
 }
 
-/* Align search input and button to the right */
-nav form {
-    display: flex; /* Enable flex layout for child items */
-    align-items: center; /* Align items vertically */
-}
-
-/* Align search input to the right */
 nav form input[type="text"] {
-    padding: 8px; /* Adjust padding for input */
-    margin-right: 5px; /* Add margin to the right of the input */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    width: 200px; /* Adjust the width as needed */
+    transition: background-color 0.3s ease;
 }
 
-/* Align search button to the right */
-nav form button {
-    padding: 8px; /* Adjust padding for button */
-    margin-left: 5px; /* Add margin to the left of the button */
+/* Hover effect for the search input */
+nav form input[type="text"]:hover {
+    background-color: #f2f2f2; /* Light gray background on hover */
+}
+
+/* Updated styles for the search button */
+.search_button button {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the search button */
+.search_button button:hover {
+    background-color: #2874a6; /* Darker blue on hover */
 }
 
 .content {
@@ -128,8 +148,9 @@ nav form button {
 }
 
 .slider-img {
-    width: 100%;
-    height: auto;
+    width: 1400px;
+    height: 480px;
+    object-fit: cover;
 }
 
 .slider-nav {
