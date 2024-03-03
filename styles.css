@@ -135,10 +135,10 @@ nav form input[type="text"]:hover {
 
 .slider-container {
     position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: 15px;
-    padding: 10px;
+    overflow:hidden;
+    width: 867px;
+    margin: 8px;
+    padding: 8px;
 }
 
 .slider {
@@ -148,9 +148,9 @@ nav form input[type="text"]:hover {
 }
 
 .slider-img {
-    width: 1400px;
-    height: 480px;
-    object-fit: cover;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 .slider-nav {
