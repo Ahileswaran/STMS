@@ -1,3 +1,6 @@
+
+//Function to handle the image slider
+
 $(document).ready(function () {
     const slider = $(".slider");
     const navButtons = $(".nav-btn");
@@ -31,3 +34,18 @@ $(document).ready(function () {
         selectSlide(index);
     });
 });
+
+
+
+//Function to handle the drop down menu
+
+function redirect(selectElement) {
+    var selectedValue = selectElement.value;
+    if (selectedValue === "teachers_guide") {
+        window.location.href = "pages/download_pages/teachers_guide.html";
+    } else if (selectedValue === "syllabi") {
+        window.location.href = "pages/download_pages/Syllabi_page.html";
+    } else if (selectedValue === "resource_page") {
+        window.location.href = "pages/download_pages/resource_page.html";
+    }
+}

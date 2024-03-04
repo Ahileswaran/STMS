@@ -4,7 +4,7 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teachers Management System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <script src="javaScript.js"></script>
 </head>
 
@@ -13,11 +13,11 @@
     <div class="glass-box-container">
         <!-- Banner glass container -->
         <div class="glass-container title-container">
-            <img src="imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
+            <img src="../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
         </div>
 
         <!-- Banner image taking up the entire screen -->
-        <img src="imgs/banner.png" alt="Banner" class="banner-image-full">
+        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
 
         <!-- Mini gap between the body and the second glass container -->
         <div class="mini-gap"></div>
@@ -26,7 +26,7 @@
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <a class="active button" href="index.html">Home</a>
+                <a class="active button" href="../index.html">Home</a>
                 <a class="active button" href="/pages/registering_page.html">Register</a>
                 <a class="active button" href="/pages/login_page.html">Login</a>
             </nav>
@@ -58,30 +58,24 @@
 
         </div>
 
-      
-
-        <!-- Slider container with gap -->
-        <div class="glass-container slider-container">
-            <!-- Slider images -->
-            <div class="slider">
-                <img src="imgs/slider_imgs/day_img.png" alt="Slider Image 1" class="slider-img">
-                <img src="imgs/slider_imgs/hbd_img.png" alt="Slider Image 2" class="slider-img">
-                <img src="imgs/slider_imgs/meet_img.png" alt="Slider Image 3" class="slider-img">
-            </div>
-
-            <!-- Navigation buttons -->
-            <div class="slider-nav">
-                <div class="nav-btn" data-index="0"></div>
-                <div class="nav-btn" data-index="1"></div>
-                <div class="nav-btn" data-index="2"></div>
-            </div>
+        <!-- Profile container with glass effect -->
+        <div class="glass-container background-glass">
+         <h4>First Name: </h4><br>
+         <h4>Last Name: </h4><br>
+         <h4>Age: </h4><br>
+         <h4>Sex: </h4><br>
+         <h4>Marital Status: </h4><br>
+         <h4>Teacher Id: </h4><br>
+         <h4>Subject: </h4><br>
         </div>
 
-        <!-- Master Time Table -->
+        
+        <!-- Time Table For Teacher  -->
         <div class="master-table">
             <table>
                 <caption>
-                    <h3>Master Time Table</h3>
+                    <h3>Time Table</h3>
+                    <h5>Subject: Science</h5>
                 </caption>
                 <tr>
                     <th></th> <!-- An empty cell for spacing -->
@@ -119,54 +113,16 @@
                     <td class="profile_circle"><span>Data 17</span></td>
                     <td class="profile_circle"><span>Data 18</span></td>
                 </tr>
-            </table>
-            <br><br>
-            <table>
-                <tr>
-                    <th></th>
-                    <th>Grade - 07</th>
-                    <th>Grade - 08</th>
-                    <th>Grade - 09</th>
-                    <th>Grade - 10</th>
-                    <th>Grade - 11</th>
-                    <th>Grade - 12</th>
-                </tr>
-                <tr>
-                    <th>Class - A</th>
-                    <td class="profile_circle"><span>Data 1</span></td>
-                    <td class="profile_circle"><span>Data 2</span></td>
-                    <td class="profile_circle"><span>Data 3</span></td>
-                    <td class="profile_circle"><span>Data 4</span></td>
-                    <td class="profile_circle"><span>Data 5</span></td>
-                    <td class="profile_circle"><span>Data 6</span></td>
-                </tr>
-                <tr>
-                    <th class="profile_circle">Class - B</th>
-                    <td class="profile_circle"><span>Data 7</span></td>
-                    <td class="profile_circle"><span>Data 8</span></td>
-                    <td class="profile_circle"><span>Data 9</span></td>
-                    <td class="profile_circle"><span>Data 10</span></td>
-                    <td class="profile_circle"><span>Data 11</span></td>
-                    <td class="profile_circle"><span>Data 12</span></td>
-                </tr>
-                <tr>
-                    <th>Class - C</th>
-                    <td class="profile_circle"><span>Data 13</span></td>
-                    <td class="profile_circle"><span>Data 14</span></td>
-                    <td class="profile_circle"><span>Data 15</span></td>
-                    <td class="profile_circle"><span>Data 16</span></td>
-                    <td class="profile_circle"><span>Data 17</span></td>
-                    <td class="profile_circle"><span>Data 18</span></td>
-                </tr>
-            </table>
-        </div>
-        <div class="mini-gap"></div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
-        </footer>
+            </table>  
     </div>
+
+    
+
+    <!-- Footer with rich text -->
+    <footer class="footer">
+        <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+    </footer>
+
 </body>
 
 </html>

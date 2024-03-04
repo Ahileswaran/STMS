@@ -307,3 +307,42 @@ nav form input[type="text"]:hover {
     display: block; 
     margin-bottom: 10px; 
 }
+
+
+/* Style for 404 Not Found Page*/
+
+.not-found-404{
+    padding-top: 200px;
+    padding-bottom: 200px;
+    align-items: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: 300px;
+}
+
+/* Style for resource download Page*/
+
+.resource-page{
+    padding-top: 20px;
+    padding-bottom: 200px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+/* Style for teachers guide download Page*/
+
+.teachers-guide-page{
+    padding-top: 20px;
+    padding-bottom: 200px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+/* Style for syllabai download Page*/
+
+.syllabai-page{
+    padding-top: 20px;
+    padding-bottom: 200px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
