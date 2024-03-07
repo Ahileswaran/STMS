@@ -241,13 +241,6 @@ nav form input[type="text"]:hover {
 
 /*--------------- Login Page and Registering Page Style ---------------*/
 
-.teacher-profile form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 400px;
-    margin: 20px auto;
-}
 
 .teacher-profile form label {
     text-align: left;
@@ -427,4 +420,5 @@ nav form input[type="text"]:hover {
     align-items: center;
     max-width: 400px;
     margin: 20px auto;
+    margin-left: 340px;
 }
