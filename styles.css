@@ -433,6 +433,12 @@ nav form input[type="text"]:hover {
     
 }
 
+.edit-delete-teacher{
+    max-width: 400px;
+    margin: 20px auto;
+    margin-left: 250px;
+}
+
 /*Style for the Leave Letter Generating Page */
 
 .levae-letter-page{
@@ -440,6 +446,19 @@ nav form input[type="text"]:hover {
     margin-left: 300px;
     margin-top: 15px;
 }
+
+.Wrire-letter{
+    align-items: center;
+
+}
+
+.genarate-letter{
+    border-radius: 50px;
+    border-color: #333;
+    align-items: center;
+}
+
+
 
 /*Style for the About Page */
 
