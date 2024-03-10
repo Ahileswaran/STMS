@@ -422,3 +422,57 @@ nav form input[type="text"]:hover {
     margin: 20px auto;
     margin-left: 340px;
 }
+
+
+/* Style for the Admin Page */
+
+.admin-page{
+    align-items: center;
+    margin-left: 300px;
+    margin-top: 20px;
+    
+}
+
+/*Style for the Leave Letter Generating Page */
+
+.levae-letter-page{
+    align-items: center;
+    margin-left: 300px;
+    margin-top: 15px;
+}
+
+/*Style for the About Page */
+
+.about-page{
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/*Style for the Syllabus Page */
+
+.syllabus-page{
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/*Style for the Substitute Manegment Page */
+
+.substitute-page{
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

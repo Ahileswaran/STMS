@@ -49,3 +49,48 @@ function redirect(selectElement) {
         window.location.href = "pages/download_pages/resource_page.html";
     }
 }
+
+
+// Function to initialize the Google Translate element
+function googleTranslateElementInit() {
+    console.log("Initializing Google Translate");
+    new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,ta,si', // Add other languages as needed
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+    }, 'google_translate_element');
+}
+
+
+// Load the Google Translate script asynchronously
+(function () {
+    var gtScript = document.createElement('script');
+    gtScript.type = 'text/javascript';
+    gtScript.async = true;
+    gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    document.getElementsByTagName('head')[0].appendChild(gtScript);
+})();        
+
+
+// Function to change the language based on the dropdown selection
+function changeLanguage(selectElement) {
+    var selectedValue = selectElement.value;
+    var languageCode;
+
+    // Map selected values to Google Translate language codes
+    switch (selectedValue) {
+        case 'ta':
+            languageCode = 'ta'; // தமிழ்
+            break;
+        case 'si':
+            languageCode = 'si'; // Sinhala
+            break;
+        default:
+            languageCode = 'en'; // සිංහල
+            break;
+    }
+
+    // Set the Google Translate language
+    google.translate.translatePage(languageCode);
+}

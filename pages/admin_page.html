@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>School Teachers Management System</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="javaScript.js"></script>
+</head>
+
+<body>
+    <!-- Main container with glass effect -->
+    <div class="glass-box-container">
+        <!-- Banner glass container -->
+        <div class="glass-container title-container">
+            <img src="../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
+        </div>
+
+        <!-- Banner image taking up the entire screen -->
+        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
+
+        <!-- Mini gap between the body and the second glass container -->
+        <div class="mini-gap"></div>
+
+        <!-- Body glass container with the navigation bar -->
+        <div class="glass-container nav-container">
+            <!-- Container for navigation -->
+            <nav>
+                <a class="active button" href="../index.html">Home</a>
+                <a class="active button" href="/pages/registering_page.html">Register</a>
+                <a class="active button" href="/pages/login_page.html">Login</a>
+            </nav>
+
+            <!-- Dropdown menu -->
+            <div class="drop_menu">                
+                <select name="menu" onchange="redirect(this)">
+                    <option value="menu0" disabled selected>Downloads</option>
+                    <option value="teachers_guide">Teachers Guides</option>
+                    <option value="syllabi">Syllabi</option>
+                    <option value="resource_page">Resource Books</option>
+                </select>
+            </div>
+
+             <!-- Input Field -->
+            <div class="Search_field">                               
+                <input type="text" name="search" placeholder="Search...">
+            </div>
+
+            <!-- Search Button -->
+            <div class="search_button">
+                <button type="submit">Search</button>
+            </div>
+
+            <div class="content">
+                <!-- main content goes here -->
+            </div>
+
+
+        </div>
+        <!-- Form container with glass effect -->
+        <div class="glass-container background-glass">
+          <div class="admin-page">
+            <h1>Administration</h1>
+          </div>
+            
+        </div>
+    </div>
+
+    <!-- Footer with rich text -->
+    <footer class="footer">
+        <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+    </footer>
+
+</body>
+
+</html>
