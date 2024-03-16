@@ -1,4 +1,4 @@
-# School Teachers Management System (STMS)
+# School Teacher Management System (STMS)
 
 STMS is a web-based system designed to efficiently store and manage information related to school teachers, their subjects, and assigned classes. The system aims to streamline the process of substitute teacher assignments during leaves, manage real-time class schedules, and provide a comprehensive overview of individual teacher timetables.
 

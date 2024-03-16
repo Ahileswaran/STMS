@@ -484,6 +484,27 @@ nav form input[type="text"]:hover {
     align-items: flex-start;
 }
 
+
+
+
+.syllabus-table{
+    margin: 20px; 
+    padding: 20px; 
+    border: 2px solid #3498db; 
+    border-radius: 10px; 
+    overflow: hidden;
+    position: relative;
+}
+
+.syllabus-table th {
+    background-color: #3498db; 
+    color: #fff; 
+}
+
+.syllabus-table td {
+    position: relative;
+}
+
 /*Style for the Substitute Manegment Page */
 
 .substitute-page{
