@@ -33,6 +33,10 @@ $(document).ready(function () {
         const index = $(this).data("index");
         selectSlide(index);
     });
+
+    //current year
+    let year = new Date().getFullYear();
+    document.getElementById("current-year").innerHTML= year;
 });
 
 
@@ -49,3 +53,4 @@ function redirect(selectElement) {
         window.location.href = "pages/download_pages/resource_page.html";
     }
 }
+

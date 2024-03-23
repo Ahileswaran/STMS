@@ -1,12 +1,11 @@
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    min-height: 100vh;
 }
+
 
 .glass-box-container {
     position: relative;
@@ -18,30 +17,21 @@ body {
 }
 
 .banner-image-full {
-    width: 100%;
-    height: auto;
+
     position: relative;
     z-index: -1;
+    width: auto;
 }
 
-.glass-container {
-    margin: 15px;
-    padding: 10px;
+.logo {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
-
-.title-container {
-    position: absolute;
-    top: 10px; /* Adjust top position to leave space from the top */
-    left: 10px; /* Adjust left position to leave space from the left */
-    width: 150px;
-    text-align: left;
-    padding: 10px;
     background-color: rgba(255, 30, 0, 0.747);
     border-bottom-right-radius: 50px;
-    z-index: 1; /* Ensure the title is above the slider */
+    position: absolute;
+    width: 150px;
+    margin: 20px;
+    height: auto;
 }
 
 .mini-gap {
@@ -345,4 +335,14 @@ nav form input[type="text"]:hover {
     padding-bottom: 200px;
     margin-bottom: 100px;
     margin-left: 100px;
+}
+.head-center {
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* body background colour */
+.custom-bg-blue {
+    background-color: #9ed0ff; 
+
 }
