@@ -94,3 +94,19 @@ function changeLanguage(selectElement) {
     // Set the Google Translate language
     google.translate.translatePage(languageCode);
 }
+
+
+//function for username suggestions
+$(document).ready(function() {
+    $('#username').on('input', function() {
+        var username = $(this).val();
+        $.ajax({
+            url: 'check_username.php',
+            type: 'post',
+            data: {username: username},
+            success: function(response) {
+                $('#username-suggestions').html(response);
+            }
+        });
+    });
+});

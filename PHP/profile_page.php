@@ -1,3 +1,7 @@
+<?php
+session_start(); // Start the session
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,13 +67,16 @@
             <div class="profile-pic-container">
                 <img src="../imgs/profile-pic.png" alt="Profile Picture">
             </div>
-         <h4>First Name: </h4><br>
-         <h4>Last Name: </h4><br>
-         <h4>Age: </h4><br>
-         <h4>Sex: </h4><br>
-         <h4>Marital Status: </h4><br>
-         <h4>Teacher Id: </h4><br>
-         <h4>Subject: </h4><br>
+            <h4>First Name: <?php echo $_SESSION['first_name']; ?></h4><br>
+            <h4>Last Name: <?php echo $_SESSION['last_name']; ?></h4><br>
+            <h4>Address: <?php echo $_SESSION['teacher_address']; ?></h4><br>
+            <h4>Age: <?php echo $_SESSION['age']; ?></h4><br>
+            <h4>Sex: <?php echo $_SESSION['sex']; ?></h4><br>
+            <h4>Marital Status: <?php echo $_SESSION['marital_status']; ?></h4><br>
+            <h4>Registration Id: <?php echo $_SESSION['registration_id']; ?></h4><br>
+            <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
+            <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
+            <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
         </div>
         
 

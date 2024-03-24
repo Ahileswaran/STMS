@@ -27,8 +27,8 @@
             <!-- Container for navigation -->
             <nav>
                 <a class="active button" href="../index.html">Home</a>
-                <a class="active button" href="/pages/registering_page.html">Register</a>
-                <a class="active button" href="/pages/login_page.html">Login</a>
+                <a class="active button" href="registering_page.html">Register</a>
+                <a class="active button" href="#">Login</a>
             </nav>
 
             <!-- Dropdown menu -->
@@ -58,9 +58,9 @@
 
         </div>
         <!-- Form container with glass effect -->
-        <div class="glass-container background-glass">
+        <div class="glass-container background-glass"> 
             <div class="teacher-profile">
-                <form class="register-form">
+                <form class="register-form" action="../PHP/login.php" method="post">
                     <label for="user-name">User Name/Mail: </label>
                     <input id="user-name" name="user-name" type="text" required placeholder="User Name or Mail id..." autocomplete="username"><br><br>
 

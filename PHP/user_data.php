@@ -1,7 +1,7 @@
 <?php
 $username = "root"; 
-$password = "pass@123"; 
-$server = "127.0.0.1";   
+$password = ""; 
+$server = "localhost";  
 $database = "stms_database"; 
 
 $connection = new mysqli($server, $username, $password, $database);
@@ -10,7 +10,7 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-echo "Server connected successfully";
+//echo "Server connected successfully";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Escape user inputs for security
@@ -27,11 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $teacher_password = mysqli_real_escape_string($connection, $_POST['password']);
 
     // Attempt insert query execution
-    $sql = "INSERT INTO teacher (first_name, last_name, teacher_address, age, sex, marital_status, registration_id, subject_name, username, mail_id, teacher_password, email) 
-    VALUES ('$first_name', '$last_name', '$teacher_address', '$age', '$sex', '$marital_status', '$registration_id', '$subject_name', '$username', '$teacher_password', '$email')";
+    $sql = "INSERT INTO teacher (first_name, last_name, user_address, age, sex, marital_status, registration_id, subject_name, username, email, teacher_password) 
+    VALUES ('$first_name', '$last_name', '$teacher_address', '$age', '$sex', '$marital_status', '$registration_id', '$subject_name', '$username', '$email', '$teacher_password')";
+    
     if(mysqli_query($connection, $sql)){
-        echo "Records added successfully.";
-    } else{
+        $sql_login = "INSERT INTO login (username, email, teacher_password) VALUES ('$username', '$email', '$teacher_password')";
+    if(mysqli_query($connection, $sql_login)){    
+        echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.html';</script>";
+     }
+        } else{
         echo "ERROR: Could not able to execute $sql. " . mysqli_error($connection);
     }
 }
