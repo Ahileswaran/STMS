@@ -61,9 +61,10 @@
         <!-- Form container with glass effect -->
         <div class="glass-container background-glass">
             <div class="teacher-profile">
-                <form class="register-form">
-                    <label for="first-name">First Name: </label>
-                    <input id="first-name" name="first-name" type="text"><br><br>
+                <form class="register-form" action="../PHP/user_data.php" method="post">
+
+                    <label for="first_name">First Name: </label>
+                    <input id="first_name" name="first_name" type="text"><br><br>
 
                     <label for="last-name">Last Name: </label>
                     <input id="last-name" name="last-name" type="text"><br><br>
@@ -80,8 +81,8 @@
                         <input type="radio" id="female" name="sex" value="Female"> <label for="female">Female</label>
                     </div><br><br>
 
-                    <label for="marital-status">Marital Status: </label>
-                    <input id="marital-status" name="marital-status" type="text"><br><br>
+                    <label for="marital_status">Marital Status: </label>
+                    <input id="marital_status" name="marital_status" type="text"><br><br>
 
                     <label for="teacher_id">Registration Number: </label>
                     <input id="teacher_id" name="teacher_id" type="text"><br><br>
@@ -89,13 +90,16 @@
                     <label for="subject">Subject: </label>
                     <input id="subject" name="subject" type="text"><br><br>
 
+                    <label for="username">User Name: </label>
+                    <input id="username" name="username" type="text"><br><br>
+
                     <label for="mail_id">Mail Address: </label>
                     <input id="mail_id" name="mail_id" type="text"><br><br>
 
                     <label for="password">Password: </label>
                     <input id="password" name="password" type="password"><br><br>
 
-                    <button type="submit" value="Submit">Submit</button>
+                    <button type="submit" value="submit">Submit</button>
                 </form>
             </div>
         </div>
