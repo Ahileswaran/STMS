@@ -16,13 +16,6 @@ body {
     box-sizing: border-box;
 }
 
-.banner-image-full {
-
-    position: relative;
-    z-index: -1;
-    width: auto;
-}
-
 .logo {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -32,6 +25,15 @@ body {
     width: 150px;
     margin: 20px;
     height: auto;
+
+}
+
+/* Adjust logo for small devices */
+@media only screen and (max-width: 600px) {
+    .logo {
+        width: 75px; /* Adjust the logo width for smaller devices */
+        border-bottom-right-radius: 40px; /* Adjust the logo bottem right radius for smaller devices */
+    }
 }
 
 .mini-gap {
