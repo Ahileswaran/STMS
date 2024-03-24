@@ -31,8 +31,8 @@ session_start(); // Start the session
             <!-- Container for navigation -->
             <nav>
                 <a class="active button" href="../index.html">Home</a>
-                <a class="active button" href="/pages/registering_page.html">Register</a>
-                <a class="active button" href="/pages/login_page.html">Login</a>
+                <a class="active button" href="../pages/registering_page.html">Register</a>
+                <a class="active button" href="../pages/login_page.html">Login</a>
             </nav>
 
             <!-- Dropdown menu -->
