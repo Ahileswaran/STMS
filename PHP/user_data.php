@@ -28,9 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user_role = ''; // Initialize user role variable
 
     // Determine user role based on registration ID prefix
-    if (strpos($registration_id, 'PRI') !== false) {
+    if (strpos($registration_id, 'TN|PRI') === 0) {
         $user_role = 'principal';
-    } elseif (strpos($registration_id, 'TEA') !== false) {
+    } elseif (strpos($registration_id, 'TN|TEA') === 0) {
         $user_role = 'teacher';
     }
 /*
@@ -68,6 +68,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
  */
 
     session_start();
+
+    // Check if the user is a principal and if there's already a principal registered
+    if ($user_role === 'principal') {
+        $principal_check = "SELECT * FROM principal";
+        $result_principal_check = mysqli_query($connection, $principal_check);
+        if (mysqli_num_rows($result_principal_check) > 0) {
+            echo "Principal already registered!";
+            exit; // Stop further execution
+        }
+    }elseif ($user_role === 'teacher') {
+        // Check if a teacher with the same registration ID already exists
+        $teacher_check = "SELECT * FROM teacher WHERE registration_id = '$registration_id'";
+        $result_teacher_check = mysqli_query($connection, $teacher_check);
+        if (mysqli_num_rows($result_teacher_check) > 0) {
+            echo "Teacher with the same registration ID already exists!";
+            exit; // Stop further execution
+        }
+    }
+
+    // Initialize $stmt variable
+    $stmt = null;
+
   /*  $_SESSION['verification_code'] = $verification_code;  */
     $_SESSION['first_name'] = $first_name;
     $_SESSION['last_name'] = $last_name;
@@ -82,35 +104,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $_SESSION['user_password'] = $user_password;
     $_SESSION['user_role'] = $user_role; 
 
-    // Check if the user is a principal and set the admin flag accordingly
-    $admin_flag = ($user_role === 'principal') ? 1 : 0;
-
-    //Check if admin already exists (principal)
-    $admin_check = "SELECT * FROM principal WHERE registration_id = '$registration_id'";
-    $result_admin_check =  mysqli_query($connection, $admin_check);
-    if (mysqli_num_rows($result_admin_check) > 0) {
-        echo "You can't proced as admin!";
-    } else {
-
-    //Check if the user already exists with the username and email from the database 
-    $sql_check_user = "SELECT * FROM teacher WHERE username = '$username' OR email = '$email' OR registration_id = '$registration_id' ";
-    $result_check_user = mysqli_query($connection, $sql_check_user);
-    if (mysqli_num_rows($result_check_user) > 0) {
-        echo "User already exists!";
-    } else {
-        // Attempt insert query execution
+    if ($user_role === 'principal') {
+        // Attempt insert query execution for principal
+        $stmt = $connection->prepare("INSERT INTO principal (first_name, last_name, user_address, age, sex, marital_status, registration_id, username, email, user_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssissssss", $first_name, $last_name, $teacher_address, $age, $sex, $marital_status, $registration_id, $username, $email, $user_password);
+    } elseif ($user_role === 'teacher') {
+        // Attempt insert query execution for teacher
         $stmt = $connection->prepare("INSERT INTO teacher (first_name, last_name, user_address, age, sex, marital_status, registration_id, subject_name, username, email, user_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssisssssss", $first_name, $last_name, $teacher_address, $age, $sex, $marital_status, $registration_id, $subject_name, $username, $email, $user_password);
-        if ($stmt->execute()) {
-            $sql_login = "INSERT INTO login (username, email, user_password) VALUES ('$username', '$email', '$user_password')";
-            if (mysqli_query($connection, $sql_login)) {
-                echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.html';</script>";
-            }
-        } else {
-            echo "ERROR: Could not able to execute $stmt. " . $stmt->error;
-        }
     }
-}
+
+    if ($stmt->execute()) {
+        $sql_login = "INSERT INTO login (username, email, user_password) VALUES ('$username', '$email', '$user_password')";
+        if (mysqli_query($connection, $sql_login)) {
+            echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.html';</script>";
+        }
+    } else {
+        echo "ERROR: Could not able to execute $stmt. " . $stmt->error;
+    }
+    
 }
 
 // Close connection
