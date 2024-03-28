@@ -244,27 +244,34 @@ nav form input[type="text"]:hover {
 
 .teacher-profile form label {
     text-align: left;
-    width: 100%;
-    margin-bottom: 8px;
+    font-size: 16px; 
+    font-weight: bold; 
+    color: #333; 
+    width: 90%;
+    margin-bottom: 1px;
+  
 }
 
-.teacher-profile form input,
-.teacher-profile form input[type="radio"] {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
+.teacher-profile form input{
+    flex: 1;
+    width: 90%;
+    padding: 10px;
+    margin: 8px 100px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .teacher-profile form input[type="radio"] {
-    margin-top: 10px;
+    width: 20px;
+    margin: 8px 2px;
 }
 
+
 .teacher-profile form button {
-    width: 100%;
+    width: 95%;
     padding: 12px;
     margin: 15px 0;
     background-color: #3498db;
@@ -348,7 +355,7 @@ nav form input[type="text"]:hover {
     border-radius: 10px;
     overflow: hidden;
     position: relative;
-    display: flex;
+    display: grid;
     flex-direction: column;
     align-items: flex-start;
 }
@@ -410,7 +417,7 @@ nav form input[type="text"]:hover {
 
 
 .background-glass h4 {
-    margin-left: 150px; 
+    margin-left: 150px;      
 }
 
 
@@ -420,7 +427,7 @@ nav form input[type="text"]:hover {
     align-items: center;
     max-width: 400px;
     margin: 20px auto;
-    margin-left: 340px;
+    margin-left: auto;
 }
 
 

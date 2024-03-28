@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $input_password = mysqli_real_escape_string($connection, $_POST['password']);
 
     // Query to check if the username or email and password exist in the login table
-    $query = "SELECT * FROM login WHERE (username='$input_username_or_email' OR email='$input_username_or_email') AND teacher_password='$input_password'";
+    $query = "SELECT * FROM login WHERE (username='$input_username_or_email' OR email='$input_username_or_email') AND user_password='$input_password'";
     $result = mysqli_query($connection, $query);
 
     if (mysqli_num_rows($result) == 1) {
@@ -39,8 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['email'] = $user_row['email'];
 
         // Set cookies if needed
-        // Redirect to the profile page
-        header("Location: profile_page.php");
+        // Check if the user is an admin
+        if ($_SESSION['registration_id'] == 'admin') {
+            header("Location: admin_profile_page.php");
+        } else {
+            header("Location: profile_page.php");
+        }
+        
         exit();
     } else {
         // Incorrect username or password, display error message

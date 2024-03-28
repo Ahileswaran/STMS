@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $subject_name = mysqli_real_escape_string($connection, $_POST['subject']);
     $username = mysqli_real_escape_string($connection, $_POST['username']);
     $email = mysqli_real_escape_string($connection, $_POST['mail_id']);
-    $teacher_password = mysqli_real_escape_string($connection, $_POST['password']);
+    $user_password = mysqli_real_escape_string($connection, $_POST['password']);
     $user_role = ''; // Initialize user role variable
 
     // Determine user role based on registration ID prefix
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (strpos($registration_id, 'TEA') !== false) {
         $user_role = 'teacher';
     }
-
+/*
     // Generate a random verification code
     $verification_code = rand(100000, 999999);
 
@@ -57,38 +57,60 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Override SMTP settings using ini_set()
     ini_set('SMTP', 'smtp.mail.yahoo.com');
     ini_set('smtp_port', 587);
-    
+   
     // Send the email
-    if (mail($to, $subject, $message, $headers)) {
+    if (mail( $subject, $message, $headers)) {
         // Proceed with registration and store verification code in session
-        session_start();
-        $_SESSION['verification_code'] = $verification_code;
-        $_SESSION['first_name'] = $first_name;
-        $_SESSION['last_name'] = $last_name;
-        $_SESSION['teacher_address'] = $teacher_address;
-        $_SESSION['age'] = $age;
-        $_SESSION['sex'] = $sex;
-        $_SESSION['marital_status'] = $marital_status;
-        $_SESSION['registration_id'] = $registration_id;
-        $_SESSION['subject_name'] = $subject_name;
-        $_SESSION['username'] = $username;
-        $_SESSION['email'] = $email;
-        $_SESSION['teacher_password'] = $teacher_password;
-        $_SESSION['user_role'] = $user_role;
 
+    } else {
+        echo "Failed to send verification email.";
     }
-    // Attempt insert query execution
-    $sql = "INSERT INTO teacher (first_name, last_name, user_address, age, sex, marital_status, registration_id, subject_name, username, email, teacher_password) 
-    VALUES ('$first_name', '$last_name', '$teacher_address', '$age', '$sex', '$marital_status', '$registration_id', '$subject_name', '$username', '$email', '$teacher_password')";
-    
-    if(mysqli_query($connection, $sql)){
-        $sql_login = "INSERT INTO login (username, email, teacher_password) VALUES ('$username', '$email', '$teacher_password')";
-    if(mysqli_query($connection, $sql_login)){    
-        echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.html';</script>";
-     }
-        } else{
-        echo "ERROR: Could not able to execute $sql. " . mysqli_error($connection);
+ */
+
+    session_start();
+  /*  $_SESSION['verification_code'] = $verification_code;  */
+    $_SESSION['first_name'] = $first_name;
+    $_SESSION['last_name'] = $last_name;
+    $_SESSION['teacher_address'] = $teacher_address;
+    $_SESSION['age'] = $age;
+    $_SESSION['sex'] = $sex;
+    $_SESSION['marital_status'] = $marital_status;
+    $_SESSION['registration_id'] = $registration_id;
+    $_SESSION['subject_name'] = $subject_name;
+    $_SESSION['username'] = $username;
+    $_SESSION['email'] = $email;
+    $_SESSION['user_password'] = $user_password;
+    $_SESSION['user_role'] = $user_role; 
+
+    // Check if the user is a principal and set the admin flag accordingly
+    $admin_flag = ($user_role === 'principal') ? 1 : 0;
+
+    //Check if admin already exists (principal)
+    $admin_check = "SELECT * FROM principal WHERE registration_id = '$registration_id'";
+    $result_admin_check =  mysqli_query($connection, $admin_check);
+    if (mysqli_num_rows($result_admin_check) > 0) {
+        echo "You can't proced as admin!";
+    } else {
+
+    //Check if the user already exists with the username and email from the database 
+    $sql_check_user = "SELECT * FROM teacher WHERE username = '$username' OR email = '$email' OR registration_id = '$registration_id' ";
+    $result_check_user = mysqli_query($connection, $sql_check_user);
+    if (mysqli_num_rows($result_check_user) > 0) {
+        echo "User already exists!";
+    } else {
+        // Attempt insert query execution
+        $stmt = $connection->prepare("INSERT INTO teacher (first_name, last_name, user_address, age, sex, marital_status, registration_id, subject_name, username, email, user_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssisssssss", $first_name, $last_name, $teacher_address, $age, $sex, $marital_status, $registration_id, $subject_name, $username, $email, $user_password);
+        if ($stmt->execute()) {
+            $sql_login = "INSERT INTO login (username, email, user_password) VALUES ('$username', '$email', '$user_password')";
+            if (mysqli_query($connection, $sql_login)) {
+                echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.html';</script>";
+            }
+        } else {
+            echo "ERROR: Could not able to execute $stmt. " . $stmt->error;
+        }
     }
+}
 }
 
 // Close connection
