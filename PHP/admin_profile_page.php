@@ -69,7 +69,7 @@ session_start(); // Start the session
             </div>
             <h4>First Name: <?php echo $_SESSION['first_name']; ?></h4><br>
             <h4>Last Name: <?php echo $_SESSION['last_name']; ?></h4><br>
-            <h4>Address: <?php echo $_SESSION['teacher_address']; ?></h4><br>
+            <h4>Address: <?php echo $_SESSION['user_address']; ?></h4><br>
             <h4>Age: <?php echo $_SESSION['age']; ?></h4><br>
             <h4>Sex: <?php echo $_SESSION['sex']; ?></h4><br>
             <h4>Marital Status: <?php echo $_SESSION['marital_status']; ?></h4><br>

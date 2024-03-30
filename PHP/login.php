@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['sex'] = $user_row['sex'];
         $_SESSION['marital_status'] = $user_row['marital_status'];
         $_SESSION['registration_id'] = $user_row['registration_id'];
+        $_SESSION['subject_name'] = $user_row['subject_name'];
         $_SESSION['username'] = $user_row['username'];
         $_SESSION['email'] = $user_row['email'];
         // Redirect to principal profile page
@@ -49,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['sex'] = $user_row['sex'];
             $_SESSION['marital_status'] = $user_row['marital_status'];
             $_SESSION['registration_id'] = $user_row['registration_id'];
+            $_SESSION['subject_name'] = $user_row['subject_name'];
             $_SESSION['username'] = $user_row['username'];
             $_SESSION['email'] = $user_row['email'];
             // Redirect to teacher profile page
@@ -62,5 +64,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 // Close connection
-mysqli_close($connection);
+//mysqli_close($connection);
 ?>
