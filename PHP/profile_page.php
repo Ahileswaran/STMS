@@ -1,7 +1,22 @@
 <?php
 //session_start(); // Start the session
 require_once 'login.php';
+//session_start(); // Start the session to access session variables
 
+$username = "root"; 
+$password = ""; 
+$server = "localhost";  
+$database = "stms_database"; 
+
+$connection = new mysqli($server, $username, $password, $database);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Fetch timetable data
+$query_timetable = "SELECT * FROM teacher_time_table_tntea1250 WHERE registration_id='{$_SESSION['registration_id']}'";
+$result_timetable = mysqli_query($connection, $query_timetable);
 
 ?>
 
@@ -12,7 +27,7 @@ require_once 'login.php';
     <title>School Teacher Management System</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <script src="javaScript.js"></script>
+    <script src="../JavaScript.js"></script>
 </head>
 
 <body>
@@ -80,151 +95,31 @@ require_once 'login.php';
             <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
+
+            <!-- Timetable section -->
+            <div class="timetable">
+                <h3>Timetable:</h3>
+                <table border="1">
+                    <tr>
+                        <th>Class ID</th>
+                        <th>Subject ID</th>
+                        <th>Class Day</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                    </tr>
+                    <?php while ($row = mysqli_fetch_assoc($result_timetable)) { ?>
+                        <tr>
+                            <td><?php echo $row['class_id']; ?></td>
+                            <td><?php echo $row['subject_id']; ?></td>
+                            <td><?php echo $row['class_day']; ?></td>
+                            <td><?php echo $row['start_time']; ?></td>
+                            <td><?php echo $row['end_time']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </div>
         </div>
-        
-
-        
-        <!-- Time Table For Teacher  -->
-        <div class="master-table">
-            <table>
-                <caption>
-                    <h3>Time Table</h3>
-                    <h5>Subject: Science</h5>
-                </caption>
-                <tr>
-                    <th></th> <!-- An empty cell for spacing -->
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednsday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                </tr>
-
- <!--               
-                <tr>
-                    <th>Time_1</th>
-                    <td class="profile_circle"><span>Data_1</span></td>
-                    <td class="profile_circle"><span>Data_2</span></td>
-                    <td class="profile_circle"><span>Data_3</span></td>
-                    <td class="profile_circle"><span>Data_4</span></td>
-                    <td class="profile_circle"><span>Data_5</span></td>
-                </tr>
-                <tr>
-                    <th>Time_2</th>
-                    <td class="profile_circle"><span>Data_7</span></td>
-                    <td class="profile_circle"><span>Data_8</span></td>
-                    <td class="profile_circle"><span>Data_9</span></td>
-                    <td class="profile_circle"><span>Data_10</span></td>
-                    <td class="profile_circle"><span>Data_11</span></td>
-                </tr>
-                <tr>
-                    <th>Time_3</th>
-                    <td class="profile_circle"><span>Data_12</span></td>
-                    <td class="profile_circle"><span>Data_13</span></td>
-                    <td class="profile_circle"><span>Data_14</span></td>
-                    <td class="profile_circle"><span>Data_15</span></td>
-                    <td class="profile_circle"><span>Data_16</span></td>
-                </tr>
-                <tr>
-                    <th>Time_4</th>
-                    <td class="profile_circle"><span>Data_17</span></td>
-                    <td class="profile_circle"><span>Data_18</span></td>
-                    <td class="profile_circle"><span>Data_19</span></td>
-                    <td class="profile_circle"><span>Data_20</span></td>
-                    <td class="profile_circle"><span>Data_21</span></td>
-                </tr>
-                <tr>
-                    <th>Time_5</th>
-                    <td class="profile_circle"><span>Data_22</span></td>
-                    <td class="profile_circle"><span>Data_22</span></td>
-                    <td class="profile_circle"><span>Data_23</span></td>
-                    <td class="profile_circle"><span>Data_24</span></td>
-                    <td class="profile_circle"><span>Data_25</span></td>
-                </tr>
-                <tr>
-                    <th>Time_6</th>
-                    <td class="profile_circle"><span>Data_26</span></td>
-                    <td class="profile_circle"><span>Data_27</span></td>
-                    <td class="profile_circle"><span>Data_28</span></td>
-                    <td class="profile_circle"><span>Data_29</span></td>
-                    <td class="profile_circle"><span>Data_30</span></td>
-                </tr>
-                <tr>
-                    <th>Time_7</th>
-                    <td class="profile_circle"><span>Data_17</span></td>
-                    <td class="profile_circle"><span>Data_18</span></td>
-                    <td class="profile_circle"><span>Data_19</span></td>
-                    <td class="profile_circle"><span>Data_20</span></td>
-                    <td class="profile_circle"><span>Data_21</span></td>
-                </tr>
-                <tr>
-                    <th>Time_8</th>
-                    <td class="profile_circle"><span>Data_21</span></td>
-                    <td class="profile_circle"><span>Data_22</span></td>
-                    <td class="profile_circle"><span>Data_23</span></td>
-                    <td class="profile_circle"><span>Data_24</span></td>
-                    <td class="profile_circle"><span>Data_25</span></td>
-                </tr>
---> 
-                
-                <?php
-                // Define days of the week
-                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-                
-                // Define timeslots
-                $timeslots = ['Time_1', 'Time_2', 'Time_3', 'Time_4', 'Time_5', 'Time_6', 'Time_7', 'Time_8'];
-                
-                // Query to fetch data from the database
-                $query = "SELECT class_day, start_time, end_time, class_id FROM teacher_time_table_TNTEA1250 WHERE registration_id = '{$_SESSION['registration_id']}' AND subject_id = '{$_SESSION['subject_name']}'";
-                $result = mysqli_query($connection, $query);
-                
-                // Initialize timetable array
-                $timetable = array_fill_keys($timeslots, array_fill_keys($days, ''));
-
-                // Populate timetable array only if there are rows in the result set
-                if (mysqli_num_rows($result) > 0) {
-                    // Initialize timetable array
-                    $timetable = array_fill_keys($timeslots, array_fill_keys($days, ''));
-                
-                    // Populate timetable array
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $day_index = array_search($row['class_day'], $days);
-                        $time_index = array_search($row['start_time'] . '-' . $row['end_time'], $timeslots);
-                        $timetable[$timeslots[$time_index]][$days[$day_index]] = $row['class_id'];
-                    }
-                
-                    // Output timetable
-                    foreach ($timeslots as $time) {
-                        echo "<tr>";
-                        echo "<th>$time</th>";
-                        foreach ($days as $day) {
-                            $class_id = $timetable[$time][$day];
-                            if (!empty($class_id)) {
-                                $query_time = "SELECT start_time, end_time FROM teacher_time_table_TNTEA1250 WHERE registration_id = '{$_SESSION['registration_id']}' AND subject_id = '{$_SESSION['subject_name']}' AND class_id = '$class_id' AND class_day = '$day'";
-                                $result_time = mysqli_query($connection, $query_time);
-                                if ($result_time && mysqli_num_rows($result_time) > 0) {
-                                    $time_row = mysqli_fetch_assoc($result_time);
-                                    $time_display = $time_row['start_time'] . ' - ' . $time_row['end_time'];
-                                    echo "<td><span>$time_display</span></td>";
-                                } else {
-                                    echo "<td><span>No data available</span></td>";
-                                }
-                            } else {
-                                echo "<td><span>No class scheduled</span></td>";
-                            }
-                        }
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='6'>No timetable data available</td></tr>";
-                }
-
-                mysqli_close($connection);
-                ?>
-            </table>  
     </div>
-
-    
 
     <!-- Footer with rich text -->
     <footer class="footer">
