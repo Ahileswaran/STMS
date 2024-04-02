@@ -15,7 +15,10 @@ if ($connection->connect_error) {
 }
 
 // Fetch timetable data
-$query_timetable = "SELECT * FROM teacher_time_table_tntea1250 WHERE registration_id='{$_SESSION['registration_id']}'";
+$username = $_SESSION['username'];
+$table_name = "teacher_time_table_" . $username; // Construct the table name dynamically
+
+$query_timetable = "SELECT * FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}'";
 $result_timetable = mysqli_query($connection, $query_timetable);
 
 ?>
@@ -96,7 +99,6 @@ $result_timetable = mysqli_query($connection, $query_timetable);
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
 
-          <!-- Timetable section -->
           <!-- Time Table For Teacher  -->
         <div class="master-table">
             <table>
@@ -105,7 +107,6 @@ $result_timetable = mysqli_query($connection, $query_timetable);
                     <h5>Subject: Science</h5>
                 </caption>
         <div class="timetable">
-        <h3>Timetable:</h3>
         <table border="1">
         <tr>
             <th></th>
@@ -113,7 +114,7 @@ $result_timetable = mysqli_query($connection, $query_timetable);
             // Define an array to map numerical representation of days to their names
             $daysOfWeek = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday');
             // Get unique class days from the timetable
-            $unique_days_query = "SELECT DISTINCT class_day FROM teacher_time_table_tntea1250 WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY class_day";
+            $unique_days_query = "SELECT DISTINCT class_day FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY class_day";
             $unique_days_result = mysqli_query($connection, $unique_days_query);
             while ($day_row = mysqli_fetch_assoc($unique_days_result)) {
                 $dayOfWeek = date('N', strtotime($day_row['class_day'])); // Get the numerical representation of the day
@@ -123,7 +124,7 @@ $result_timetable = mysqli_query($connection, $query_timetable);
         </tr>
         <?php
         // Get unique class times from the timetable
-        $unique_times_query = "SELECT DISTINCT start_time, end_time FROM teacher_time_table_tntea1250 WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY start_time";
+        $unique_times_query = "SELECT DISTINCT start_time, end_time FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY start_time";
         $unique_times_result = mysqli_query($connection, $unique_times_query);
         while ($time_row = mysqli_fetch_assoc($unique_times_result)) {
             echo "<tr>";
@@ -131,7 +132,7 @@ $result_timetable = mysqli_query($connection, $query_timetable);
             // Get data for each day and time slot
             mysqli_data_seek($unique_days_result, 0);
             while ($day_row = mysqli_fetch_assoc($unique_days_result)) {
-                $query_timetable = "SELECT class_id FROM teacher_time_table_tntea1250 WHERE registration_id='{$_SESSION['registration_id']}' AND class_day='{$day_row['class_day']}' AND start_time='{$time_row['start_time']}'";
+                $query_timetable = "SELECT class_id FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' AND class_day='{$day_row['class_day']}' AND start_time='{$time_row['start_time']}'";
                 $result_timetable = mysqli_query($connection, $query_timetable);
                 $data = '';
                 while ($row = mysqli_fetch_assoc($result_timetable)) {
