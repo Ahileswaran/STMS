@@ -104,7 +104,7 @@ $result_timetable = mysqli_query($connection, $query_timetable);
             <table>
                 <caption>
                     <h3>Time Table</h3>
-                    <h5>Subject: Science</h5>
+                    <h5>Subject: <?php echo $_SESSION['subject_name']; ?></h5>
                 </caption>
         <div class="timetable">
         <table border="1">
