@@ -89,6 +89,13 @@ session_start(); // Start the session
                 <button onclick="window.location.href='../pages/teacher_time_table.html'">Add</button>
                 <button value="delete">Remove</button>
             </div>
+
+            <div class="edit-delete-teacher">
+                <label for="input"><b>Teacher Syllabus Table Management</b></label><br><br>
+                <button onclick="window.location.href='../pages/teacher_syllabus.html'">Add</button>
+                <button value="delete">Remove</button>
+            </div>
+
             <div class="edit-delete-teacher">
                 <label for="input"><b>Search Teacher: </b></label>
                 <input type="text" placeholder="Insert teacher id...">

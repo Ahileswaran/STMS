@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>School Teacher Management System</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../javaScript.js"></script>
+</head>
+
+<body>
+    <!-- Main container with glass effect -->
+    <div class="glass-box-container">
+        <!-- Banner glass container -->
+        <div class="glass-container title-container">
+            <img src="../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
+        </div>
+
+        <!-- Banner image taking up the entire screen -->
+        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
+
+        <!-- Mini gap between the body and the second glass container -->
+        <div class="mini-gap"></div>
+
+        <!-- Body glass container with the navigation bar -->
+        <div class="glass-container nav-container">
+            <!-- Container for navigation -->
+            <nav>
+                <a class="active button" href="../index.html">Home</a>
+                <a class="active button" href="/pages/registering_page.html">Register</a>
+                <a class="active button" href="login_page.html">Login</a>
+            </nav>
+
+            <!-- Dropdown menu -->
+            <div class="drop_menu">                
+                <select name="menu" onchange="redirect(this)">
+                    <option value="menu0" disabled selected>Downloads</option>
+                    <option value="teachers_guide">Teachers Guides</option>
+                    <option value="syllabi">Syllabi</option>
+                    <option value="resource_page">Resource Books</option>
+                </select>
+            </div>
+
+             <!-- Input Field -->
+            <div class="Search_field">                               
+                <input type="text" name="search" placeholder="Search...">
+            </div>
+
+            <!-- Search Button -->
+            <div class="search_button">
+                <button type="submit">Search</button>
+            </div>
+
+            <div class="content">
+                <!-- main content goes here -->
+            </div>
+
+
+        </div>
+
+       <!-- Form container with glass effect -->
+<div class="glass-container background-glass">
+    <h3>Create Teacher Syllabus Table</h3>
+    <div class="teacher_time_table">
+        <form class="teacher_time_table" action="../PHP/teacher_syllabus.php" method="post">
+    
+            <label for="username">Enter The Teacher Username: </label>
+            <input id="username" name="username" type="text"><br><br>
+    
+            <button type="submit" name="create_syllabus_table" value="create">Create The Syllabus Table</button>
+        </form>
+    </div>
+    <br>
+    <br>
+    <h3>Preview Teacher Syllabus Table</h3>
+    <div class="preview_syllabus_table">
+        <form class="preview_syllabus_table" action="../PHP/teacher_syllabus.php" method="post">
+    
+            <label for="username">Enter The Teacher Username: </label>
+            <input id="username" name="username" type="text"><br><br>
+    
+            <button type="submit" name="preview_syllabus_table" value="preview">Preview Syllabus Table</button>
+        </form>
+    </div>
+    <br>
+    <br>
+
+    <h3>Add Data In To The Syllabus Table</h3>
+    <div class="teacher_syllabus">
+        <form class="teacher_time_table" action="../PHP/teacher_syllabus.php" method="post">
+
+            <label for="username">Enter The Teacher Username</label>
+            <input id="username" name="username" type="text"><br><br>
+
+            <label for="registration_id">Enter The Registration ID Number</label>
+            <input id="teacher_id" name="teacher_id" type="text" ><br><br>
+
+            <label for="term_id">Enter The Term</label>
+            <input id="term_id" name="term_id" type="text" placeholder="First/Second/Third"><br><br>
+
+            <label for="class_id">Enter The Class ID</label>
+            <input id="class_id" name="class_id" type="text"><br><br>
+
+            <label for="subject_id">Enter The Subject</label>
+            <input id="subject_id" name="subject_id" type="text"><br><br>
+
+            <label for="assign_date">Enter Lesson Assgined Date</label>
+            <input id="assign_date" name="assign_date" type="text" placeholder="YYYY-MM-DD"><br><br>
+            
+            <label for="week_id">Enter the Week</label>
+            <input id="week_id" name="week_id" type="text" placeholder="1/2/3/4.."><br><br>
+
+            <label for="conduct_date">Enter Lesson Conducted Date</label>
+            <input id="conduct_date" name="conduct_date" type="text" placeholder="YYYY-MM-DD"><br><br>
+
+            <label for="lesson_time">Enter lesson Time</label>
+            <input id="lesson_time" name="lesson_time" type="text" placeholder="Mins/Hours"><br><br>
+
+            <label for="mastery">Mastery</label>
+            <textarea id="longText" name="longText" rows="" cols=""></textarea><br><br>
+           
+            <label for="section_number">Enter Section Number and Heading</label>
+            <input id="section_number" name="section_number" type="text"><br><br>
+
+            <label for="course_content">Course Content</label>
+            <textarea id="longText" name="longText" rows="" cols=""></textarea><br><br>
+
+            <label for="teaching_date">Date of Teaching</label>
+            <input id="teaching_date" name="teaching_date" type="text" placeholder="YYYY-MM-DD"><br><br>
+            
+            <label for="note">Note</label>
+            <textarea id="longText" name="longText" rows="" cols=""></textarea><br><br>
+
+            <button type="submit" name="add_data" value="add">Add Data</button>
+            <button type="submit" name="preview_syllabus_table" value="preview">Preview Syllabus Table</button>
+        </form>
+    </div>
+
+</div>
+
+    </div>
+
+    <!-- Footer with rich text -->
+    <footer class="footer">
+        <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+    </footer>
+
+</body>
+
+</html>
