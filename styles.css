@@ -430,20 +430,50 @@ nav form input[type="text"]:hover {
     margin-left: auto;
 }
 
-
 /* Style for the Admin Page */
-
 .admin-page{
+    display: flex;
+    flex-direction: column;
     align-items: center;
     margin-left: 300px;
     margin-top: 20px;
-    
 }
 
 .edit-delete-teacher{
     max-width: 400px;
     margin: 20px auto;
-    margin-left: 250px;
+}
+
+.edit-delete-teacher label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.edit-delete-teacher input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.edit-delete-teacher button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.edit-delete-teacher button:hover {
+    background-color: #45a049;
 }
 
 /*Style for the Leave Letter Generating Page */
@@ -492,8 +522,6 @@ nav form input[type="text"]:hover {
 }
 
 
-
-
 .syllabus-table{
     margin: 20px; 
     padding: 20px; 
@@ -523,3 +551,129 @@ nav form input[type="text"]:hover {
     flex-direction: column;
     align-items: flex-start;
 }
+
+
+
+/* Style for Teacher Time Table Form */
+.teacher_time_table {
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.teacher_time_table h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.teacher_time_table form {
+    display: flex;
+    flex-direction: column;
+}
+
+.teacher_time_table label {
+    margin-bottom: 10px;
+}
+
+.teacher_time_table input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.teacher_time_table button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.teacher_time_table button:hover {
+    background-color: #45a049;
+}
+
+/* Style for Teacher Syllabus Form */
+.teacher_syllabus,
+.preview_syllabus_table {
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align items in the center horizontally */
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.teacher_syllabus h3,
+.preview_syllabus_table h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.teacher_syllabus form,
+.preview_syllabus_table form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align items in the center horizontally */
+    width: 100%; /* Set form width to 100% */
+    max-width: 400px; /* Limit form width to 400px */
+}
+
+.teacher_syllabus label,
+.preview_syllabus_table label {
+    margin-bottom: 10px;
+    width: 100%; /* Set label width to 100% */
+}
+
+.teacher_syllabus input[type="text"],
+.preview_syllabus_table input[type="text"],
+.teacher_syllabus textarea,
+.preview_syllabus_table textarea {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.teacher_syllabus button,
+.preview_syllabus_table button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%; /* Set button width to 100% */
+    max-width: 200px; /* Limit button width to 200px */
+}
+
+.teacher_syllabus button:hover,
+.preview_syllabus_table button:hover {
+    background-color: #45a049;
+}
+
+
+
+
+
