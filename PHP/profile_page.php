@@ -29,8 +29,9 @@ $result_timetable = mysqli_query($connection, $query_timetable);
 <head>
     <title>School Teacher Management System</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="../JavaScripts/profile_pic.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <script src="../JavaScript.js"></script>
+    <script src="../javaScript.js"></script>
 </head>
 
 <body>
@@ -86,8 +87,9 @@ $result_timetable = mysqli_query($connection, $query_timetable);
         <!-- Profile container with glass effect -->
         <div class="glass-container background-glass">
             <div class="profile-pic-container">
-                <img src="../imgs/profile-pic.png" alt="Profile Picture">
+                 <img id="upload_pic"></img>
             </div>
+
             <h4>First Name: <?php echo $_SESSION['first_name']; ?></h4><br>
             <h4>Last Name: <?php echo $_SESSION['last_name']; ?></h4><br>
             <h4>Address: <?php echo $_SESSION['user_address']; ?></h4><br>
@@ -98,6 +100,13 @@ $result_timetable = mysqli_query($connection, $query_timetable);
             <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
+
+            <div class="add-profile-pic">
+                 <label for="add_pic">Add Profile Picture:</label>
+                 <button type="button" id="add_pic">Add</button>
+                 <input type="file" id="file_input" style="display: none;"> 
+            </div>
+
 
           <!-- Time Table For Teacher  -->
         <div class="master-table">

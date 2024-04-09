@@ -349,6 +349,34 @@ nav form input[type="text"]:hover {
 
 /* Style for the Profile Page */
 
+.add-profile-pic {
+    margin-left: 150px;
+    margin-top: 20px; 
+}
+
+.add-profile-pic label {
+    margin-right: 10px; 
+    margin-right: 10px;
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.add-profile-pic button {
+    padding: 8px 15px; 
+    background-color: #3498db; 
+    color: #fff; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+}
+
+.add-profile-pic button:hover {
+    background-color: #2980b9; 
+}
+
+
+
 .background-glass {
     margin: 20px;
     padding: 20px;
@@ -380,39 +408,6 @@ nav form input[type="text"]:hover {
     width: 100%; 
     height: auto; 
     object-fit: cover; 
-}
-
-.choose-file {
-    margin-top: 20px;
-    display: none;
-}
-
-.profile-pic-container:hover .choose-file {
-    display: block; 
-}
-
-
-.choose-file input {
-    opacity: 0; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-.choose-file label {
-    padding: 10px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.choose-file label:hover {
-    background-color: #2874a6; 
 }
 
 
