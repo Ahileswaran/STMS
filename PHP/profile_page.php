@@ -100,12 +100,15 @@ $result_timetable = mysqli_query($connection, $query_timetable);
             <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
+            <h4>Uer Role: <?php echo $_SESSION['user_role']; ?></h4><br>
 
-            <div class="add-profile-pic">
-                 <label for="add_pic">Add Profile Picture:</label>
-                 <button type="button" id="add_pic">Add</button>
-                 <input type="file" id="file_input" style="display: none;"> 
-            </div>
+            <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+                <div class="add-profile-pic">
+                    <label for="add_pic">Add Profile Picture:</label>
+                    <button type="button" id="add_pic">Add</button>
+                    <input type="file" id="file_input" name="profile_pic" style="display: none;">
+                </div>
+            </form>
 
 
           <!-- Time Table For Teacher  -->

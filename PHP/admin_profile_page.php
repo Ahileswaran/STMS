@@ -1,5 +1,18 @@
 <?php
-session_start(); // Start the session
+//session_start(); // Start the session
+require_once 'login.php';
+//session_start(); // Start the session to access session variables
+
+$username = "root"; 
+$password = ""; 
+$server = "localhost";  
+$database = "stms_database"; 
+
+$connection = new mysqli($server, $username, $password, $database);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -8,6 +21,7 @@ session_start(); // Start the session
 <head>
     <title>School Teacher Management System</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="../JavaScripts/profile_pic.js"></script>
     <link rel="stylesheet" href="../styles.css">
     <script src="javaScript.js"></script>
 </head>
@@ -65,8 +79,9 @@ session_start(); // Start the session
         <!-- Profile container with glass effect -->
         <div class="glass-container background-glass">
             <div class="profile-pic-container">
-                <img src="../imgs/profile-pic.png" alt="Profile Picture">
+                <img id="upload_pic"></img>
             </div>
+
             <h4>First Name: <?php echo $_SESSION['first_name']; ?></h4><br>
             <h4>Last Name: <?php echo $_SESSION['last_name']; ?></h4><br>
             <h4>Address: <?php echo $_SESSION['user_address']; ?></h4><br>
@@ -77,7 +92,16 @@ session_start(); // Start the session
             <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
+            <h4>Uer Role: <?php echo $_SESSION['user_role']; ?></h4><br>
         </div>
+
+            <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+                <div class="add-profile-pic">
+                    <label for="add_pic">Add Profile Picture:</label>
+                    <button type="button" id="add_pic">Add</button>
+                    <input type="file" id="file_input" name="profile_pic" style="display: none;">
+                </div>
+            </form>
         
                <!-- Form container with glass effect -->
                <div class="glass-container background-glass">
