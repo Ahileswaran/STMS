@@ -21,6 +21,28 @@ $table_name = "teacher_time_table_" . $username; // Construct the table name dyn
 $query_timetable = "SELECT * FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}'";
 $result_timetable = mysqli_query($connection, $query_timetable);
 
+
+// Fetch profile picture from database
+$session_username = $_SESSION['username'];
+$sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+$stmt = $connection->prepare($sql);
+$stmt->bind_param("s", $session_username);
+$stmt->execute();
+$stmt->store_result();
+
+if($stmt->num_rows > 0) {
+    // Profile picture found, display it
+    $stmt->bind_result($profile_pic_data);
+    $stmt->fetch();
+    $profile_pic = base64_encode($profile_pic_data);
+    $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+} else {
+    // Profile picture not found, use a default image
+    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+}
+
+$stmt->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +109,8 @@ $result_timetable = mysqli_query($connection, $query_timetable);
         <!-- Profile container with glass effect -->
         <div class="glass-container background-glass">
             <div class="profile-pic-container">
+                    <!-- Display profile picture -->
+                <img id="upload_pic" src="<?php echo $profile_pic_src; ?>" alt="Profile Picture">
                  <img id="upload_pic"></img>
             </div>
 
