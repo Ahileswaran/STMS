@@ -671,4 +671,13 @@ nav form input[type="text"]:hover {
 
 
 
+/*Style for the Date Time Information */
+.date-time-info {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
+#currentDateTime, #currentTime, #classDay {
+    display: inline-block;
+    margin-right: 10px;
+}
