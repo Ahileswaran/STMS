@@ -14,8 +14,6 @@ if ($connection->connect_error) {
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,10 +96,10 @@ if ($connection->connect_error) {
         <!-- Master Time Table -->
         <div class="master-table">
 
-        <p id="currentDateTime"></p>
+        <p id="currentDateTime"></p> <br>
          <p id="classDay"></p>
 
-        <script>
+         <script>
         // Generate a random number to use as a cache buster
         const cacheBuster = Math.random();
 
@@ -121,13 +119,108 @@ if ($connection->connect_error) {
             });
         </script>
 
+<?php
 
+// Define an array to hold the grades
+$grades = ["Grade_6", "Grade_7", "Grade_8", "Grade_9", "Grade_10", "Grade_11", "Grade_12_Arts", "Grade_12_Science", "Grade_12_Maths"];
 
-            <table>
-                <caption>
-                    <h3>Master Time Table</h3>
-                </caption>
-            </table>
+// Get the current day of the week
+$currentDay = strtolower('Thursday');
+
+// SQL query to fetch all rows for the current day for all grades
+$sql = "SELECT class_id, start_time, end_time, $currentDay as subject FROM class_time_table WHERE $currentDay IS NOT NULL ORDER BY start_time";
+
+$result = $connection->query($sql);
+
+// Initialize an array to hold class schedules for each grade
+$classSchedules = [];
+foreach ($grades as $grade) {
+    $classSchedules[$grade] = [];
+}
+
+// Populate class schedules based on fetched data
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $classSchedules[$row['class_id']][] = [
+            'time' => $row["start_time"] . " - " . $row["end_time"],
+            'subject' => $row['subject']
+        ];
+    }
+}
+
+// Close the connection
+$connection->close();
+
+// Determine the maximum number of classes among all grades
+$maxClasses = 0;
+foreach ($classSchedules as $gradeSchedule) {
+    $maxClasses = max($maxClasses, count($gradeSchedule));
+}
+
+// Split the grades into two arrays for two tables
+$grades_table1 = array_slice($grades, 0, 5);
+$grades_table2 = array_slice($grades, 5);
+
+// Display the first table for grades 6-10
+echo "<table border='1'>";
+echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
+echo "<tr><th>Time</th>";
+foreach ($grades_table1 as $grade) {
+    echo "<th>$grade</th>";
+}
+echo "</tr>";
+
+$timeSlots = [
+    '07:50:00 - 08:30:00',
+    '08:30:00 - 09:10:00',
+    '09:10:00 - 09:50:00',
+    '09:50:00 - 10:30:00',
+    '10:50:00 - 11:30:00', // Adjusted based on the provided time slots
+    '11:30:00 - 12:10:00',
+    '12:10:00 - 12:50:00',
+    '12:50:00 - 13:30:00'
+];
+
+for ($i = 0; $i < $maxClasses; $i++) {
+    echo "<tr>";
+    // Display the time slot
+    echo "<td>" . $timeSlots[$i] . "</td>";
+    foreach ($grades_table1 as $grade) {
+        echo "<td>";
+        if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $timeSlots[$i]) {
+            echo $classSchedules[$grade][$i]['subject'];
+        }
+        echo "</td>";
+    }
+    echo "</tr>";
+}
+echo "</table>";
+
+// Display the second table for grades 11-12
+echo "<table border='1'>";
+echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
+echo "<tr><th>Time</th>";
+foreach ($grades_table2 as $grade) {
+    echo "<th>$grade</th>";
+}
+echo "</tr>";
+
+for ($i = 0; $i < $maxClasses; $i++) {
+    echo "<tr>";
+    // Display the time slot
+    echo "<td>" . $timeSlots[$i] . "</td>";
+    foreach ($grades_table2 as $grade) {
+        echo "<td>";
+        if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $timeSlots[$i]) {
+            echo $classSchedules[$grade][$i]['subject'];
+        }
+        echo "</td>";
+    }
+    echo "</tr>";
+}
+echo "</table>";
+?>
+
         </div>
         <div class="mini-gap"></div>
 
