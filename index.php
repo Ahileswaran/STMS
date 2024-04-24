@@ -99,38 +99,62 @@ if ($connection->connect_error) {
         <p id="currentDateTime"></p> <br>
          <p id="classDay"></p>
 
-         <script>
-        // Generate a random number to use as a cache buster
-        const cacheBuster = Math.random();
+        <!-- Display area for class schedules -->
+        <div id="classScheduleDisplay">
+            <!-- Class schedules will be loaded here by AJAX -->
+        </div>
 
-        // Fetch current date and time from the World Time API with cache-busting parameter
-        fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
-            .then(response => response.json())
-            .then(data => {
-            const currentDateTime = new Date(data.datetime);
-            const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
+        <!-- Script to fetch the current day and load schedules -->
+        <script>
+            const cacheBuster = Math.random();
+            fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
+                .then(response => response.json())
+                .then(data => {
+                    const currentDateTime = new Date(data.datetime);
+                    const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const classDay = dayOfWeek[currentDateTime.getDay()];
 
-            document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
-            document.getElementById("classDay").textContent = "Class Day: " + classDay;
-             })
-            .catch(error => {
-            console.error('Error fetching data:', error);
-            });
+                    $.ajax({
+                        type: "POST",
+                        url: "schedule_class.php",
+                        data: { classDay: classDay },
+                        success: function(response) {
+                            $('#classScheduleDisplay').html(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error sending data to server:', error);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         </script>
 
 <?php
-
 // Define an array to hold the grades
 $grades = ["Grade_6", "Grade_7", "Grade_8", "Grade_9", "Grade_10", "Grade_11", "Grade_12_Arts", "Grade_12_Science", "Grade_12_Maths"];
 
-// Get the current day of the week
-$currentDay = strtolower('Thursday');
+// Receive the day of the week sent by JavaScript
+$currentDay = isset($_POST['classDay']) ? $_POST['classDay'] : "";
 
-// SQL query to fetch all rows for the current day for all grades
-$sql = "SELECT class_id, start_time, end_time, $currentDay as subject FROM class_time_table WHERE $currentDay IS NOT NULL ORDER BY start_time";
+// Construct the SQL query
+if (!empty($currentDay)) {
+    // If $currentDay is not empty, include it in the query
+    $sql = "SELECT class_id, start_time, end_time, `$currentDay` as subject FROM class_time_table WHERE `$currentDay` IS NOT NULL ORDER BY start_time";
+} else {
+    // If $currentDay is empty, select all days and handle it accordingly in your PHP logic
+    $sql = "SELECT class_id, start_time, end_time FROM class_time_table";
+}
 
+// Execute the SQL query
 $result = $connection->query($sql);
+
+// Add a debugging statement to check if the query executed successfully
+if (!$result) {
+    echo json_encode(['error' => "Error executing query: " . $connection->error]);
+    exit;
+}
 
 // Initialize an array to hold class schedules for each grade
 $classSchedules = [];
@@ -139,13 +163,18 @@ foreach ($grades as $grade) {
 }
 
 // Populate class schedules based on fetched data
-if ($result) {
+if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $classSchedules[$row['class_id']][] = [
             'time' => $row["start_time"] . " - " . $row["end_time"],
-            'subject' => $row['subject']
+            'class_id' => $row['class_id'],
+            'subject' => isset($row['subject']) ? $row['subject'] : '' // Add subject to the array
         ];
     }
+} else {
+    // Add an error message if no data is found for the current day
+    echo json_encode(['error' => "No data found for the current day."]);
+    exit;
 }
 
 // Close the connection
@@ -187,7 +216,7 @@ for ($i = 0; $i < $maxClasses; $i++) {
     echo "<td>" . $timeSlots[$i] . "</td>";
     foreach ($grades_table1 as $grade) {
         echo "<td>";
-        if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $timeSlots[$i]) {
+        if (isset($classSchedules[$grade][$i]['subject'])) {
             echo $classSchedules[$grade][$i]['subject'];
         }
         echo "</td>";
@@ -211,7 +240,7 @@ for ($i = 0; $i < $maxClasses; $i++) {
     echo "<td>" . $timeSlots[$i] . "</td>";
     foreach ($grades_table2 as $grade) {
         echo "<td>";
-        if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $timeSlots[$i]) {
+        if (isset($classSchedules[$grade][$i]['subject'])) {
             echo $classSchedules[$grade][$i]['subject'];
         }
         echo "</td>";
