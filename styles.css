@@ -670,4 +670,8 @@ nav form input[type="text"]:hover {
 
 
 
-
+/*Style for display date and time*/
+.display_date{
+    text-align: center;
+    text-size-adjust: 12pt;
+}

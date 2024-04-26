@@ -95,10 +95,10 @@ if ($connection->connect_error) {
 
         <!-- Master Time Table -->
         <div class="master-table">
-
+        <div class="display_date">
         <p id="currentDateTime"></p> <br>
          <p id="classDay"></p>
-
+        </div>
         <!-- Display area for class schedules -->
         <div id="classScheduleDisplay">
             <!-- Class schedules will be loaded here by AJAX -->
@@ -106,30 +106,41 @@ if ($connection->connect_error) {
 
         <!-- Script to fetch the current day and load schedules -->
         <script>
-            const cacheBuster = Math.random();
-            fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
-                .then(response => response.json())
-                .then(data => {
-                    const currentDateTime = new Date(data.datetime);
-                    const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                    const classDay = dayOfWeek[currentDateTime.getDay()];
+// Generate a random number to use as a cache buster
+const cacheBuster = Math.random();
 
-                    $.ajax({
-                        type: "POST",
-                        url: "schedule_class.php",
-                        data: { classDay: classDay },
-                        success: function(response) {
-                            $('#classScheduleDisplay').html(response);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error sending data to server:', error);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
+// Fetch current date and time from the World Time API with cache-busting parameter
+fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
+    .then(response => response.json())
+    .then(data => {
+        const currentDateTime = new Date(data.datetime);
+        const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
+
+        // Send the day of the week to the server-side PHP script
+        $.ajax({
+    type: "POST",
+    url: "schedule_class.php", // Replace with the actual path to schedule_class.php
+    data: { classDay: classDay }, // Send the day of the week as data
+    success: function(response) {
+        // Handle the response from schedule_class.php here
+        console.log("Data received:", response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error sending data to server:', error);
+    }
+});
+
+
+        // Update the HTML content (optional)
+        document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
+        document.getElementById("classDay").textContent = "Class Day: " + classDay;
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
         </script>
+
 
 <?php
 // Define an array to hold the grades
@@ -183,7 +194,7 @@ $connection->close();
 // Determine the maximum number of classes among all grades
 $maxClasses = 0;
 foreach ($classSchedules as $gradeSchedule) {
-    $maxClasses = max($maxClasses, count($gradeSchedule));
+  $maxClasses = max($maxClasses, count($gradeSchedule));
 }
 
 // Split the grades into two arrays for two tables
@@ -195,33 +206,35 @@ echo "<table border='1'>";
 echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
 echo "<tr><th>Time</th>";
 foreach ($grades_table1 as $grade) {
-    echo "<th>$grade</th>";
+  echo "<th>$grade</th>";
 }
 echo "</tr>";
 
 $timeSlots = [
-    '07:50:00 - 08:30:00',
-    '08:30:00 - 09:10:00',
-    '09:10:00 - 09:50:00',
-    '09:50:00 - 10:30:00',
-    '10:50:00 - 11:30:00', // Adjusted based on the provided time slots
-    '11:30:00 - 12:10:00',
-    '12:10:00 - 12:50:00',
-    '12:50:00 - 13:30:00'
+  '07:50:00 - 08:30:00',
+  '08:30:00 - 09:10:00',
+  '09:10:00 - 09:50:00',
+  '09:50:00 - 10:30:00',
+  '10:50:00 - 11:30:00', 
+  '11:30:00 - 12:10:00',
+  '12:10:00 - 12:50:00',
+  '12:50:00 - 13:30:00'
 ];
 
 for ($i = 0; $i < $maxClasses; $i++) {
-    echo "<tr>";
-    // Display the time slot
-    echo "<td>" . $timeSlots[$i] . "</td>";
-    foreach ($grades_table1 as $grade) {
-        echo "<td>";
-        if (isset($classSchedules[$grade][$i]['subject'])) {
-            echo $classSchedules[$grade][$i]['subject'];
-        }
-        echo "</td>";
+  echo "<tr>";
+  // Display the time slot
+  echo "<td>" . $timeSlots[$i] . "</td>";
+  foreach ($grades_table1 as $grade) {
+    echo "<td>";
+    if (isset($classSchedules[$grade][$i]['subject']) && $classSchedules[$grade][$i]['subject'] !== '') {
+      echo $classSchedules[$grade][$i]['subject'];
+    } else {
+      echo "No Schedule Class";
     }
-    echo "</tr>";
+    echo "</td>";
+  }
+  echo "</tr>";
 }
 echo "</table>";
 
@@ -230,26 +243,27 @@ echo "<table border='1'>";
 echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
 echo "<tr><th>Time</th>";
 foreach ($grades_table2 as $grade) {
-    echo "<th>$grade</th>";
+  echo "<th>$grade</th>";
 }
 echo "</tr>";
 
 for ($i = 0; $i < $maxClasses; $i++) {
-    echo "<tr>";
-    // Display the time slot
-    echo "<td>" . $timeSlots[$i] . "</td>";
-    foreach ($grades_table2 as $grade) {
-        echo "<td>";
-        if (isset($classSchedules[$grade][$i]['subject'])) {
-            echo $classSchedules[$grade][$i]['subject'];
-        }
-        echo "</td>";
+  echo "<tr>";
+  // Display the time slot
+  echo "<td>" . $timeSlots[$i] . "</td>";
+  foreach ($grades_table2 as $grade) {
+    echo "<td>";
+    if (isset($classSchedules[$grade][$i]['subject']) && $classSchedules[$grade][$i]['subject'] !== '') {
+      echo $classSchedules[$grade][$i]['subject'];
+    } else {
+      echo "No Schedule Class";
     }
-    echo "</tr>";
+    echo "</td>";
+  }
+  echo "</tr>";
 }
 echo "</table>";
 ?>
-
         </div>
         <div class="mini-gap"></div>
 

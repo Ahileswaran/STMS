@@ -44,6 +44,28 @@ if ($result) {
 } else {
     echo "Error: " . $connection->error;
 }
+
+if ($result) {
+    echo "<table border='1'>";
+    echo "<tr><th>Class ID</th><th>Start Time</th><th>End Time</th><th>Subject</th></tr>";
+    while ($row = $result->fetch_assoc()) {
+      echo "<tr>";
+      echo "<td>" . $row['class_id'] . "</td>";
+      echo "<td>" . $row['start_time'] . "</td>";
+      echo "<td>" . $row['end_time'] . "</td>";
+      // Check if subject exists and is not an empty string
+      if (isset($row['subject']) && $row['subject'] !== '') {
+        echo "<td>" . $row['subject'] . "</td>";
+      } else {
+        echo "<td>No Schedule Class</td>";
+      }
+      echo "</tr>";
+    }
+    echo "</table>";
+  } else {
+    echo "Error: " ;
+  }
+
 $connection->close();
 ?>
 
