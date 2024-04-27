@@ -95,175 +95,92 @@ if ($connection->connect_error) {
 
         <!-- Master Time Table -->
         <div class="master-table">
-        <div class="display_date">
+
         <p id="currentDateTime"></p> <br>
          <p id="classDay"></p>
-        </div>
-        <!-- Display area for class schedules -->
-        <div id="classScheduleDisplay">
-            <!-- Class schedules will be loaded here by AJAX -->
-        </div>
 
-        <!-- Script to fetch the current day and load schedules -->
-        <script>
-// Generate a random number to use as a cache buster
-const cacheBuster = Math.random();
+         <script>
+        // Generate a random number to use as a cache buster
+        const cacheBuster = Math.random();
 
-// Fetch current date and time from the World Time API with cache-busting parameter
-fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
-    .then(response => response.json())
-    .then(data => {
-        const currentDateTime = new Date(data.datetime);
-        const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
+        // Fetch current date and time from the World Time API with cache-busting parameter
+        fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
+            .then(response => response.json())
+            .then(data => {
+            const currentDateTime = new Date(data.datetime);
+            const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
 
-        // Send the day of the week to the server-side PHP script
-        $.ajax({
-    type: "POST",
-    url: "schedule_class.php", // Replace with the actual path to schedule_class.php
-    data: { classDay: classDay }, // Send the day of the week as data
-    success: function(response) {
-        // Handle the response from schedule_class.php here
-        console.log("Data received:", response);
-    },
-    error: function(xhr, status, error) {
-        console.error('Error sending data to server:', error);
-    }
-});
-
-
-        // Update the HTML content (optional)
-        document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
-        document.getElementById("classDay").textContent = "Class Day: " + classDay;
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
+            document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
+            document.getElementById("classDay").textContent = "Class Day: " + classDay;
+             })
+            .catch(error => {
+            console.error('Error fetching data:', error);
+            });
         </script>
 
+<script>
+function generateTable() {
+    // Get the selected day and time period
+    var selectedDay = document.getElementById("daySelector").value;
+    var selectedTimePeriod = document.getElementById("timePeriodSelector").value;
 
-<?php
-// Define an array to hold the grades
-$grades = ["Grade_6", "Grade_7", "Grade_8", "Grade_9", "Grade_10", "Grade_11", "Grade_12_Arts", "Grade_12_Science", "Grade_12_Maths"];
-
-// Receive the day of the week sent by JavaScript
-$currentDay = isset($_POST['classDay']) ? $_POST['classDay'] : "";
-
-// Construct the SQL query
-if (!empty($currentDay)) {
-    // If $currentDay is not empty, include it in the query
-    $sql = "SELECT class_id, start_time, end_time, `$currentDay` as subject FROM class_time_table WHERE `$currentDay` IS NOT NULL ORDER BY start_time";
-} else {
-    // If $currentDay is empty, select all days and handle it accordingly in your PHP logic
-    $sql = "SELECT class_id, start_time, end_time FROM class_time_table";
+    // Send an AJAX request to generate_table.php with the selected day and time period
+    $.ajax({
+        url: "generate_table.php",
+        method: "GET",
+        data: { day: selectedDay, time_period: selectedTimePeriod },
+        success: function(response) {
+            // Display the generated table in the tableContainer
+            document.getElementById("tableContainer").innerHTML = response;
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
 }
 
-// Execute the SQL query
-$result = $connection->query($sql);
+</script>
 
-// Add a debugging statement to check if the query executed successfully
-if (!$result) {
-    echo json_encode(['error' => "Error executing query: " . $connection->error]);
-    exit;
-}
+<div class="drop_menu_table">     
+<select id="daySelector" name="Day" onchange="generateTable()">
+    <option value="menu0" disabled selected>Select Day</option>
+    <option value="monday">Monday</option>
+    <option value="tuesday">Tuesday</option>
+    <option value="wednesday">Wednesday</option>
+    <option value="thursday">Thursday</option>
+    <option value="friday">Friday</option>
+</select>
 
-// Initialize an array to hold class schedules for each grade
-$classSchedules = [];
-foreach ($grades as $grade) {
-    $classSchedules[$grade] = [];
-}
+<select id="timePeriodSelector" name="Time Period">
+    <option value="menu0" disabled selected>Select Time Period</option>
+    <option value="full">Full Time Period</option>
+    <option value="time_7">07:50:00 - 08:30:00</option>
+    <option value="time_8">08:30:00 - 09:10:00</option>
+    <option value="time_9">09:10:00 - 09:50:00</option>
+    <option value="time_9_50">09:50:00 - 10:30:00</option>
+    <option value="time_10">10:50:00 - 11:30:00</option>
+    <option value="time_11">11:30:00 - 12:10:00</option>
+    <option value="time_12">12:10:00 - 12:50:00</option>
+    <option value="time_1">12:50:00 - 13:30:00</option>
+</select>
 
-// Populate class schedules based on fetched data
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $classSchedules[$row['class_id']][] = [
-            'time' => $row["start_time"] . " - " . $row["end_time"],
-            'class_id' => $row['class_id'],
-            'subject' => isset($row['subject']) ? $row['subject'] : '' // Add subject to the array
-        ];
-    }
-} else {
-    // Add an error message if no data is found for the current day
-    echo json_encode(['error' => "No data found for the current day."]);
-    exit;
-}
 
-// Close the connection
-$connection->close();
+    <div id="tableContainer">
+        <!-- Table generated by PHP will be displayed here -->
+        </div>
+    </div>
 
-// Determine the maximum number of classes among all grades
-$maxClasses = 0;
-foreach ($classSchedules as $gradeSchedule) {
-  $maxClasses = max($maxClasses, count($gradeSchedule));
-}
+<div id="tableContainer">
+    <!-- Table generated by PHP will be displayed here -->
+</div>
 
-// Split the grades into two arrays for two tables
-$grades_table1 = array_slice($grades, 0, 5);
-$grades_table2 = array_slice($grades, 5);
+   <?php
+        // Include the generated table
+       // include 'generate_table.php';
+    ?>
 
-// Display the first table for grades 6-10
-echo "<table border='1'>";
-echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
-echo "<tr><th>Time</th>";
-foreach ($grades_table1 as $grade) {
-  echo "<th>$grade</th>";
-}
-echo "</tr>";
 
-$timeSlots = [
-  '07:50:00 - 08:30:00',
-  '08:30:00 - 09:10:00',
-  '09:10:00 - 09:50:00',
-  '09:50:00 - 10:30:00',
-  '10:50:00 - 11:30:00', 
-  '11:30:00 - 12:10:00',
-  '12:10:00 - 12:50:00',
-  '12:50:00 - 13:30:00'
-];
-
-for ($i = 0; $i < $maxClasses; $i++) {
-  echo "<tr>";
-  // Display the time slot
-  echo "<td>" . $timeSlots[$i] . "</td>";
-  foreach ($grades_table1 as $grade) {
-    echo "<td>";
-    if (isset($classSchedules[$grade][$i]['subject']) && $classSchedules[$grade][$i]['subject'] !== '') {
-      echo $classSchedules[$grade][$i]['subject'];
-    } else {
-      echo "No Schedule Class";
-    }
-    echo "</td>";
-  }
-  echo "</tr>";
-}
-echo "</table>";
-
-// Display the second table for grades 11-12
-echo "<table border='1'>";
-echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
-echo "<tr><th>Time</th>";
-foreach ($grades_table2 as $grade) {
-  echo "<th>$grade</th>";
-}
-echo "</tr>";
-
-for ($i = 0; $i < $maxClasses; $i++) {
-  echo "<tr>";
-  // Display the time slot
-  echo "<td>" . $timeSlots[$i] . "</td>";
-  foreach ($grades_table2 as $grade) {
-    echo "<td>";
-    if (isset($classSchedules[$grade][$i]['subject']) && $classSchedules[$grade][$i]['subject'] !== '') {
-      echo $classSchedules[$grade][$i]['subject'];
-    } else {
-      echo "No Schedule Class";
-    }
-    echo "</td>";
-  }
-  echo "</tr>";
-}
-echo "</table>";
-?>
         </div>
         <div class="mini-gap"></div>
 
