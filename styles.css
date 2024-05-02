@@ -27,7 +27,9 @@ body {
     height: auto;
 
 }
-
+.hidden {
+    visibility: hidden;
+}
 /* Adjust logo for small devices */
 @media only screen and (max-width: 600px) {
     .logo {
@@ -346,5 +348,11 @@ nav form input[type="text"]:hover {
 /* body background colour */
 .custom-bg-blue {
     background-color: #9ed0ff; 
+
+}
+.margin-input {
+
+    margin-left: 10px;
+    margin-right: 5px;
 
 }

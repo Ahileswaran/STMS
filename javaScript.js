@@ -2,8 +2,21 @@
 //Function to handle the image slider
 
 $(document).ready(function () {
+
+    const hidden = $(".hidden");
     const slider = $(".slider");
     const navButtons = $(".nav-btn");
+
+    //show email verify elemnt
+    $("#btn-send").click(function(event) {
+        event.preventDefault();
+        hidden.css("visibility", "visible");
+    });
+
+    //prevent the default form submission
+    $("#btn-verify").click(function(event) {
+        event.preventDefault();
+    });
 
     let currentIndex = 0;
 
@@ -37,9 +50,8 @@ $(document).ready(function () {
     //current year
     let year = new Date().getFullYear();
     document.getElementById("current-year").innerHTML= year;
+
 });
-
-
 
 //Function to handle the drop down menu
 
