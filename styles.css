@@ -714,3 +714,64 @@ nav form input[type="text"]:hover {
     font-size: 14px; /* Reduce font size */
 }
 
+
+/* Style For logged-in details Dropdown menu */
+
+/* Dropdown container */
+.dropdown_details {
+    position: relative;
+    display: inline-block;
+}
+
+/* Profile picture */
+.profile-pic {
+    padding-left: 5px;
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/*--------------------- Dropdown content (hidden by default) -------------------*/
+
+.welcome-message {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f3efef;
+    min-width: 70px; /* Adjust the width as needed */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    font-size: 14px;
+    padding: 8px 12px; /* Adjust the padding as needed */
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #4bb4fa;
+}
+
+/* Show the dropdown content on hover */
+.dropdown_details:hover .dropdown-content {
+    display: block;
+}
+
+/* Add a pointer cursor to the profile picture */
+.profile-pic:hover {
+    opacity: 0.8;
+}

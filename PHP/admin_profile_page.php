@@ -91,15 +91,19 @@ $stmt->close();
                 <button type="submit">Search</button>
             </div>
 
+
 <div class="login_detail">
-<?php
+    <?php
     // Check if user is logged in
     if(isset($_SESSION['username'])) {
-        // If logged in, display username, profile link, and logout option
-        echo "<span>Welcome, " . $_SESSION['username'] . "</span>";
-        echo "<img src='$profile_pic_src' alt='Profile Picture'>";
-        echo "<a class='active button' href='php/profile_redirect.php'>Profile</a>";
-        echo "<a class='active button' href='logout.php'>Logout</a>";
+        // If logged in, display the profile picture and username
+        echo "<div class='dropdown_details'>";
+        echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
+        echo "<div class='dropdown-content'>";
+        echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
+        echo "<a href='php/logout.php'>Logout</a>";
+        echo "</div>";
+        echo "</div>";
     } else {
         // If not logged in, display login option
         echo "<a class='active button' href='../pages/login_page.html'>Login</a>";
