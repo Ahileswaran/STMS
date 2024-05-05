@@ -42,7 +42,7 @@ if ($connection->connect_error) {
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <a class="active button" href="index.html">Home</a>
+                <a class="active button" href="index.php">Home</a>
                 <a class="active button" href="./pages/registering_page.html">Register</a>
                 <a class="active button" href="./pages/login_page.html">Login</a>
             </nav>
@@ -150,7 +150,7 @@ if ($connection->connect_error) {
 
 <div class="drop_menu_table">     
 <select id="daySelector" name="Day" onchange="generateTable()">
-    <option value="menu0" disabled selected>Select Day</option>
+
     <option value="monday">Monday</option>
     <option value="tuesday">Tuesday</option>
     <option value="wednesday">Wednesday</option>
@@ -159,7 +159,7 @@ if ($connection->connect_error) {
 </select>
 
 <select id="timePeriodSelector" name="Time Period">
-    <option value="menu0" disabled selected>Select Time Period</option>
+
     <option value="full">Full Time Period</option>
     <option value="time_7">07:50:00 - 08:30:00</option>
     <option value="time_8">08:30:00 - 09:10:00</option>
