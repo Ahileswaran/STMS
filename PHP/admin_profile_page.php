@@ -101,7 +101,7 @@ $stmt->close();
         echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
         echo "<div class='dropdown-content'>";
         echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-        echo "<a href='php/logout.php'>Logout</a>";
+        echo "<a href='logout.php'>Logout</a>";
         echo "</div>";
         echo "</div>";
     } else {
