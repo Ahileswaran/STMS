@@ -670,14 +670,47 @@ nav form input[type="text"]:hover {
 
 
 
-/*Style for display date and time*/
-.display_date{
+
+/* Style for syllabus table container */
+.syllabus_table {
+    padding: 10px; /* Reduce padding to make the table smaller */
+    border-radius: 5px; /* Reduce border radius */
+    overflow: auto; /* Add scrollbars if content overflows */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce box shadow */
+    margin-bottom: 10px; /* Reduce margin */
+}
+
+/* Style for the syllabus table itself */
+.syllabus_table table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders */
+}
+
+/* Style for table header cells */
+.syllabus_table th {
+    background-color: #5ab8f7; /* Light gray background for header cells */
+    padding: 8px; /* Reduce padding */
     text-align: center;
-    text-size-adjust: 12pt;
+    font-size: 14px; /* Reduce font size */
 }
 
-/*Style for syllabus table*/
-.syllabus_notification{
-
-    
+/* Style for table data cells */
+.syllabus_table td {
+    padding: 8px; /* Reduce padding */
+    text-align: center;
+    font-size: 14px; /* Reduce font size */
 }
+
+/* Style for error message when no syllabus details available */
+.syllabus_table .error {
+    text-align: center;
+    color: red; 
+    font-style: italic; 
+    font-size: 14px; /* Reduce font size */
+}
+

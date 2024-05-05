@@ -56,6 +56,7 @@ $stmt->close();
 
 <!DOCTYPE html>
 <html lang="en">
+    
 
 <head>
     <title>School Teacher Management System</title>
@@ -133,7 +134,7 @@ $stmt->close();
             <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
-            <h4>Uer Role: <?php echo $_SESSION['user_role']; ?></h4><br>
+            <!-- <h4>Uer Role: <?php echo $_SESSION['user_role']; ?></h4><br> -->
 
             <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
                 <div class="add-profile-pic">
@@ -190,32 +191,47 @@ $stmt->close();
                         </table>
                     </div>
 
-                    <div class="syllabus_notification">
-                        <h3>Syllabus Details</h3>
-                        <?php
-                        switch ($syllabus_result->num_rows) {
-                            case 0:
-                                echo "<p class='error'>No syllabus details available for this user.</p>";
-                                break;
-                            default:
-                                while ($row = $syllabus_result->fetch_assoc()) {
-                                    echo "<div class='syllabus_details'>";
-                                    echo "<p>Week ID: " . htmlspecialchars($row['week_id']) . "<p>";
-                                    echo "<p>Assign Date: " . htmlspecialchars($row['assign_date']) . "</p>";
-                                    echo "<p>Conduct Date: " . htmlspecialchars($row['conduct_date']) . "</p>";
-                                    echo "<p>Start Time: " . htmlspecialchars($row['start_time']) . "</p>";
-                                    echo "<p>Lesson Time: " . htmlspecialchars($row['lesson_time']) . "</p>";
-                                    echo "<p>Mastery: " . htmlspecialchars($row['mastery']) . "</p>";
-                                    echo "<p>Section Number: " . htmlspecialchars($row['section_number']) . "</p>";
-                                    echo "<p>Course Content: " . htmlspecialchars($row['course_content']) . "</p>";
-                                    echo "<p>Teaching Date: " . htmlspecialchars($row['teaching_date']) . "</p>";
-                                    echo "<p>Note: " . htmlspecialchars($row['note']) . "</p>";
-                                    echo "</div>";
-                                }
-                                break;
-                        }
-                        ?>
-                    </div>
+    <div class="syllabus_table">
+        <h3>Syllabus Table</h3>
+    <table border="1">
+        <tr>
+            <th>Week ID</th>
+            <th>Assign Date</th>
+            <th>Conduct Date</th>
+            <th>Start Time</th>
+            <th>Lesson Time</th>
+            <th>Mastery</th>
+            <th>Section Number</th>
+            <th>Course Content</th>
+            <th>Teaching Date</th>
+            <th>Note</th>
+        </tr>
+        <?php
+        switch ($syllabus_result->num_rows) {
+            case 0:
+                echo "<tr><td colspan='10' class='error'>No syllabus details available for this user.</td></tr>";
+                break;
+            default:
+                while ($row = $syllabus_result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row['week_id']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['assign_date']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['conduct_date']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['start_time']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['lesson_time']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['mastery']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['section_number']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['course_content']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['teaching_date']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['note']) . "</td>";
+                    echo "</tr>";
+                }
+                break;
+        }
+        ?>
+    </table>
+</div>
+
 
                 </table>
             </div>
