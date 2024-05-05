@@ -1,7 +1,8 @@
 <?php
 //session_start(); // Start the session
-require_once 'login.php';
+//require_once 'login.php';
 //session_start(); // Start the session to access session variables
+require_once 'stay_login.php';
 
 $username = "root"; 
 $password = ""; 
@@ -90,6 +91,22 @@ $stmt->close();
                 <button type="submit">Search</button>
             </div>
 
+<div class="login_detail">
+<?php
+    // Check if user is logged in
+    if(isset($_SESSION['username'])) {
+        // If logged in, display username, profile link, and logout option
+        echo "<span>Welcome, " . $_SESSION['username'] . "</span>";
+        echo "<img src='$profile_pic_src' alt='Profile Picture'>";
+        echo "<a class='active button' href='php/profile_redirect.php'>Profile</a>";
+        echo "<a class='active button' href='logout.php'>Logout</a>";
+    } else {
+        // If not logged in, display login option
+        echo "<a class='active button' href='../pages/login_page.html'>Login</a>";
+    }
+    ?>
+</div>
+
             <div class="content">
                 <!-- main content goes here -->
             </div>
@@ -115,7 +132,7 @@ $stmt->close();
             <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4><br>
             <h4>User Name: <?php echo $_SESSION['username']; ?></h4><br>
             <h4>E-mail: <?php echo $_SESSION['email']; ?></h4><br>
-            <h4>Uer Role: <?php echo $_SESSION['user_role']; ?></h4><br>
+            <!-- <h4>Uer Role: <?php echo $_SESSION['user_role']; ?></h4><br> -->
         </div>
 
             <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">

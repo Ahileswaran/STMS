@@ -1,6 +1,10 @@
 <?php
-// session_start(); // Start the session
-require_once 'login.php';
+
+ require_once 'stay_login.php';
+ //require_once 'profile_page.php';
+ //require_once 'admin_profile_page.php';
+//require_once 'login.php';
+
 // session_start(); // Start the session to access session variables
 
 $username = "root"; 
@@ -109,9 +113,28 @@ $stmt->close();
                 <button type="submit">Search</button>
             </div>
 
+
             <div class="content">
                 <!-- main content goes here -->
             </div>
+
+            
+            <div class="login_detail">
+             <?php
+            // Check if user is logged in
+            if(isset($_SESSION['username'])) {
+                 // If logged in, display username, profile link, and logout option
+                 echo "<span>Welcome, " . $_SESSION['username'] . "</span>";
+                 echo "<img src='$profile_pic_src' alt='Profile Picture'>";
+                echo "<a class='active button' href='profile.php'>Profile</a>";
+                echo "<a class='active button' href='logout.php'>Logout</a>";
+             } else {
+                // If not logged in, display login option
+             echo "<a class='active button' href='../pages/login_page.html'>Login</a>";
+              }
+              ?>
+        </div>
+      
 
 
         </div>
