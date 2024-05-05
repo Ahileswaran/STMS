@@ -1,7 +1,7 @@
 <?php
-//session_start(); // Start the session
+// session_start(); // Start the session
 require_once 'login.php';
-//session_start(); // Start the session to access session variables
+// session_start(); // Start the session to access session variables
 
 $username = "root"; 
 $password = ""; 
@@ -41,8 +41,17 @@ if($stmt->num_rows > 0) {
     $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
 }
 
-$stmt->close();
+// Syllabus table
+$teacher_username = $_SESSION['username']; 
+$syllabus_table_name = "teacher_syllabus_table_" . $teacher_username;
 
+$syllabus_query = "SELECT * FROM $syllabus_table_name WHERE registration_id = ?";
+$syllabus_stmt = $connection->prepare($syllabus_query);
+$syllabus_stmt->bind_param("s", $_SESSION['registration_id']);
+$syllabus_stmt->execute();
+$syllabus_result = $syllabus_stmt->get_result();
+
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -134,62 +143,89 @@ $stmt->close();
                 </div>
             </form>
 
+            <!-- Time Table For Teacher  -->
+            <div class="master-table">
+                <table>
+                    <caption>
+                        <h3>Time Table</h3>
+                        <h5>Subject: <?php echo $_SESSION['subject_name']; ?></h5>
+                    </caption>
+                    <div class="timetable">
+                        <table border="1">
+                            <tr>
+                                <th></th>
+                                <?php
+                                // Define an array to map numerical representation of days to their names
+                                $daysOfWeek = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday');
+                                // Get unique class days from the timetable
+                                $unique_days_query = "SELECT DISTINCT class_day FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY class_day";
+                                $unique_days_result = mysqli_query($connection, $unique_days_query);
+                                while ($day_row = mysqli_fetch_assoc($unique_days_result)) {
+                                    $dayOfWeek = date('N', strtotime($day_row['class_day'])); // Get the numerical representation of the day
+                                    echo "<th>{$daysOfWeek[$dayOfWeek]}</th>"; // Display the day name
+                                }
+                                ?>
+                            </tr>
+                            <?php
+                            // Get unique class times from the timetable
+                            $unique_times_query = "SELECT DISTINCT start_time, end_time FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY start_time";
+                            $unique_times_result = mysqli_query($connection, $unique_times_query);
+                            while ($time_row = mysqli_fetch_assoc($unique_times_result)) {
+                                echo "<tr>";
+                                echo "<th>{$time_row['start_time']} - {$time_row['end_time']}</th>"; // Display the time slot
+                                // Get data for each day and time slot
+                                mysqli_data_seek($unique_days_result, 0);
+                                while ($day_row = mysqli_fetch_assoc($unique_days_result)) {
+                                    $query_timetable = "SELECT class_id FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' AND class_day='{$day_row['class_day']}' AND start_time='{$time_row['start_time']}'";
+                                    $result_timetable = mysqli_query($connection, $query_timetable);
+                                    $data = '';
+                                    while ($row = mysqli_fetch_assoc($result_timetable)) {
+                                        $data .= "{$row['class_id']}<br>";
+                                    }
+                                    echo "<td>{$data}</td>";
+                                }
+                                echo "</tr>";
+                            }
+                            ?>
+                        </table>
+                    </div>
 
-          <!-- Time Table For Teacher  -->
-        <div class="master-table">
-            <table>
-                <caption>
-                    <h3>Time Table</h3>
-                    <h5>Subject: <?php echo $_SESSION['subject_name']; ?></h5>
-                </caption>
-        <div class="timetable">
-        <table border="1">
-        <tr>
-            <th></th>
-            <?php
-            // Define an array to map numerical representation of days to their names
-            $daysOfWeek = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday');
-            // Get unique class days from the timetable
-            $unique_days_query = "SELECT DISTINCT class_day FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY class_day";
-            $unique_days_result = mysqli_query($connection, $unique_days_query);
-            while ($day_row = mysqli_fetch_assoc($unique_days_result)) {
-                $dayOfWeek = date('N', strtotime($day_row['class_day'])); // Get the numerical representation of the day
-                echo "<th>{$daysOfWeek[$dayOfWeek]}</th>"; // Display the day name
-            }
-            ?>
-        </tr>
-        <?php
-        // Get unique class times from the timetable
-        $unique_times_query = "SELECT DISTINCT start_time, end_time FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' ORDER BY start_time";
-        $unique_times_result = mysqli_query($connection, $unique_times_query);
-        while ($time_row = mysqli_fetch_assoc($unique_times_result)) {
-            echo "<tr>";
-            echo "<th>{$time_row['start_time']} - {$time_row['end_time']}</th>"; // Display the time slot
-            // Get data for each day and time slot
-            mysqli_data_seek($unique_days_result, 0);
-            while ($day_row = mysqli_fetch_assoc($unique_days_result)) {
-                $query_timetable = "SELECT class_id FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}' AND class_day='{$day_row['class_day']}' AND start_time='{$time_row['start_time']}'";
-                $result_timetable = mysqli_query($connection, $query_timetable);
-                $data = '';
-                while ($row = mysqli_fetch_assoc($result_timetable)) {
-                    $data .= "{$row['class_id']}<br>";
-                }
-                echo "<td>{$data}</td>";
-            }
-            echo "</tr>";
-        }
-        ?>
-    </table>
-</div>
+                    <div class="syllabus_notification">
+                        <h3>Syllabus Details</h3>
+                        <?php
+                        switch ($syllabus_result->num_rows) {
+                            case 0:
+                                echo "<p class='error'>No syllabus details available for this user.</p>";
+                                break;
+                            default:
+                                while ($row = $syllabus_result->fetch_assoc()) {
+                                    echo "<div class='syllabus_details'>";
+                                    echo "<p>Week ID: " . htmlspecialchars($row['week_id']) . "<p>";
+                                    echo "<p>Assign Date: " . htmlspecialchars($row['assign_date']) . "</p>";
+                                    echo "<p>Conduct Date: " . htmlspecialchars($row['conduct_date']) . "</p>";
+                                    echo "<p>Start Time: " . htmlspecialchars($row['start_time']) . "</p>";
+                                    echo "<p>Lesson Time: " . htmlspecialchars($row['lesson_time']) . "</p>";
+                                    echo "<p>Mastery: " . htmlspecialchars($row['mastery']) . "</p>";
+                                    echo "<p>Section Number: " . htmlspecialchars($row['section_number']) . "</p>";
+                                    echo "<p>Course Content: " . htmlspecialchars($row['course_content']) . "</p>";
+                                    echo "<p>Teaching Date: " . htmlspecialchars($row['teaching_date']) . "</p>";
+                                    echo "<p>Note: " . htmlspecialchars($row['note']) . "</p>";
+                                    echo "</div>";
+                                }
+                                break;
+                        }
+                        ?>
+                    </div>
 
-
+                </table>
+            </div>
 
         </div>
     </div>
 
     <!-- Footer with rich text -->
     <footer class="footer">
-        <p>&copy; School Teachers Management System 2024. All rights reserved. Designed by Dragons.</p>
+        <p>&copy; School Teacher Management System 2024. All rights reserved. Designed by Dragons.</p>
     </footer>
 
 </body>
