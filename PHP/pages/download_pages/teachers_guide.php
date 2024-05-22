@@ -1,3 +1,41 @@
+<?php
+//session_start(); // Start the session
+require_once 'php/stay_login.php';
+//require_once 'profile_page.php';
+//require_once 'admin_profile_page.php';
+
+$username = "root"; 
+$password = ""; 
+$server = "localhost";  
+$database = "stms_database"; 
+
+$connection = new mysqli($server, $username, $password, $database);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Fetch profile picture from database
+$session_username = $_SESSION['username'];
+$sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+$stmt = $connection->prepare($sql);
+$stmt->bind_param("s", $session_username);
+$stmt->execute();
+$stmt->store_result();
+
+if($stmt->num_rows > 0) {
+    // Profile picture found, display it
+    $stmt->bind_result($profile_pic_data);
+    $stmt->fetch();
+    $profile_pic = base64_encode($profile_pic_data);
+    $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+} else {
+    // Profile picture not found, use a default image
+    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,7 +78,7 @@
                     <option value="resource_page">Resource Books</option>
                 </select>
             </div>
-
+            
              <!-- Input Field -->
              <div class="Search_field">                               
                 <input type="text" name="search" placeholder="Search...">
@@ -50,7 +88,28 @@
             <div class="search_button">
                 <button type="submit">Search</button>
             </div>
-    
+
+    <div class="login_detail">
+    <?php
+    // Check if user is logged in
+    if(isset($_SESSION['username'])) {
+        // If logged in, display the profile picture and username
+        echo "<div class='dropdown_details'>";
+        echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
+        echo "<div class='dropdown-content'>";
+        echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
+        echo "<a href='php/profile_redirect.php'>Profile</a>";
+        echo "<a href='php/logout.php'>Logout</a>";
+        echo "</div>";
+        echo "</div>";
+    } else {
+        // If not logged in, display login option
+        echo "<a class='active button' href='../pages/login_page.html'>Login</a>";
+    }
+    ?>
+</div>
+
+
             <div class="content">
                 <!-- main content goes here -->
             </div>
@@ -59,12 +118,12 @@
         </div>
         <!-- container with glass effect -->
         <div class="glass-container background-glass">
-            <div class="resource-page">
-                <h4>English Resource book download </h4>
-                <h4>Dance Resource book download </h4>
-                <h4>Agriculture Resource book download </h4>
-                <h4>Biology Resource book download </h4>
-                <h4>Chemistry Resource book download </h4>
+            <div class="teachers-guide-page">
+                <h4>Grade 12 English teachers download </h4>
+                <h4>Grade 09 Dance teachers download</h4>
+                <h4>Grade 10 Agriculture teachers download </h4>
+                <h4>Grade 12 Biology teachers download </h4>
+                <h4>Grade 12 Chemistry teachers download</h4>
             </div>
         </div>
     </div>
