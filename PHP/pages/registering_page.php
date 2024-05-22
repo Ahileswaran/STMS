@@ -1,6 +1,6 @@
 <?php
-//session_start(); // Start the session
-require_once 'php/stay_login.php';
+session_start(); // Start the session
+//require_once 'php/stay_login.php';
 //require_once 'profile_page.php';
 //require_once 'admin_profile_page.php';
 
@@ -43,8 +43,8 @@ if($stmt->num_rows > 0) {
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
-    <link rel="stylesheet" href="../styles.css">
-    <script src="../javaScript.js"></script>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../javaScript.js"></script>
 </head>
 
 <body>
@@ -52,11 +52,11 @@ if($stmt->num_rows > 0) {
     <div class="glass-box-container">
         <!-- Banner glass container -->
         <div class="glass-container title-container">
-            <img src="../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
+            <img src="../../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
         </div>
 
         <!-- Banner image taking up the entire screen -->
-        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
+        <img src="../../imgs/banner.png" alt="Banner" class="banner-image-full">
 
         <!-- Mini gap between the body and the second glass container -->
         <div class="mini-gap"></div>
@@ -65,9 +65,9 @@ if($stmt->num_rows > 0) {
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <a class="active button" href="../index.php">Home</a>
+                <a class="active button" href="../../index.php">Home</a>
                 <a class="active button" href="#">Register</a>
-                <a class="active button" href="../pages/login_page.html">Login</a>
+                <a class="active button" href="./login_page.php">Login</a>
             </nav>
 
             <!-- Dropdown menu -->

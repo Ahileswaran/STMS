@@ -33,12 +33,12 @@ if(isset($_SESSION['username'])) {
         }
     } else {
         // If user role not found, redirect to login page
-        header("Location: login_page.html");
+        header("Location: login_page.php");
         exit();
     }
 } else {
     // If user is not logged in, redirect to login page
-    header("Location: login_page.html");
+    header("Location: login_page.php");
     exit();
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
-//session_start(); // Start the session
-require_once 'php/stay_login.php';
+session_start(); // Start the session
+//require_once 'php/stay_login.php';
 //require_once 'profile_page.php';
 //require_once 'admin_profile_page.php';
 
@@ -64,9 +64,9 @@ if($stmt->num_rows > 0) {
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <a class="active button" href="../index.php">Home</a>
-                <a class="active button" href="/pages/registering_page.html">Register</a>
-                <a class="active button" href="/pages/login_page.html">Login</a>
+                <a class="active button" href="../../index.php">Home</a>
+                <a class="active button" href="./registering_page.php">Register</a>
+                <a class="active button" href="./login_page.php">Login</a>
             </nav>
 
             <!-- Dropdown menu -->
@@ -98,8 +98,8 @@ if($stmt->num_rows > 0) {
         echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
         echo "<div class='dropdown-content'>";
         echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-        echo "<a href='php/profile_redirect.php'>Profile</a>";
-        echo "<a href='php/logout.php'>Logout</a>";
+        echo "<a href='../profile_redirect.php'>Profile</a>";
+        echo "<a href='../logout.php'>Logout</a>";
         echo "</div>";
         echo "</div>";
     } else {

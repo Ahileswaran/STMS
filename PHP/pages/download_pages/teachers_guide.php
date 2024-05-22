@@ -1,6 +1,6 @@
 <?php
 //session_start(); // Start the session
-require_once 'php/stay_login.php';
+//require_once 'php/stay_login.php';
 //require_once 'profile_page.php';
 //require_once 'admin_profile_page.php';
 

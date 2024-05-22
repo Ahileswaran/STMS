@@ -1,6 +1,6 @@
 <?php
-//session_start(); // Start the session
-require_once 'php/stay_login.php';
+session_start(); // Start the session
+//require_once 'php/stay_login.php';
 //require_once 'profile_page.php';
 //require_once 'admin_profile_page.php';
 
@@ -43,8 +43,8 @@ if($stmt->num_rows > 0) {
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
-    <link rel="stylesheet" href="../styles.css">
-    <script src="../javaScript.js"></script>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../../javaScript.js"></script>
 </head>
 
 <body>
@@ -52,11 +52,11 @@ if($stmt->num_rows > 0) {
     <div class="glass-box-container">
         <!-- Banner glass container -->
         <div class="glass-container title-container">
-            <img src="../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
+            <img src="../../imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
         </div>
 
         <!-- Banner image taking up the entire screen -->
-        <img src="../imgs/banner.png" alt="Banner" class="banner-image-full">
+        <img src="../../imgs/banner.png" alt="Banner" class="banner-image-full">
 
         <!-- Mini gap between the body and the second glass container -->
         <div class="mini-gap"></div>
@@ -65,8 +65,8 @@ if($stmt->num_rows > 0) {
         <div class="glass-container nav-container">
             <!-- Container for navigation -->
             <nav>
-                <a class="active button" href="../index.php">Home</a>
-                <a class="active button" href="registering_page.html">Register</a>
+                <a class="active button" href="../../index.php">Home</a>
+                <a class="active button" href="./registering_page.php">Register</a>
                 <a class="active button" href="#">Login</a>
             </nav>
 
@@ -99,13 +99,13 @@ if($stmt->num_rows > 0) {
         echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
         echo "<div class='dropdown-content'>";
         echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-        echo "<a href='php/profile_redirect.php'>Profile</a>";
-        echo "<a href='php/logout.php'>Logout</a>";
+        echo "<a href='../profile_redirect.php'>Profile</a>";
+        echo "<a href='../logout.php'>Logout</a>";
         echo "</div>";
         echo "</div>";
     } else {
         // If not logged in, display login option
-        echo "<a class='active button' href='../pages/login_page.html'>Login</a>";
+        echo "<a class='active button' href='login_page.php'>Login</a>";
     }
     ?>
 </div>
@@ -121,7 +121,7 @@ if($stmt->num_rows > 0) {
         <!-- Form container with glass effect -->
         <div class="glass-container background-glass"> 
             <div class="teacher-profile">
-                <form class="register-form" action="../PHP/login.php" method="post">
+                <form class="register-form" action="../../PHP/login.php" method="post">
                     <label for="user-name">User Name/Mail: </label>
                     <input id="user-name" name="user-name" type="text" required placeholder="User Name or Mail id..." autocomplete="username"><br><br>
 
@@ -130,8 +130,8 @@ if($stmt->num_rows > 0) {
 
                     <button type="submit" value="enter">Login</button>
 
-                    <a href="registering_page.html" class="login_link">Register</a><br>
-                    <a href="reset-password.html" class="login_link">Forgot password</a>
+                    <a href="registering_page.php" class="login_link">Register</a><br>
+                    <a href="reset-password.php" class="login_link">Forgot password</a>
                 </form>
 
 

@@ -89,8 +89,8 @@ $stmt->close();
             <!-- Container for navigation -->
             <nav>
                 <a class="active button" href="../index.php">Home</a>
-                <a class="active button" href="../pages/registering_page.html">Register</a>
-                <a class="active button" href="../pages/login_page.html">Login</a>
+                <a class="active button" href="./pages/registering_page.php">Register</a>
+                <a class="active button" href="./pages/login_page.php">Login</a>
             </nav>
 
             <!-- Dropdown menu -->
@@ -134,7 +134,7 @@ $stmt->close();
         echo "</div>";
     } else {
         // If not logged in, display login option
-        echo "<a class='active button' href='../pages/login_page.html'>Login</a>";
+        echo "<a class='active button' href='../pages/login_page.php'>Login</a>";
     }
     ?>
 </div>
