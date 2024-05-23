@@ -11,35 +11,26 @@ body {
 .glass-box-container {
     position: relative;
     overflow: hidden;
-    margin: 15px;
-    max-width: 900px; 
+    margin: 10px;
     width: 100%;
     box-sizing: border-box;
 }
 
 .banner-image-full {
-    width: 100%;
+    width: 130%;
     height: auto;
     position: relative;
     z-index: -1;
 }
 
-.glass-container {
-    margin: 15px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
 
 .title-container {
     position: absolute;
-    top: 10px; 
-    left: 10px; 
-    width: 150px;
+    top: 20px; 
+    left: 50px; 
+    width: 50px;
     text-align: left;
     padding: 10px;
-    background-color: rgba(255, 30, 0, 0.747);
     border-bottom-right-radius: 50px;
     z-index: 1; /* Ensure the title is above the slider */
 }
@@ -49,19 +40,19 @@ body {
 }
 
 .nav-container {
-    background-color: #add8e6;
+    position: fixed;
+    width: 100%;
+    background-color:  #fff;
     margin: 10px;
     padding: 10px;
     display: flex;
     flex-direction: row;
     align-items: center; 
     justify-content: right;
+    z-index: 1000;
 }
 
-/* Add a hover effect for the navigation container */
-.nav-container:hover {
-    background-color: #87CEEB; 
-}
+
 
 /* Style for active state in navigation */
 nav a.active {
@@ -136,15 +127,14 @@ nav form input[type="text"]:hover {
 .slider-container {
     position: relative;
     overflow:hidden;
-    width: 867px;
-    margin: 8px;
+
     padding: 8px;
 }
 
 .slider {
     display: flex;
     width: 100%;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 }
 
 .slider-img {

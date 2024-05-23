@@ -46,19 +46,12 @@ if($stmt->num_rows > 0) {
     <script src="javaScript.js"></script>
 </head>
 
+
 <body>
-    <!-- Main container with glass effect -->
-    <div class="glass-box-container">
-        <!-- Banner glass container -->
+       
         <div class="glass-container title-container">
-            <img src="imgs/logo-STMS.png" alt="Banner" class="banner-image-full">
+            <img src="imgs/logo-STMS.jpg" alt="Banner" class="banner-image-full">
         </div>
-
-        <!-- Banner image taking up the entire screen -->
-        <img src="imgs/banner.png" alt="Banner" class="banner-image-full">
-
-        <!-- Mini gap between the body and the second glass container -->
-        <div class="mini-gap"></div>
 
         <!-- Body glass container with the navigation bar -->
         <div class="glass-container nav-container">
@@ -108,13 +101,12 @@ if($stmt->num_rows > 0) {
     }
     ?>
 </div>
+</div>
 
             <div class="content">
                 <!-- main content goes here -->
             </div>
 
-
-        </div>
 
       
 
