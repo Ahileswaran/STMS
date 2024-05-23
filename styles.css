@@ -8,49 +8,50 @@ body {
     min-height: 100vh;
 }
 
-.glass-box-container {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.banner-image-full {
-    width: 130%;
-    height: auto;
-    position: relative;
-    z-index: -1;
-}
-
-
-.title-container {
-    position: absolute;
-    top: 20px; 
-    left: 50px; 
+.logo-image{
     width: 50px;
-    text-align: left;
-    padding: 10px;
-    border-bottom-right-radius: 50px;
-    z-index: 1; /* Ensure the title is above the slider */
+    justify-content: left;
+    display: flex;
+    align-items: right;
 }
 
-.mini-gap {
-    height: 10px;
-}
-
-.nav-container {
+.header {
     position: fixed;
     width: 100%;
-    background-color:  #fff;
-    margin: 10px;
-    padding: 10px;
     display: flex;
-    flex-direction: row;
-    align-items: center; 
     justify-content: right;
-    z-index: 1000;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 10px;
 }
+
+.slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider-img {
+    width: 100%;
+    display: block;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 10px;
+    padding: 20px;
+}
+
+
+.master-table {
+    width:1000px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px #cccccc;
+}
+
+
+
 
 
 
@@ -179,12 +180,7 @@ nav form input[type="text"]:hover {
 }
 
 .master-table {
-    margin: 20px; 
-    padding: 20px; 
-    border: 2px solid #3498db; 
-    border-radius: 10px; 
-    overflow: hidden;
-    position: relative;
+
 }
 
 .master-table table {
