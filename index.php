@@ -209,17 +209,6 @@ if($stmt->num_rows > 0) {
 
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-social">
-                <ul>
-                    <li><a href="#"><img src="imgs/social-facebook.png" alt="Facebook"></a></li>
-                    <li><a href="#"><img src="imgs/social-instagram.png" alt="Instagram"></a></li>
-                    <li><a href="#"><img src="imgs/social-youtube.png" alt="YouTube"></a></li>
-                    <li><a href="#"><img src="imgs/social-twitter.png" alt="Twitter"></a></li>
-                    <li><a href="#"><img src="imgs/social-linkedin.png" alt="LinkedIn"></a></li>
-                    <li><a href="#"><img src="imgs/social-medium.png" alt="Medium"></a></li>
-                    <li><a href="#"><img src="imgs/social-tiktok.png" alt="TikTok"></a></li>
-                </ul>
-            </div>
             <div class="footer-logo">
                 <img src="images/logo-STMS.jpg" alt="Logo">
                 <p>&copy; 2024 School Teachers Management System. All rights reserved.</p>
