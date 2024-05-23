@@ -1,44 +1,16 @@
+// Function to handle the image slider
+const items = document.querySelectorAll('.carousel-item');
+let currentItem = 0;
 
-//Function to handle the image slider
+function showNextItem() {
+    items[currentItem].classList.remove('active');
+    currentItem = (currentItem + 1) % items.length;
+    items[currentItem].classList.add('active');
+}
 
-$(document).ready(function () {
-    const slider = $(".slider");
-    const navButtons = $(".nav-btn");
+setInterval(showNextItem, 3000); // Change image every 3 seconds
 
-    let currentIndex = 0;
-
-    function updateSlider() {
-        const translateValue = -currentIndex * 100;
-        slider.css("transform", `translateX(${translateValue}%)`);
-
-        navButtons.removeClass("active");
-        navButtons.eq(currentIndex).addClass("active");
-    }
-
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % 3;
-        updateSlider();
-    }
-
-    function selectSlide(index) {
-        currentIndex = index;
-        updateSlider();
-    }
-
-    // Auto slide every 3 seconds
-    setInterval(nextSlide, 10000);
-
-    // Handle manual navigation
-    navButtons.click(function () {
-        const index = $(this).data("index");
-        selectSlide(index);
-    });
-});
-
-
-
-//Function to handle the drop down menu
-
+// Function to handle the drop down menu
 function redirect(selectElement) {
     var selectedValue = selectElement.value;
     if (selectedValue === "teachers_guide") {
@@ -50,18 +22,16 @@ function redirect(selectElement) {
     }
 }
 
-
 // Function to initialize the Google Translate element
 function googleTranslateElementInit() {
     console.log("Initializing Google Translate");
     new google.translate.TranslateElement({
         pageLanguage: 'en',
-        includedLanguages: 'en,ta,si', // Add other languages as needed
+        includedLanguages: 'en,ta,si',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
         autoDisplay: false
     }, 'google_translate_element');
 }
-
 
 // Load the Google Translate script asynchronously
 (function () {
@@ -70,15 +40,13 @@ function googleTranslateElementInit() {
     gtScript.async = true;
     gtScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
     document.getElementsByTagName('head')[0].appendChild(gtScript);
-})();        
-
+})();
 
 // Function to change the language based on the dropdown selection
 function changeLanguage(selectElement) {
     var selectedValue = selectElement.value;
     var languageCode;
 
-    // Map selected values to Google Translate language codes
     switch (selectedValue) {
         case 'ta':
             languageCode = 'ta'; // தமிழ்
@@ -87,27 +55,24 @@ function changeLanguage(selectElement) {
             languageCode = 'si'; // Sinhala
             break;
         default:
-            languageCode = 'en'; // සිංහල
+            languageCode = 'en'; // English
             break;
     }
 
-    // Set the Google Translate language
     google.translate.translatePage(languageCode);
 }
 
-
-//function for username suggestions
+// Function for username suggestions
 $(document).ready(function() {
     $('#username').on('input', function() {
         var username = $(this).val();
         $.ajax({
             url: 'check_username.php',
             type: 'post',
-            data: {username: username},
+            data: { username: username },
             success: function(response) {
                 $('#username-suggestions').html(response);
             }
         });
     });
 });
-

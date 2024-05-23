@@ -15,7 +15,7 @@ if ($connection->connect_error) {
 
 if (!isset($_SESSION['username'])) {
     // Redirect to login page if user is not logged in
-    header("Location: login_page.html");
+    header("Location: login_page.php");
     exit(); // Stop further execution
 }
 

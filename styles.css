@@ -1,59 +1,35 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 100vh;
 }
 
-.logo-image{
-    width: 50px;
-    justify-content: left;
-    display: flex;
-    align-items: right;
-}
+/* Header style */
 
 .header {
     position: fixed;
+    top: 0;
     width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px; 
+    z-index: 1000;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
-    background-color: #f1f1f1;
-    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.slider {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
+.header .logo-image {
+    justify-content: flex-start; 
+    margin-right: auto;
+    height: 50px;
 }
 
-.slider-img {
-    width: 100%;
-    display: block;
+.header .navigation {
+    justify-content: flex-end; 
+    margin-left: auto;
+    display: flex; 
 }
-
-.content {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-gap: 10px;
-    padding: 20px;
-}
-
-
-.master-table {
-    width:1000px;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 10px #cccccc;
-}
-
-
-
-
-
 
 /* Style for active state in navigation */
 nav a.active {
@@ -84,30 +60,29 @@ nav select {
     margin-right: 15px; 
 }
 
-/* Updated styles for the search field */
-.Search_field {
+.header .Search_field {
     display: flex;
     align-items: center;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
-nav form input[type="text"] {
-    padding: 10px;
+.header .Search_field input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.header .Search_field button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: #0fe2b4;
+    color: white;
     border: none;
-    border-radius: 5px;
-    outline: none;
-    width: 200px; 
-    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-/* Hover effect for the search input */
-nav form input[type="text"]:hover {
-    background-color: #f2f2f2; 
-}
-
-/* Updated styles for the search button */
-.search_button button {
-    padding: 10px;
+.header .Search_field button:hover {
     background-color: #3498db;
     color: #fff;
     border: none;
@@ -116,648 +91,233 @@ nav form input[type="text"]:hover {
     transition: background-color 0.3s ease;
 }
 
-/* Hover effect for the search button */
-.search_button button:hover {
-    background-color: #2874a6; 
-}
+/*carousel style */
 
-.content {
-    /* Add styles for your main content */
-}
-
-.slider-container {
+.carousel {
     position: relative;
-    overflow:hidden;
-
-    padding: 8px;
-}
-
-.slider {
-    display: flex;
-    width: 100%;
-    transition: transform 0.2s ease-in-out;
-}
-
-.slider-img {
+    padding-top: 20px;
+    margin-top: 70px;
     width: auto;
+    margin: auto;
+    overflow: hidden;
+}
+.carousel-item {
+    display: none;
+    width: 100%;
+}
+.carousel-item.active {
+    display: block;
+}
+.carousel img {
+    width: 100%;
     height: auto;
-    object-fit: contain;
 }
-
-.slider-nav {
+.carousel-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    position: relative;
-    bottom: 10px;
-    margin-top: 10px;
+    justify-content: space-between;
+    transform: translateY(-50%);
 }
-
-.nav-btn {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #ccc;
-    margin: 0 5px;
+.carousel-button {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
     cursor: pointer;
 }
-
-.nav-btn.active {
-    background-color: #333;
+.content {
+    padding: 20px;
 }
 
-.footer {
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    color: #333;
-    margin: 10px;
-    margin-top: 20px;
+/*Table container style */
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.footer p {
-    margin: 0;
-    font-size: 12px;
-}
-
-.master-table {
-
-}
-
-.master-table table {
+table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px; 
 }
 
-.master-table th,
-.master-table td {
-    padding: 15px; 
-    text-align: center;
-}
-
-.master-table th {
-    background-color: #3498db; 
-    color: #fff; 
-}
-
-.master-table td {
-    position: relative;
-}
-
-.master-table td.profile_circle::before {
-    content: "";
-    display: block;
-    width: 40px; 
-    height: 40px; 
-    background-color: #3498db;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0; 
-    z-index: 2; 
-}
-
-.master-table td.profile_circle span {
-    display: inline-block; 
-    position: relative;
-    z-index: 3; 
-}
-
-
-
-/*--------------- Login Page and Registering Page Style ---------------*/
-
-
-.teacher-profile form label {
-    text-align: left;
-    font-size: 16px; 
-    font-weight: bold; 
-    color: #333; 
-    width: 90%;
-    margin-bottom: 1px;
-  
-}
-
-.teacher-profile form input{
-    flex: 1;
-    width: 90%;
-    padding: 10px;
-    margin: 8px 100px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-
-}
-
-.teacher-profile form input[type="radio"] {
-    width: 20px;
-    margin: 8px 2px;
-}
-
-
-.teacher-profile form button {
-    width: 95%;
-    padding: 12px;
-    margin: 15px 0;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.teacher-profile form button:hover {
-    background-color: #2c3e50;
-}
-
-.teacher-profile form button:active {
-    background-color: #7f8c8d;
-}
-
-.radio-buttons {
-    display: flex;
-}
-
-.radio-buttons input[type="radio"] {
-    margin-right: 5px;
-}
-
-.radio-buttons label {
-    margin-right: 15px;
-}
-
-
-.login_link {
-    text-align: center;
-    display: block; 
-    margin-bottom: 10px; 
-}
-
-
-/* Style for 404 Not Found Page*/
-
-.not-found-404{
-    padding-top: 200px;
-    padding-bottom: 200px;
-    align-items: center;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    margin-left: 300px;
-}
-
-/* Style for resource download Page*/
-
-.resource-page{
-    padding-top: 20px;
-    padding-bottom: 200px;
-    margin-bottom: 100px;
-    margin-left: 100px;
-}
-
-/* Style for teachers guide download Page*/
-
-.teachers-guide-page{
-    padding-top: 20px;
-    padding-bottom: 200px;
-    margin-bottom: 100px;
-    margin-left: 100px;
-}
-
-/* Style for syllabai download Page*/
-
-.syllabai-page{
-    padding-top: 20px;
-    padding-bottom: 200px;
-    margin-bottom: 100px;
-    margin-left: 100px;
-}
-
-/* Style for the Profile Page */
-
-.add-profile-pic {
-    margin-left: 150px;
-    margin-top: 20px; 
-}
-
-.add-profile-pic label {
-    margin-right: 10px; 
-    margin-right: 10px;
+caption {
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
-    font-size: 16px;
+    padding: 10px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
+    border-bottom: none;
 }
 
-.add-profile-pic button {
-    padding: 8px 15px; 
-    background-color: #3498db; 
-    color: #fff; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer;
+th, td {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-.add-profile-pic button:hover {
-    background-color: #2980b9; 
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
 }
 
+.description {
+    width: 30%;
+}
 
+.data-text {
+    width: 17%;
+}
 
-.background-glass {
-    margin: 20px;
+/*Class Schedule table */
+
+.class_table_container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: grid;
-    flex-direction: column;
-    align-items: flex-start;
-}
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  caption {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
+    border-bottom: none;
+  }
+  
+  th, td {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .yoga {
+    background-color: lightgreen;
+  }
+  
+  .fam {
+    background-color: lightblue;
+  }
+  
+  .empty {
+    background-color: lightgray;
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
 
-.background-glass h4 {
-    margin: 5px 0;
-}
-
-.profile-pic-container {
-    width: 100px;
-    height: 100px; 
-    border-radius: 50%;
-    overflow: hidden;
-    position: absolute;
-    top: 10px; 
-    left: 10px; 
-    z-index: 2; 
-    border: 3px solid #3498db; 
-}
-
-.profile-pic-container img {
-    width: 100%; 
-    height: auto; 
-    object-fit: cover; 
-}
-
-
-.background-glass h4 {
-    margin-left: 150px;      
-}
-
-
-.teacher-profile form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 400px;
-    margin: 20px auto;
-    margin-left: auto;
-}
-
-/* Style for the Admin Page */
-.admin-page{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 300px;
+.master-table {
     margin-top: 20px;
 }
 
-.edit-delete-teacher{
-    max-width: 400px;
-    margin: 20px auto;
+.drop_menu_table {
+    margin-bottom: 20px;
 }
 
-.edit-delete-teacher label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.edit-delete-teacher input[type="text"] {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.edit-delete-teacher button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #3498db;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+.drop_menu_table select,
+.drop_menu_table button {
+    padding: 10px;
     margin-right: 10px;
-    width: 100%;
-    max-width: 200px;
 }
 
-.edit-delete-teacher button:hover {
-    background-color: #45a049;
-}
-
-/*Style for the Leave Letter Generating Page */
-
-.levae-letter-page{
-    align-items: center;
-    margin-left: 300px;
-    margin-top: 15px;
-}
-
-.Wrire-letter{
-    align-items: center;
-
-}
-
-.genarate-letter{
-    border-radius: 50px;
-    border-color: #333;
-    align-items: center;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
 
+/* Footer style*/
 
-/*Style for the About Page */
-
-.about-page{
-    padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-/*Style for the Syllabus Page */
-
-.syllabus-page{
-    padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-
-.syllabus-table{
-    margin: 20px; 
-    padding: 20px; 
-    border: 2px solid #3498db; 
-    border-radius: 10px; 
-    overflow: hidden;
-    position: relative;
-}
-
-.syllabus-table th {
-    background-color: #3498db; 
-    color: #fff; 
-}
-
-.syllabus-table td {
-    position: relative;
-}
-
-/*Style for the Substitute Manegment Page */
-
-.substitute-page{
-    padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-
-
-/* Style for Teacher Time Table Form */
-.teacher_time_table {
-    padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.teacher_time_table h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.teacher_time_table form {
-    display: flex;
-    flex-direction: column;
-}
-
-.teacher_time_table label {
-    margin-bottom: 10px;
-}
-
-.teacher_time_table input[type="text"] {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.teacher_time_table button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #3498db;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.teacher_time_table button:hover {
-    background-color: #45a049;
-}
-
-/* Style for Teacher Syllabus Form */
-.teacher_syllabus,
-.preview_syllabus_table {
-    padding: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Align items in the center horizontally */
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.teacher_syllabus h3,
-.preview_syllabus_table h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.teacher_syllabus form,
-.preview_syllabus_table form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Align items in the center horizontally */
-    width: 100%; /* Set form width to 100% */
-    max-width: 400px; /* Limit form width to 400px */
-}
-
-.teacher_syllabus label,
-.preview_syllabus_table label {
-    margin-bottom: 10px;
-    width: 100%; /* Set label width to 100% */
-}
-
-.teacher_syllabus input[type="text"],
-.preview_syllabus_table input[type="text"],
-.teacher_syllabus textarea,
-.preview_syllabus_table textarea {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.teacher_syllabus button,
-.preview_syllabus_table button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #3498db;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 100%; /* Set button width to 100% */
-    max-width: 200px; /* Limit button width to 200px */
-}
-
-.teacher_syllabus button:hover,
-.preview_syllabus_table button:hover {
-    background-color: #45a049;
-}
-
-
-
-
-/* Style for syllabus table container */
-.syllabus_table {
-    padding: 10px; /* Reduce padding to make the table smaller */
-    border-radius: 5px; /* Reduce border radius */
-    overflow: auto; /* Add scrollbars if content overflows */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f9f9f9; /* Light background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce box shadow */
-    margin-bottom: 10px; /* Reduce margin */
-}
-
-/* Style for the syllabus table itself */
-.syllabus_table table {
-    width: 100%;
-    border-collapse: collapse; /* Collapse borders */
-}
-
-/* Style for table header cells */
-.syllabus_table th {
-    background-color: #5ab8f7; /* Light gray background for header cells */
-    padding: 8px; /* Reduce padding */
+.footer {
+    background-color: #29333d;
+    color: #fff;
+    padding: 20px 0;
     text-align: center;
-    font-size: 14px; /* Reduce font size */
-}
-
-/* Style for table data cells */
-.syllabus_table td {
-    padding: 8px; /* Reduce padding */
-    text-align: center;
-    font-size: 14px; /* Reduce font size */
-}
-
-/* Style for error message when no syllabus details available */
-.syllabus_table .error {
-    text-align: center;
-    color: red; 
-    font-style: italic; 
-    font-size: 14px; /* Reduce font size */
-}
-
-
-/* Style For logged-in details Dropdown menu */
-
-/* Dropdown container */
-.dropdown_details {
-    position: relative;
-    display: inline-block;
-}
-
-/* Profile picture */
-.profile-pic {
-    padding-left: 5px;
-    width: 60px; 
-    height: 60px; 
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-/*--------------------- Dropdown content (hidden by default) -------------------*/
-
-.welcome-message {
     font-size: 14px;
-    font-style: italic;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 8px;
+    bottom: 0;
+    width: 100%;
 }
 
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f3efef;
-    min-width: 70px; /* Adjust the width as needed */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    font-size: 14px;
-    padding: 8px 12px; /* Adjust the padding as needed */
+.footer-container::before,
+.footer-container::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #444;
+    margin: 20px 0;
+}
+
+.footer-social ul,
+.footer-links ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-social ul li,
+.footer-links ul li {
+    display: inline;
+}
+
+.footer-social ul li a img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s;
+}
+
+.footer-social ul li a img:hover {
+    filter: brightness(0.8) invert(0.8);
+}
+
+.footer-logo img {
+    max-width: 100px;
+    margin: 10px 0;
+}
+
+.footer-logo p {
+    margin: 10px 0 0 0;
+}
+
+.footer-links ul li a {
+    color: #fff;
     text-decoration: none;
-    display: block;
+    transition: color 0.3s;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #4bb4fa;
+.footer-links ul li a:hover {
+    color: #ccc;
 }
 
-/* Show the dropdown content on hover */
-.dropdown_details:hover .dropdown-content {
-    display: block;
+.footer-links {
+    margin-top: 10px;
 }
 
-/* Add a pointer cursor to the profile picture */
-.profile-pic:hover {
-    opacity: 0.8;
-}
