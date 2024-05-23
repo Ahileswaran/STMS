@@ -88,7 +88,7 @@ if($stmt->num_rows > 0) {
 
     </header>
 
-    
+
     <div class="carousel">
         <div class="carousel-item active" id="image_1">
             <img class="animated bounceInRight carousel-img" src="../STMS/images/carousel/pic1.jpg">
@@ -145,7 +145,6 @@ if($stmt->num_rows > 0) {
 
             <div class="drop_menu_table">
                 <select id="daySelector" name="Day" onchange="generateTable()">
-
                     <option value="monday">Monday</option>
                     <option value="tuesday">Tuesday</option>
                     <option value="wednesday">Wednesday</option>
@@ -154,7 +153,6 @@ if($stmt->num_rows > 0) {
                 </select>
 
                 <select id="timePeriodSelector" name="Time Period">
-
                     <option value="full">Full Time Period</option>
                     <option value="time_7">07:50:00 - 08:30:00</option>
                     <option value="time_8">08:30:00 - 09:10:00</option>
@@ -167,7 +165,6 @@ if($stmt->num_rows > 0) {
                 </select>
 
                 <button id="refreshButton" onclick="generateTable()">View Table</button>
-
             </div>
 
 

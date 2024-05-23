@@ -74,9 +74,8 @@ $sql = "SELECT c.class_id, c.start_time, c.end_time, c.$currentDay AS subject, m
         INNER JOIN master_time_table m ON c.start_time = m.start_time AND c.end_time = m.end_time
         WHERE c.$currentDay IS NOT NULL";
 
-
 // Adjust the query based on the selected time period
-if (!is_array($selectedTimeSlots)) {
+if ($currentTimePeriod !== "full" && !is_array($selectedTimeSlots)) {
     // Modify the query to fetch data for the selected time period
     $sql .= " AND c.start_time <= '$selectedTimeSlots' AND c.end_time >= '$selectedTimeSlots'";
 }
@@ -106,7 +105,6 @@ if ($result) {
 // Close the connection
 $connection->close();
 
-
 // Determine the maximum number of classes among all grades
 $maxClasses = 0;
 foreach ($classSchedules as $gradeSchedule) {
@@ -128,21 +126,27 @@ echo "</tr>";
 
 if (is_array($selectedTimeSlots)) {
     // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $i => $timeSlot) {
+    foreach ($selectedTimeSlots as $timeSlot) {
         echo "<tr>";
         echo "<td>" . $timeSlot . "</td>";
         foreach ($grades_table1 as $grade) {
             echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $selectedTimeSlots) {
-                // Display the subject name, username, and profile picture
-                echo $classSchedules[$grade][$i]['subject'] . "<br>";
-                echo "Username: " . $classSchedules[$grade][$i]['username'] . "<br>"; // Include the username
-                // Check if profile picture exists for the username
-                if (isset($profilePictures[$classSchedules[$grade][$i]['username']])) {
-                    echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' width='50' height='50'>";
-                } else {
-                    echo "Profile picture not found";
+            $classFound = false;
+            foreach ($classSchedules[$grade] as $class) {
+                if ($class['time'] == $timeSlot) {
+                    echo $class['subject'] . "<br>";
+                    echo "Username: " . $class['username'] . "<br>";
+                    if (isset($profilePictures[$class['username']])) {
+                        echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' width='50' height='50'>";
+                    } else {
+                        echo "Profile picture not found";
+                    }
+                    $classFound = true;
+                    break;
                 }
+            }
+            if (!$classFound) {
+                echo "No class";
             }
             echo "</td>";
         }
@@ -166,6 +170,8 @@ if (is_array($selectedTimeSlots)) {
                 } else {
                     echo "Profile picture not found";
                 }
+            } else {
+                echo "No class";
             }
             echo "</td>";
         }
@@ -173,7 +179,6 @@ if (is_array($selectedTimeSlots)) {
     }
 }
 echo "</table>";
-
 /*
 // Display the second table for grades 11-12
 echo "<table border='1'>";
@@ -186,21 +191,27 @@ echo "</tr>";
 
 if (is_array($selectedTimeSlots)) {
     // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $i => $timeSlot) {
+    foreach ($selectedTimeSlots as $timeSlot) {
         echo "<tr>";
         echo "<td>" . $timeSlot . "</td>";
         foreach ($grades_table2 as $grade) {
             echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $selectedTimeSlots) {
-                // Display the subject name, username, and profile picture
-                echo $classSchedules[$grade][$i]['subject'] . "<br>";
-                echo "Username: " . $classSchedules[$grade][$i]['username'] . "<br>"; // Include the username
-                // Check if profile picture exists for the username
-                if (isset($profilePictures[$classSchedules[$grade][$i]['username']])) {
-                    echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' width='50' height='50'>";
-                } else {
-                    echo "Profile picture not found";
+            $classFound = false;
+            foreach ($classSchedules[$grade] as $class) {
+                if ($class['time'] == $timeSlot) {
+                    echo $class['subject'] . "<br>";
+                    echo "Username: " . $class['username'] . "<br>";
+                    if (isset($profilePictures[$class['username']])) {
+                        echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' width='50' height='50'>";
+                    } else {
+                        echo "Profile picture not found";
+                    }
+                    $classFound = true;
+                    break;
                 }
+            }
+            if (!$classFound) {
+                echo "No class";
             }
             echo "</td>";
         }
@@ -224,6 +235,8 @@ if (is_array($selectedTimeSlots)) {
                 } else {
                     echo "Profile picture not found";
                 }
+            } else {
+                echo "No class";
             }
             echo "</td>";
         }
@@ -231,6 +244,8 @@ if (is_array($selectedTimeSlots)) {
     }
 }
 echo "</table>";
+
 */
 
 ?>
+
