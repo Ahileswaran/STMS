@@ -90,19 +90,19 @@ if($stmt->num_rows > 0) {
 
     <div class="carousel">
         <div class="carousel-item active" id="image_1">
-            <img class="animated bounceInRight carousel-img" style="background-size:cover!important" src="/images/carousel/pic1.png">
+            <img class="animated bounceInRight carousel-img" style="background-size:cover!important" src="../STMS/images/carousel/pic1.png">
             <div class="row">
-                <h3 class="animated slideInLeft carousel-title mb-2">Learning</h3>
+                <h3 class="animated slideInLeft carousel-title mb-2">Events</h3>
             </div>
         </div>
         <div class="carousel-item">
-            <img class="animated bounceInRight carousel-img" style="background-size:cover!important" src="/images/carousel/pic2.png">
+            <img class="animated bounceInRight carousel-img" style="background-size:cover!important" src="../STMS/images/carousel/pic1.png">
             <div class="row">
                 <h3 class="animated slideInLeft carousel-title mb-2">Meetings</h3>
             </div>
         </div>
         <div class="carousel-item">
-            <img class="animated bounceInRight carousel-img" style="background-size:cover!important" src="/images/carousel/pic3.png">
+            <img class="animated bounceInRight carousel-img" style="background-size:cover!important" src="../STMS/images/carousel/pic1.png">
             <div class="row">
                 <h3 class="animated slideInLeft carousel-title mb-2">Celebration</h3>
             </div>
