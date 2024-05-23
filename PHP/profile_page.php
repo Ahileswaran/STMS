@@ -71,9 +71,9 @@ $stmt->close();
     <header class="header">
         <img src="../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
-            <a class="active button" href="index.php">Home</a>
-            <a class="active button" href="./php/pages/registering_page.php">Register</a>
-            <a class="active button" href="./php/pages/login_page.php">Login</a>
+            <a class="active button" href="../../index.php">Home</a>
+            <a class="active button" href="./pages/registering_page.php">Register</a>
+            <a class="active button" href="./pages/login_page.php">Login</a>
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
