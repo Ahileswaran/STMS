@@ -174,6 +174,7 @@ if (is_array($selectedTimeSlots)) {
 }
 echo "</table>";
 
+/*
 // Display the second table for grades 11-12
 echo "<table border='1'>";
 echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
@@ -230,4 +231,6 @@ if (is_array($selectedTimeSlots)) {
     }
 }
 echo "</table>";
+*/
+
 ?>
