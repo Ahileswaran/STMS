@@ -47,11 +47,11 @@ if ($stmt->num_rows > 0) {
 
 <body>
     <header class="header">
-        <img src="images/logo-STMS.jpg" alt="logo" class="logo-image">
+        <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
-            <a class="active button" href="index.php">Home</a>
-            <a class="active button" href="./php/pages/registering_page.php">Register</a>
-            <a class="active button" href="./php/pages/login_page.php">Login</a>
+            <a class="active button" href="../../index.php">Home</a>
+            <a class="active button" href="../../PHP/pages/registering_page.php">Register</a>
+            <a class="active button" href="../../PHP/pages/login_page.php">Login</a>
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
@@ -88,30 +88,69 @@ if ($stmt->num_rows > 0) {
 
     </header>
 
-
     <div class="admin-dashboard">
-            <!-- Admin Dashboard Navigation -->
-            <nav class="admin-nav">
-                <ul>
-                    <li><a href="admin_dashboard.php">Dashboard</a></li>
-                    <li><a href="edit_teachers.php">Edit Teachers</a></li>
-                    <li><a href="delete_teachers.php">Delete Teachers</a></li>
-                    <li><a href="edit_timetable.php">Edit Timetable</a></li>
-                    <li><a href="edit_master_timetable.php">Edit Master Timetable</a></li>
-                    <li><a href="edit_slider_images.php">Edit Slider Images</a></li>
-                </ul>
-            </nav>
-        </div>
-
-
-
-    <div class="main-content">
-        <!-- Place the main content here -->
-
+        <!-- Admin Dashboard Navigation -->
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="../../admin_profile_page.php" id="profile-link">Profile</a></li>
+                <li><a href="../Admin_Pages/edit_teachers.php" id="edit-teachers-link">Manage Teachers</a></li>
+                <li><a href="delete_teachers.php" id="delete-teachers-link">Delete Teachers</a></li>
+                <li><a href="edit_timetable.php" id="edit-timetable-link">Mange Timetable</a></li>
+                <li><a href="edit_master_timetable.php" id="edit-master-timetable-link">Manage Master Timetable</a></li>
+                <li><a href="edit_slider_images.php" id="edit-slider-images-link">Edit Slider Images</a></li>
+            </ul>
+        </nav>
     </div>
 
+    <div class="main-content" id="main-content">
+        <!-- Place the main content here -->
+    </div>
 
-    <script src="javaScript.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function loadPage(url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('main-content').innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error loading page:', error);
+                    });
+            }
+
+            document.getElementById('profile-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                loadPage('../admin_profile_page.php');
+            });
+
+
+            document.getElementById('edit-teachers-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                loadPage('../Admin_Pages/edit_teachers.php');
+            });
+
+            document.getElementById('delete-teachers-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                loadPage('delete_teachers.php');
+            });
+
+            document.getElementById('edit-timetable-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                loadPage('edit_timetable.php');
+            });
+
+            document.getElementById('edit-master-timetable-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                loadPage('edit_master_timetable.php');
+            });
+
+            document.getElementById('edit-slider-images-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                loadPage('edit_slider_images.php');
+            });
+        });
+    </script>
 
 </body>
 

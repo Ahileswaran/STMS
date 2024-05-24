@@ -129,24 +129,6 @@ $stmt->close();
    
     </div>
     
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="../images/logo-STMS.jpg" alt="Logo">
-                <p>&copy; 2024 School Teachers Management System. All rights reserved.</p>
-            </div>
-            <div class="footer-links">
-                <ul>
-                    <li><a href="#">Legal Stuff</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Security</a></li>
-                    <li><a href="#">Website Accessibility</a></li>
-                    <li><a href="#">Manage Cookies</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
     <script src="../javaScript.js"></script>
 </body>
 
