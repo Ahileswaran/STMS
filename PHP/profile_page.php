@@ -98,7 +98,7 @@ $stmt->close();
                 echo "<div class='dropdown-content'>";
                 echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
                 echo "<a href='php/profile_redirect.php'>Profile</a>";
-                echo "<a href='php/logout.php'>Logout</a>";
+                echo "<a href='logout.php'>Logout</a>";
                 echo "</div>";
                 echo "</div>";
             } else {

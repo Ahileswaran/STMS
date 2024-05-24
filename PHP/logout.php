@@ -10,6 +10,6 @@ if(isset($_SESSION['username'])) {
 session_destroy();
 
 // Redirect to login page or any other appropriate destination
-header("Location: ../PHP/pages/login_page.php");
+header("Location: ./pages/login_page.php");
 exit();
 ?>
