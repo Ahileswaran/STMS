@@ -115,7 +115,152 @@ foreach ($classSchedules as $gradeSchedule) {
 $grades_table1 = array_slice($grades, 0, 5);
 $grades_table2 = array_slice($grades, 5);
 
+// Include the CSS styles in the output
+echo "<style>
+/* General styles */
+.container {
+	width: 100%;
+	max-width: 1800px;
+	margin: 0 auto;
+	padding: 23px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+caption {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    background-color: #f7f7f7;
+    border-radius: 8px 8px 0 0;
+}
+
+th, td {
+    padding: 12px 24px;
+    border: 1px solid #ddd;
+    text-align: center; /* Center the text */
+    color: #333; /* Default text color */
+}
+
+th {
+    background-color: #2593dd;
+    color: #ffffff; /* White text for headers */
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+td {
+    transition: background-color 0.3s;
+}
+
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+tr:hover td {
+    background-color: #f1f1f1;
+}
+
+/* Column specific styles */
+th:nth-child(1), td:nth-child(1) {
+    background-color: #2593dd; /* Blue background */
+    color: #0d0d0d; /* Black text */
+    font-weight: bold;
+}
+
+th:nth-child(2), td:nth-child(2) {
+    background-color: #d0f0c0; /* Light Green background */
+    color: #333; /* Dark text */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    background-color: #f9e79f; /* Light Yellow background */
+    color: #333; /* Dark text */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    background-color: #f5b7b1; /* Light Pink background */
+    color: #333; /* Dark text */
+}
+
+th:nth-child(5), td:nth-child(5) {
+    background-color: #aed6f1; /* Light Blue background */
+    color: #333; /* Dark text */
+}
+
+th:nth-child(6), td:nth-child(6) {
+    background-color: #e8daef; /* Light Purple background */
+    color: #333; /* Dark text */
+}
+
+.description {
+    width: 30%;
+}
+
+.data-text {
+    width: 17%;
+}
+
+/* Name and Username styles */
+.name {
+    font-size: 1.2rem;
+    color: #2593dd; /* Blue color for the name */
+    font-weight: bold;
+}
+
+.username {
+    font-size: 1rem;
+    color: #555; /* Darker color for the username */
+    color: #26a9dd;
+    font-weight: bold;
+}
+
+/* Image container styles */
+.image-container {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+    transform: scale(1.5); /* Scale image to 1.5 times its size on hover */
+}
+
+/* Make table responsive */
+@media (max-width: 768px) {
+    th, td {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    th, td {
+        padding: 8px;
+    }
+}
+</style>";
+
 // Display the first table for grades 6-10
+echo "<div class='container'>";
 echo "<table border='1'>";
 echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
 echo "<tr><th>Time</th>";
@@ -134,10 +279,10 @@ if (is_array($selectedTimeSlots)) {
             $classFound = false;
             foreach ($classSchedules[$grade] as $class) {
                 if ($class['time'] == $timeSlot) {
-                    echo $class['subject'] . "<br>";
-                    echo "Username: " . $class['username'] . "<br>";
+                    echo "<div class='name'>" . $class['subject'] . "</div><br>";
+                    echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
                     if (isset($profilePictures[$class['username']])) {
-                        echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' width='50' height='50'>";
+                        echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
                     } else {
                         echo "Profile picture not found";
                     }
@@ -162,11 +307,11 @@ if (is_array($selectedTimeSlots)) {
             echo "<td>";
             if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $selectedTimeSlots) {
                 // Display the subject name, username, and profile picture
-                echo $classSchedules[$grade][$i]['subject'] . "<br>";
-                echo "Username: " . $classSchedules[$grade][$i]['username'] . "<br>"; // Include the username
+                echo "<div class='name'>" . $classSchedules[$grade][$i]['subject'] . "</div><br>";
+                echo "<div class='username'>Username: " . $classSchedules[$grade][$i]['username'] . "</div><br>";
                 // Check if profile picture exists for the username
                 if (isset($profilePictures[$classSchedules[$grade][$i]['username']])) {
-                    echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' width='50' height='50'>";
+                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' alt='User Image'></div>";
                 } else {
                     echo "Profile picture not found";
                 }
@@ -179,73 +324,5 @@ if (is_array($selectedTimeSlots)) {
     }
 }
 echo "</table>";
-/*
-// Display the second table for grades 11-12
-echo "<table border='1'>";
-echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
-echo "<tr><th>Time</th>";
-foreach ($grades_table2 as $grade) {
-    echo "<th>$grade</th>";
-}
-echo "</tr>";
-
-if (is_array($selectedTimeSlots)) {
-    // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $timeSlot) {
-        echo "<tr>";
-        echo "<td>" . $timeSlot . "</td>";
-        foreach ($grades_table2 as $grade) {
-            echo "<td>";
-            $classFound = false;
-            foreach ($classSchedules[$grade] as $class) {
-                if ($class['time'] == $timeSlot) {
-                    echo $class['subject'] . "<br>";
-                    echo "Username: " . $class['username'] . "<br>";
-                    if (isset($profilePictures[$class['username']])) {
-                        echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' width='50' height='50'>";
-                    } else {
-                        echo "Profile picture not found";
-                    }
-                    $classFound = true;
-                    break;
-                }
-            }
-            if (!$classFound) {
-                echo "No class";
-            }
-            echo "</td>";
-        }
-        echo "</tr>";
-    }
-} else {
-    // Display the time slots for the selected time period
-    for ($i = 0; $i < $maxClasses; $i++) {
-        echo "<tr>";
-        // Display the time slot
-        echo "<td>" . $selectedTimeSlots . "</td>";
-        foreach ($grades_table2 as $grade) {
-            echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $selectedTimeSlots) {
-                // Display the subject name, username, and profile picture
-                echo $classSchedules[$grade][$i]['subject'] . "<br>";
-                echo "Username: " . $classSchedules[$grade][$i]['username'] . "<br>"; // Include the username
-                // Check if profile picture exists for the username
-                if (isset($profilePictures[$classSchedules[$grade][$i]['username']])) {
-                    echo "<img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' width='50' height='50'>";
-                } else {
-                    echo "Profile picture not found";
-                }
-            } else {
-                echo "No class";
-            }
-            echo "</td>";
-        }
-        echo "</tr>";
-    }
-}
-echo "</table>";
-
-*/
-
+echo "</div>";
 ?>
-
