@@ -144,7 +144,7 @@ caption {
     text-align: left;
     border: 1px solid #ddd;
     border-bottom: none;
-    background-color: #f7f7f7;
+    background-color: #3fd2ff;
     border-radius: 8px 8px 0 0;
 }
 

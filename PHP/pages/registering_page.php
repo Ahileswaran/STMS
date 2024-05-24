@@ -44,6 +44,9 @@ if ($stmt->num_rows > 0) {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
+    <style>
+       
+    </style>
 </head>
 
 <body>
@@ -89,61 +92,51 @@ if ($stmt->num_rows > 0) {
 
     </header>
 
-
     <div class="content">
         <!-- main content goes here -->
         <!-- Form container with glass effect -->
-        <div class="glass-container background-glass">
-            <div class="teacher-profile">
-                <form class="register-form" action="../PHP/user_data.php" method="post">
+        <div class="form-container">
+            <form class="register-form" action="../user_data.php" method="post">
+                <label for="first_name">First Name: </label>
+                <input id="first_name" name="first_name" type="text" placeholder="Vasuky"><br>
 
-                    <label for="first_name">First Name: </label>
-                    <input id="first_name" name="first_name" type="text"><br><br>
+                <label for="last_name">Last Name: </label>
+                <input id="last_name" name="last_name" type="text" placeholder="Nathan"><br>
 
-                    <label for="last_name">Last Name: </label>
-                    <input id="last_name" name="last_name" type="text"><br><br>
+                <label for="address">Address: </label>
+                <input id="address" name="address" type="text" placeholder="Colombo first street"><br>
 
+                <label for="age">Age: </label>
+                <input id="age" name="age" type="text"><br>
 
-                    <label for="address">Address: </label>
-                    <input id="address" name="address" type="text"><br><br>
+                <label for="sex">Sex: </label>
+                <div class="radio-buttons">
+                    <input type="radio" id="male" name="sex" placeholder="Male"> <label for="male">Male</label>
+                    <input type="radio" id="female" name="sex" placeholder="Female"> <label for="female">Female</label>
+                </div><br>
 
-                    <label for="age">Age: </label>
-                    <input id="age" name="age" type="text"><br><br>
+                <label for="marital_status">Marital Status: </label>
+                <input id="marital_status" name="marital_status" type="text"><br>
 
-                    <label for="sex">Sex: </label>
-                    <div class="radio-buttons">
-                        <input type="radio" id="male" name="sex" value="Male"> <label for="male">Male</label>
-                        <input type="radio" id="female" name="sex" value="Female"> <label for="female">Female</label>
-                    </div><br><br>
+                <label for="teacher_id">Registration Number: </label>
+                <input id="teacher_id" name="teacher_id" type="text"><br>
 
-                    <label for="marital_status">Marital Status: </label>
-                    <input id="marital_status" name="marital_status" type="text"><br><br>
+                <label for="subject">Subject: </label>
+                <input id="subject" name="subject" type="text"><br>
 
-                    <label for="teacher_id">Registration Number: </label>
-                    <input id="teacher_id" name="teacher_id" type="text"><br><br>
+                <label for="username">User Name: </label>
+                <input id="username" name="username" type="text" placeholder="Vasuky_N"><br>
 
-                    <label for="subject">Subject: </label>
-                    <input id="subject" name="subject" type="text"><br><br>
+                <label for="mail_id">Mail Address: </label>
+                <input id="mail_id" name="mail_id" type="email" placeholder="vasuky@example.com"><br>
 
-                    <label for="username">User Name: </label>
-                    <input id="username" name="username" type="text"><br><br>
+                <label for="password">Password: </label>
+                <input id="password" name="password" type="password"><br>
 
-                    <div id="username-suggestions"></div>
-
-                    <label for="mail_id">Mail Address: </label>
-                    <input id="mail_id" name="mail_id" type="text"><br><br>
-
-                    <label for="password">Password: </label>
-                    <input id="password" name="password" type="password"><br><br>
-
-                    <button type="submit" value="submit">Submit</button>
-                </form>
-            </div>
+                <button type="submit" value="submit">Submit</button>
+            </form>
         </div>
     </div>
-
-
-
 
     <footer class="footer">
         <div class="footer-container">
@@ -164,7 +157,6 @@ if ($stmt->num_rows > 0) {
     </footer>
 
     <script src="../../javaScript.js"></script>
-
 </body>
 
 </html>

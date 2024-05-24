@@ -1,41 +1,3 @@
-<?php
-session_start(); // Start the session
-//require_once 'php/stay_login.php';
-//require_once 'profile_page.php';
-//require_once 'admin_profile_page.php';
-
-$username = "root";
-$password = "";
-$server = "localhost";
-$database = "stms_database";
-
-$connection = new mysqli($server, $username, $password, $database);
-
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-
-// Fetch profile picture from database
-$session_username = $_SESSION['username'];
-$sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
-$stmt = $connection->prepare($sql);
-$stmt->bind_param("s", $session_username);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    // Profile picture found, display it
-    $stmt->bind_result($profile_pic_data);
-    $stmt->fetch();
-    $profile_pic = base64_encode($profile_pic_data);
-    $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
-} else {
-    // Profile picture not found, use a default image
-    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,6 +5,18 @@ if ($stmt->num_rows > 0) {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
+    <style>
+        /* Additional CSS to ensure footer placement */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -87,12 +61,11 @@ if ($stmt->num_rows > 0) {
         </div>
     </header>
 
-
     <div class="content">
         <!-- main content goes here -->
 
         <!-- Form container with glass effect -->
-        <div class="glass-container background-glass">
+        <div class="form-container">
             <div class="teacher-profile">
                 <form class="register-form" action="../../PHP/login.php" method="post">
                     <label for="user-name">User Name/Mail: </label>
@@ -106,12 +79,10 @@ if ($stmt->num_rows > 0) {
                     <a href="registering_page.php" class="login_link">Register</a><br>
                     <a href="reset-password.php" class="login_link">Forgot password</a>
                 </form>
-
-
             </div>
         </div>
     </div>
->
+
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo">
@@ -131,7 +102,6 @@ if ($stmt->num_rows > 0) {
     </footer>
 
     <script src="../../javaScript.js"></script>
-
 </body>
 
 </html>
