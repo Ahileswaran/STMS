@@ -42,7 +42,7 @@ if ($stmt->num_rows > 0) {
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body>
@@ -88,61 +88,28 @@ if ($stmt->num_rows > 0) {
 
     </header>
 
-    <div class="content">
-        <!-- main content goes here -->
-    </div>
-    <!-- Form container with glass effect -->
-    <div class="glass-container background-glass">
-        <div class="admin-page">
-            <h1>Administration</h1>
-        </div>
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Search Teacher: </b></label>
-            <input type="text" placeholder="Insert teacher id...">
-            <button value="search">Search</button><br><br>
-            <button value="Edit">Edit</button>
-            <button value="delete">Delete</button>
-        </div>
 
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Search Teacher: </b></label>
-            <input type="text" placeholder="Insert teacher id...">
-            <button value="search">Search</button><br><br>
-            <button value="Edit">Edit Time Table</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Edit Master Time Table</b></label><br><br>
-            <button value="Edit">Edit</button>
-            <button value="delete">Delete</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Edit Slider Images</b></label><br><br>
-            <button value="Edit">Edit</button>
-            <button value="delete">Delete</button>
-        </div>
-    </div>
-
-    </div>
-
-   <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="images/logo-STMS.jpg" alt="Logo">
-                <p>&copy; 2024 School Teachers Management System. All rights reserved.</p>
-            </div>
-            <div class="footer-links">
+    <div class="admin-dashboard">
+            <!-- Admin Dashboard Navigation -->
+            <nav class="admin-nav">
                 <ul>
-                    <li><a href="#">Legal Stuff</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Security</a></li>
-                    <li><a href="#">Website Accessibility</a></li>
-                    <li><a href="#">Manage Cookies</a></li>
+                    <li><a href="admin_dashboard.php">Dashboard</a></li>
+                    <li><a href="edit_teachers.php">Edit Teachers</a></li>
+                    <li><a href="delete_teachers.php">Delete Teachers</a></li>
+                    <li><a href="edit_timetable.php">Edit Timetable</a></li>
+                    <li><a href="edit_master_timetable.php">Edit Master Timetable</a></li>
+                    <li><a href="edit_slider_images.php">Edit Slider Images</a></li>
                 </ul>
-            </div>
+            </nav>
         </div>
-    </footer>
+
+
+
+    <div class="main-content">
+        <!-- Place the main content here -->
+
+    </div>
+
 
     <script src="javaScript.js"></script>
 

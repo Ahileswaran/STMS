@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['username'] = $user_row['username'];
         $_SESSION['email'] = $user_row['email'];
         // Redirect to principal profile page
-        header("Location: admin_profile_page.php");
+        header("Location: ../php/pages/admin_page.php");
         exit();
     } else {
         // Fetch user information from the teacher table if not found in principal

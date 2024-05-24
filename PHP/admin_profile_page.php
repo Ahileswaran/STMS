@@ -126,50 +126,7 @@ $stmt->close();
         </div>
     </form>
 
-    <!-- Form container with glass effect -->
-    <div class="glass-container background-glass">
-        <div class="admin-page">
-            <h1>Administration</h1>
-        </div>
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Teacher Time Table Management</b></label><br><br>
-            <button onclick="window.location.href='../pages/teacher_time_table.html'">Add</button>
-            <button value="delete">Remove</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Teacher Syllabus Table Management</b></label><br><br>
-            <button onclick="window.location.href='../pages/teacher_syllabus.html'">Add</button>
-            <button value="delete">Remove</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Search Teacher: </b></label>
-            <input type="text" placeholder="Insert teacher id...">
-            <button value="search">Search</button><br><br>
-            <button value="Edit">Edit</button>
-            <button value="delete">Delete</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Search Teacher: </b></label>
-            <input type="text" placeholder="Insert teacher id...">
-            <button value="search">Search</button><br><br>
-            <button value="Edit">Edit Time Table</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Edit Master Time Table</b></label><br><br>
-            <button value="Edit">Edit</button>
-            <button value="delete">Delete</button>
-        </div>
-
-        <div class="edit-delete-teacher">
-            <label for="input"><b>Edit Slider Images</b></label><br><br>
-            <button value="Edit">Edit</button>
-            <button value="delete">Delete</button>
-        </div>
-    </div>
+   
     </div>
     
     <footer class="footer">

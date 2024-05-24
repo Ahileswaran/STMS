@@ -433,6 +433,7 @@ body {
     display: grid;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 100px;
 }
 
 .background-glass h4 {
@@ -825,4 +826,100 @@ body {
 /* Add a pointer cursor to the profile picture */
 .profile-pic:hover {
     opacity: 0.8;
+}
+
+
+
+
+
+/* Admin Dashboard Styles */
+.admin-dashboard {
+    position: fixed;
+   
+}
+
+.admin-nav {
+    width: 200px;
+    background-color: #333;
+    padding: 20px;
+    color: white;
+    height: calc(100vh - 80px); /* Adjust based on header/footer height */
+    position: sticky;
+    top: 80px;
+    margin-top: 80px;
+}
+
+.admin-nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.admin-nav ul li {
+    margin-bottom: 20px;
+}
+
+.admin-nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.admin-nav ul li a:hover {
+    background-color: #555;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.background-glass {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.admin-page h1 {
+    margin-top: 0;
+}
+
+.edit-delete-teacher {
+    margin-bottom: 20px;
+}
+
+.edit-delete-teacher label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.edit-delete-teacher input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.edit-delete-teacher button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.edit-delete-teacher button:hover {
+    background-color: #555;
 }
