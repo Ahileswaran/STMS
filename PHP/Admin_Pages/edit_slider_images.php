@@ -56,9 +56,11 @@ while ($row = $result->fetch_assoc()) {
     <title>Manage Carousel Images</title>
     <style>
         .container {
-            padding: 250px;
+            padding: 20px;
             font-family: Arial, sans-serif;
-            /* Consistent font */
+            max-width: 800px;
+            margin: 0 auto;
+            /* Center the container */
         }
 
         .add-image-form {
@@ -106,11 +108,57 @@ while ($row = $result->fetch_assoc()) {
             background-color: #45a049;
         }
 
-        /* Optional: Responsive adjustments */
+        .image-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .image-item img {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .image-item p {
+            flex: 1;
+            margin: 0;
+        }
+
+        .image-item form {
+            margin-left: 10px;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
             .add-image-form {
-                width: calc(100% - 40px);
+                width: calc(100% - 20px);
                 /* Full-width on smaller screens */
+                padding: 10px;
+            }
+
+            .image-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .image-item img {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 0 10px 0;
+            }
+
+            .image-item form {
+                width: 100%;
+                text-align: center;
+                margin: 0;
             }
         }
     </style>
@@ -125,11 +173,10 @@ while ($row = $result->fetch_assoc()) {
             <button type="submit" name="add">Add Image</button>
         </form>
 
-
         <h3>Current Images</h3>
         <?php foreach ($images as $image) : ?>
-            <div>
-                <img src="<?= htmlspecialchars($image['image_path']) ?>" alt="Carousel Image" style="width: 100px;">
+            <div class="image-item">
+                <img src="<?= htmlspecialchars($image['image_path']) ?>" alt="Carousel Image">
                 <p><?= htmlspecialchars($image['caption']) ?></p>
                 <form method="post">
                     <input type="hidden" name="image_id" value="<?= $image['id'] ?>">

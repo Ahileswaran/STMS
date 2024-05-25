@@ -16,39 +16,64 @@ $teachers = [
     <style>
         .container {
             padding: 20px;
+            max-width: 800px; /* Set maximum width for the container */
+            margin: 0 auto; /* Center the container */
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #ccc;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         .form-container {
             margin-top: 20px;
+            max-width: 400px; /* Set maximum width for the form container */
+            margin-left: auto; /* Align form to the right */
+            margin-right: auto;
         }
-        .form-container input[type="text"], .form-container select {
+
+        .form-container input[type="text"],
+        .form-container select {
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 10px;
         }
+
         .form-container button {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
+            width: 100%; /* Make the button full width */
         }
+
         .form-container button:hover {
             background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media only screen and (max-width: 768px) {
+            .form-container {
+                max-width: 100%; /* Set maximum width for smaller screens */
+            }
         }
     </style>
 </head>
