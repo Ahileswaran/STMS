@@ -90,19 +90,19 @@ if ($stmt->num_rows > 0) {
 
     <div class="slider">
         <div class="slider-item active" id="image_1">
-            <img class="animated bounceInRight slider-img" src="../STMS/images/carousel/pic1.jpg">
+            <img class="animated bounceInRight slider-img" src="../STMS/images/slider/pic1.jpg">
             <div class="row">
                 <h3 class="animated slideInLeft slider-caption mb-2">Events</h3>
             </div>
         </div>
         <div class="slider-item">
-            <img class="animated bounceInRight slider-img" src="../STMS/images/carousel/pic2.jpg">
+            <img class="animated bounceInRight slider-img" src="../STMS/images/slider/pic2.jpg">
             <div class="row">
                 <h3 class="animated slideInLeft slider-caption mb-2">Meetings</h3>
             </div>
         </div>
         <div class="slider-item">
-            <img class="animated bounceInRight slider-img" src="../STMS/images/carousel/pic3.jpg">
+            <img class="animated bounceInRight slider-img" src="../STMS/images/slider/pic3.jpg">
             <div class="row">
                 <h3 class="animated slideInLeft slider-caption mb-2">Celebration</h3>
             </div>

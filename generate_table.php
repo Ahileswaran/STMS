@@ -3,7 +3,7 @@
 require_once 'display_propic.php';
 
 // Check if the day and time period parameters are set in the request
-if(isset($_GET['day']) && isset($_GET['time_period'])) {
+if (isset($_GET['day']) && isset($_GET['time_period'])) {
     $currentDay = strtolower($_GET['day']);
     $currentTimePeriod = $_GET['time_period'];
 } else {
@@ -12,10 +12,10 @@ if(isset($_GET['day']) && isset($_GET['time_period'])) {
     $currentTimePeriod = 'full';
 }
 
-$username = "root"; 
-$password = ""; 
-$server = "localhost";  
-$database = "stms_database"; 
+$username = "root";
+$password = "";
+$server = "localhost";
+$database = "stms_database";
 
 $connection = new mysqli($server, $username, $password, $database);
 
@@ -45,7 +45,7 @@ $timePeriodMap = [
         '08:30:00 - 09:10:00',
         '09:10:00 - 09:50:00',
         '09:50:00 - 10:30:00',
-        '10:50:00 - 11:30:00', 
+        '10:50:00 - 11:30:00',
         '11:30:00 - 12:10:00',
         '12:10:00 - 12:50:00',
         '12:50:00 - 13:30:00'
@@ -61,7 +61,7 @@ $timePeriodMap = [
 ];
 
 // Get the selected time slots based on the current time period
-if(isset($timePeriodMap[$currentTimePeriod])) {
+if (isset($timePeriodMap[$currentTimePeriod])) {
     $selectedTimeSlots = $timePeriodMap[$currentTimePeriod];
 } else {
     // Default to full time period if invalid time period selected
@@ -119,7 +119,7 @@ $grades_table2 = array_slice($grades, 5);
 echo "<style>
 /* General styles */
 .container {
-	width: 100%;
+	width: 95%;
 	max-width: 1800px;
 	margin: 0 auto;
 	padding: 23px;
@@ -249,14 +249,27 @@ th:nth-child(6), td:nth-child(6) {
 @media (max-width: 768px) {
     th, td {
         padding: 10px;
+        font-size: 0.9rem;
+    }
+    .name, .username {
+        font-size: 0.9rem; 
     }
 }
 
 @media (max-width: 480px) {
     th, td {
         padding: 8px;
+        font-size: 0.8rem; 
+    }
+    .name, .username {
+        font-size: 0.8rem; 
+    }
+    .image-container img {
+        width: 40px; 
+        height: 40px;
     }
 }
+
 </style>";
 
 // Display the first table for grades 6-10
@@ -325,4 +338,3 @@ if (is_array($selectedTimeSlots)) {
 }
 echo "</table>";
 echo "</div>";
-?>
