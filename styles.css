@@ -1,11 +1,11 @@
 body {
     background: #67B26F;
-	background: -webkit-linear-gradient(to right, #4ca2cd, #67B26F);
-	background: linear-gradient(to right, #4ca2cd, #67B26F);
-	padding: 0;
-	margin: 0;
-	font-family: 'Lato', sans-serif;
-	color: #000;
+    background: -webkit-linear-gradient(to right, #4ca2cd, #67B26F);
+    background: linear-gradient(to right, #4ca2cd, #67B26F);
+    padding: 0;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    color: #000;
 }
 
 /* Header style */
@@ -16,7 +16,7 @@ body {
     width: 100%;
     background-color: #333;
     color: white;
-    padding: 10px 20px; 
+    padding: 10px 20px;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -25,44 +25,44 @@ body {
 }
 
 .header .logo-image {
-    justify-content: flex-start; 
+    justify-content: flex-start;
     margin-right: auto;
     height: 80px;
 }
 
 .header .navigation {
-    justify-content: flex-end; 
+    justify-content: flex-end;
     margin-left: auto;
-    display: flex; 
+    display: flex;
 }
 
 /* Style for active state in navigation */
 nav a.active {
-    background-color: #3498db; 
-    color: #fff; 
+    background-color: #3498db;
+    color: #fff;
 }
 
 /* Style for all buttons in navigation */
 nav a.button,
 nav select {
-    padding: 10px; 
-    background-color: #3498db; 
-    color: #fff; 
-    border: none; 
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
     cursor: pointer;
-    margin-right: 5px; 
+    margin-right: 5px;
     text-decoration: none;
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 
 /* Updated styles for the dropdown menu */
 .drop_menu select {
-    padding: 10px; 
-    background-color:  #3498db; 
-    color: #fff; 
-    border: none; 
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
     cursor: pointer;
-    margin-right: 15px; 
+    margin-right: 15px;
 }
 
 .header .Search_field {
@@ -96,17 +96,18 @@ nav select {
     transition: background-color 0.3s ease;
 }
 
-/* Adjust the margin-top of the carousel to account for the header height */
+/*Style for the slider  */
 .slider {
     position: relative;
-    width: 1800px;  /* Set custom width */
-    height: 650px;  /* Set custom height */
-    margin: 100px auto 0 auto;  /* Center the slider horizontally and add top margin */
+    width: 1800px;
+    height: 650px;
+    margin: 100px auto 0 auto;
     overflow: hidden;
 }
 
-/* Additional styles remain the same */
 .slider-item {
+    position: relative;
+    /* Ensure the item is positioned relative to the slider */
     display: none;
     width: 100%;
     height: 100%;
@@ -119,13 +120,22 @@ nav select {
 .slider img {
     width: 100%;
     height: 100%;
-    object-fit: cover;  /* Ensures the image covers the entire container without distortion */
+    object-fit: cover;
 }
 
-
-.content {
-    padding: 20px;
+.slider-caption {
+    position: absolute;
+    /* Position the caption absolute to place it on top of the image */
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    /* Ensure the caption is above the image */
 }
+
 
 
 /*Class Schedule table */
@@ -135,62 +145,118 @@ nav select {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
-  }
-  
-  table {
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  caption {
+}
+
+caption {
     font-size: 1.5rem;
     font-weight: bold;
     padding: 10px 20px;
     text-align: left;
     border: 1px solid #ddd;
     border-bottom: none;
-  }
-  
-  th, td {
+}
+
+th,
+td {
     padding: 10px 20px;
     border: 1px solid #ddd;
     text-align: left;
-  }
-  
-  th {
+}
+
+th {
     background-color: #f2f2f2;
     font-weight: bold;
-  }
-  
-  .yoga {
+}
+
+.yoga {
     background-color: lightgreen;
-  }
-  
-  .fam {
+}
+
+.fam {
     background-color: lightblue;
-  }
-  
-  .empty {
+}
+
+.empty {
     background-color: lightgray;
-  }
-  
-  tr:nth-child(odd) {
+}
+
+tr:nth-child(odd) {
     background-color: #f9f9f9;
-  }
+}
 
 .master-table {
     margin-top: 20px;
 }
 
-.drop_menu_table {
-    margin-bottom: 20px;
+
+/* Style for the current date and time display */
+
+.worldclock{
+    padding-left: 15px;
+    margin-left: 20px;
+    margin-bottom: 10px;
 }
 
-.drop_menu_table select,
-.drop_menu_table button {
+#currentDateTime,
+#classDay {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #4d0fd7;
+    background: white;
+    display: inline-block; /* Ensure the background wraps around the text */
+    padding: 5px 10px; /* Add padding for spacing */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a rich font */
+    font-weight: bold; /* Make the text bold */
+}
+
+/* Style for the dropdown menus */
+.drop_menu_table select {
     padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     margin-right: 10px;
 }
+
+/* Style for the button */
+#refreshButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#refreshButton:hover {
+    background-color: #45a049;
+}
+
+/* Style for the footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
 
 body {
     margin: 0;
@@ -288,7 +354,8 @@ body {
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 100px;
+    margin-top: 120px;
+    margin-bottom: 120px;
 }
 
 .form-container h2 {
@@ -342,7 +409,7 @@ body {
 
 /* Style for 404 Not Found Page*/
 
-.not-found-404{
+.not-found-404 {
     padding-top: 200px;
     padding-bottom: 200px;
     align-items: center;
@@ -353,7 +420,7 @@ body {
 
 /* Style for resource download Page*/
 
-.resource-page{
+.resource-page {
     padding-top: 20px;
     padding-bottom: 200px;
     margin-bottom: 100px;
@@ -362,7 +429,7 @@ body {
 
 /* Style for teachers guide download Page*/
 
-.teachers-guide-page{
+.teachers-guide-page {
     padding-top: 20px;
     padding-bottom: 200px;
     margin-bottom: 100px;
@@ -371,7 +438,7 @@ body {
 
 /* Style for syllabai download Page*/
 
-.syllabai-page{
+.syllabai-page {
     padding-top: 20px;
     padding-bottom: 200px;
     margin-bottom: 100px;
@@ -382,11 +449,11 @@ body {
 
 .add-profile-pic {
     margin-left: 150px;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .add-profile-pic label {
-    margin-right: 10px; 
+    margin-right: 10px;
     margin-right: 10px;
     font-weight: bold;
     color: #333;
@@ -394,22 +461,22 @@ body {
 }
 
 .add-profile-pic button {
-    padding: 8px 15px; 
-    background-color: #3498db; 
-    color: #fff; 
-    border: none; 
-    border-radius: 5px; 
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 .add-profile-pic button:hover {
-    background-color: #2980b9; 
+    background-color: #2980b9;
 }
 
 
 
 /* Style for the Admin Page */
-.admin-page{
+.admin-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -417,7 +484,7 @@ body {
     margin-top: 20px;
 }
 
-.edit-delete-teacher{
+.edit-delete-teacher {
     max-width: 400px;
     margin: 20px auto;
 }
@@ -456,18 +523,18 @@ body {
 
 /*Style for the Leave Letter Generating Page */
 
-.levae-letter-page{
+.levae-letter-page {
     align-items: center;
     margin-left: 300px;
     margin-top: 15px;
 }
 
-.Wrire-letter{
+.Wrire-letter {
     align-items: center;
 
 }
 
-.genarate-letter{
+.genarate-letter {
     border-radius: 50px;
     border-color: #333;
     align-items: center;
@@ -477,7 +544,7 @@ body {
 
 /*Style for the About Page */
 
-.about-page{
+.about-page {
     padding: 20px;
     border-radius: 10px;
     overflow: hidden;
@@ -489,7 +556,7 @@ body {
 
 /*Style for the Syllabus Page */
 
-.syllabus-page{
+.syllabus-page {
     padding: 20px;
     border-radius: 10px;
     overflow: hidden;
@@ -500,18 +567,18 @@ body {
 }
 
 
-.syllabus-table{
-    margin: 20px; 
-    padding: 20px; 
-    border: 2px solid #3498db; 
-    border-radius: 10px; 
+.syllabus-table {
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #3498db;
+    border-radius: 10px;
     overflow: hidden;
     position: relative;
 }
 
 .syllabus-table th {
-    background-color: #3498db; 
-    color: #fff; 
+    background-color: #3498db;
+    color: #fff;
 }
 
 .syllabus-table td {
@@ -520,7 +587,7 @@ body {
 
 /*Style for the Substitute Manegment Page */
 
-.substitute-page{
+.substitute-page {
     padding: 20px;
     border-radius: 10px;
     overflow: hidden;
@@ -593,7 +660,8 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Align items in the center horizontally */
+    align-items: center;
+    /* Align items in the center horizontally */
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -609,15 +677,19 @@ body {
 .preview_syllabus_table form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Align items in the center horizontally */
-    width: 100%; /* Set form width to 100% */
-    max-width: 400px; /* Limit form width to 400px */
+    align-items: center;
+    /* Align items in the center horizontally */
+    width: 100%;
+    /* Set form width to 100% */
+    max-width: 400px;
+    /* Limit form width to 400px */
 }
 
 .teacher_syllabus label,
 .preview_syllabus_table label {
     margin-bottom: 10px;
-    width: 100%; /* Set label width to 100% */
+    width: 100%;
+    /* Set label width to 100% */
 }
 
 .teacher_syllabus input[type="text"],
@@ -642,8 +714,10 @@ body {
     font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
-    width: 100%; /* Set button width to 100% */
-    max-width: 200px; /* Limit button width to 200px */
+    width: 100%;
+    /* Set button width to 100% */
+    max-width: 200px;
+    /* Limit button width to 200px */
 }
 
 .teacher_syllabus button:hover,
@@ -656,45 +730,58 @@ body {
 
 /* Style for syllabus table container */
 .syllabus_table {
-    padding: 10px; /* Reduce padding to make the table smaller */
-    border-radius: 5px; /* Reduce border radius */
-    overflow: auto; /* Add scrollbars if content overflows */
+    padding: 10px;
+    /* Reduce padding to make the table smaller */
+    border-radius: 5px;
+    /* Reduce border radius */
+    overflow: auto;
+    /* Add scrollbars if content overflows */
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9; /* Light background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce box shadow */
-    margin-bottom: 10px; /* Reduce margin */
+    background-color: #f9f9f9;
+    /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Reduce box shadow */
+    margin-bottom: 10px;
+    /* Reduce margin */
 }
 
 /* Style for the syllabus table itself */
 .syllabus_table table {
     width: 100%;
-    border-collapse: collapse; /* Collapse borders */
+    border-collapse: collapse;
+    /* Collapse borders */
 }
 
 /* Style for table header cells */
 .syllabus_table th {
-    background-color: #5ab8f7; /* Light gray background for header cells */
-    padding: 8px; /* Reduce padding */
+    background-color: #5ab8f7;
+    /* Light gray background for header cells */
+    padding: 8px;
+    /* Reduce padding */
     text-align: center;
-    font-size: 14px; /* Reduce font size */
+    font-size: 14px;
+    /* Reduce font size */
 }
 
 /* Style for table data cells */
 .syllabus_table td {
-    padding: 8px; /* Reduce padding */
+    padding: 8px;
+    /* Reduce padding */
     text-align: center;
-    font-size: 14px; /* Reduce font size */
+    font-size: 14px;
+    /* Reduce font size */
 }
 
 /* Style for error message when no syllabus details available */
 .syllabus_table .error {
     text-align: center;
-    color: red; 
-    font-style: italic; 
-    font-size: 14px; /* Reduce font size */
+    color: red;
+    font-style: italic;
+    font-size: 14px;
+    /* Reduce font size */
 }
 
 
@@ -709,13 +796,13 @@ body {
 
 /* Profile picture */
 .profile-pic {
-    width: 70px; 
-    height: 70px; 
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     cursor: pointer;
 }
 
-.header .login_detail{
+.header .login_detail {
     padding-right: 50px;
 }
 
@@ -734,8 +821,8 @@ body {
     display: none;
     position: absolute;
     background-color: #f3efef;
-    min-width: 70px; 
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 70px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -743,7 +830,7 @@ body {
 .dropdown-content a {
     color: black;
     font-size: 14px;
-    padding: 8px 12px; 
+    padding: 8px 12px;
     text-decoration: none;
     display: block;
 }
@@ -770,7 +857,7 @@ body {
 /* Admin Dashboard Styles */
 .admin-dashboard {
     position: fixed;
-   
+
 }
 
 .admin-nav {
@@ -778,7 +865,8 @@ body {
     background-color: #333;
     padding: 20px;
     color: white;
-    height: calc(100vh - 80px); /* Adjust based on header/footer height */
+    height: calc(100vh - 80px);
+    /* Adjust based on header/footer height */
     position: sticky;
     top: 80px;
     margin-top: 80px;
