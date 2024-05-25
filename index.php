@@ -88,27 +88,26 @@ if($stmt->num_rows > 0) {
 
     </header>
 
-
-    <div class="carousel">
-        <div class="carousel-item active" id="image_1">
-            <img class="animated bounceInRight carousel-img" src="../STMS/images/carousel/pic1.jpg">
-            <div class="row">
-                <h3 class="animated slideInLeft carousel-title mb-2">Events</h3>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img class="animated bounceInRight carousel-img" src="../STMS/images/carousel/pic2.jpg">
-            <div class="row">
-                <h3 class="animated slideInLeft carousel-title mb-2">Meetings</h3>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img class="animated bounceInRight carousel-img" src="../STMS/images/carousel/pic3.jpg">
-            <div class="row">
-                <h3 class="animated slideInLeft carousel-title mb-2">Celebration</h3>
-            </div>
+    <div class="slider">
+    <div class="slider-item active" id="image_1">
+        <img class="animated bounceInRight slider-img" src="../STMS/images/carousel/pic1.jpg">
+        <div class="row">
+            <h3 class="animated slideInLeft slider-title mb-2">Events</h3>
         </div>
     </div>
+    <div class="slider-item">
+        <img class="animated bounceInRight slider-img" src="../STMS/images/carousel/pic2.jpg">
+        <div class="row">
+            <h3 class="animated slideInLeft slider-title mb-2">Meetings</h3>
+        </div>
+    </div>
+    <div class="slider-item">
+        <img class="animated bounceInRight slider-img" src="../STMS/images/carousel/pic3.jpg">
+        <div class="row">
+            <h3 class="animated slideInLeft slider-title mb-2">Celebration</h3>
+        </div>
+    </div>
+</div>
 
 
 

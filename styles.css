@@ -95,47 +95,31 @@ nav select {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 /* Adjust the margin-top of the carousel to account for the header height */
-.carousel {
+.slider {
     position: relative;
     width: 1800px;  /* Set custom width */
     height: 650px;  /* Set custom height */
-    margin: 100px auto 0 auto;  /* Center the carousel horizontally and add top margin */
+    margin: 100px auto 0 auto;  /* Center the slider horizontally and add top margin */
     overflow: hidden;
 }
 
 /* Additional styles remain the same */
-.carousel-item {
+.slider-item {
     display: none;
     width: 100%;
     height: 100%;
 }
 
-.carousel-item.active {
+.slider-item.active {
     display: block;
 }
 
-.carousel img {
+.slider img {
     width: 100%;
     height: 100%;
     object-fit: cover;  /* Ensures the image covers the entire container without distortion */
-}
-
-.carousel-buttons {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-}
-
-.carousel-button {
-    background-color: rgba(0,0,0,0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
 }
 
 

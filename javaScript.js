@@ -1,5 +1,5 @@
 // Function to handle the image slider
-const items = document.querySelectorAll('.carousel-item');
+const items = document.querySelectorAll('.slider-item');
 let currentItem = 0;
 
 function showNextItem() {
@@ -76,5 +76,3 @@ $(document).ready(function() {
         });
     });
 });
-
-
