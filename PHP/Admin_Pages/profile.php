@@ -1,0 +1,125 @@
+<?php
+session_start(); // Start the session
+//require_once 'stay_login.php';
+
+$username = "root"; 
+$password = ""; 
+$server = "localhost";  
+$database = "stms_database"; 
+
+$connection = new mysqli($server, $username, $password, $database);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Fetch profile picture from database
+$session_username = $_SESSION['username'];
+$sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+$stmt = $connection->prepare($sql);
+$stmt->bind_param("s", $session_username);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    // Profile picture found, display it
+    $stmt->bind_result($profile_pic_data);
+    $stmt->fetch();
+    $profile_pic = base64_encode($profile_pic_data);
+    $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+} else {
+    // Profile picture not found, use a default image
+    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+}
+
+$stmt->close();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        .glass-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+            margin-top: 150px;
+        }
+        .profile-pic-container {
+            text-align: center;
+        }
+        .profile-pic-container img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #ccc;
+            margin-bottom: 20px;
+        }
+        h4 {
+            margin: 10px 0;
+        }
+        .add-profile-pic {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .add-profile-pic label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .add-profile-pic button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .add-profile-pic button:hover {
+            background-color: #45a049;
+        }
+        .add-profile-pic input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-container">
+        <div class="profile-pic-container">
+            <img id="upload_pic" src="<?php echo $profile_pic_src; ?>" alt="Profile Picture">
+        </div>
+        <h4>First Name: <?php echo $_SESSION['first_name']; ?></h4>
+        <h4>Last Name: <?php echo $_SESSION['last_name']; ?></h4>
+        <h4>Address: <?php echo $_SESSION['user_address']; ?></h4>
+        <h4>Age: <?php echo $_SESSION['age']; ?></h4>
+        <h4>Sex: <?php echo $_SESSION['sex']; ?></h4>
+        <h4>Marital Status: <?php echo $_SESSION['marital_status']; ?></h4>
+        <h4>Registration Id: <?php echo $_SESSION['registration_id']; ?></h4>
+        <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4>
+        <h4>Username: <?php echo $_SESSION['username']; ?></h4>
+        <h4>Email: <?php echo $_SESSION['email']; ?></h4>
+    </div>
+
+    <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">
+        <div class="add-profile-pic">
+            <label for="file_input">Add Profile Picture:</label>
+            <button type="button" id="add_pic_button">Add</button>
+            <input type="file" id="file_input" name="profile_pic">
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('add_pic_button').addEventListener('click', function() {
+            document.getElementById('file_input').click();
+        });
+    </script>
+</body>
+
+</html>

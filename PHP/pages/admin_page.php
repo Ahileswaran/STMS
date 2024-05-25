@@ -92,12 +92,12 @@ if ($stmt->num_rows > 0) {
         <!-- Admin Dashboard Navigation -->
         <nav class="admin-nav">
             <ul>
-                <li><a href="../../admin_profile_page.php" id="profile-link">Profile</a></li>
+                <li><a href="../Admin_Pages/profile.php" id="profile-link">Profile</a></li>
                 <li><a href="../Admin_Pages/edit_teachers.php" id="edit-teachers-link">Manage Teachers</a></li>
-                <li><a href="delete_teachers.php" id="delete-teachers-link">Delete Teachers</a></li>
-                <li><a href="edit_timetable.php" id="edit-timetable-link">Mange Timetable</a></li>
-                <li><a href="edit_master_timetable.php" id="edit-master-timetable-link">Manage Master Timetable</a></li>
-                <li><a href="edit_slider_images.php" id="edit-slider-images-link">Edit Slider Images</a></li>
+                <li><a href="../Admin_Pages/delete_teachers.php" id="delete-teachers-link">Delete Teachers</a></li>
+                <li><a href="../Admin_Pages/edit_timetable.php" id="edit-timetable-link">Mange Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_master_timetable.php" id="edit-master-timetable-link">Manage Master Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_slider_images.php" id="edit-slider-images-link">Edit Slider Images</a></li>
             </ul>
         </nav>
     </div>
@@ -121,7 +121,7 @@ if ($stmt->num_rows > 0) {
 
             document.getElementById('profile-link').addEventListener('click', function(event) {
                 event.preventDefault();
-                loadPage('../admin_profile_page.php');
+                loadPage('../Admin_Pages/profile.php');
             });
 
 
@@ -132,22 +132,22 @@ if ($stmt->num_rows > 0) {
 
             document.getElementById('delete-teachers-link').addEventListener('click', function(event) {
                 event.preventDefault();
-                loadPage('delete_teachers.php');
+                loadPage('../Admin_Pages/delete_teachers.php');
             });
 
             document.getElementById('edit-timetable-link').addEventListener('click', function(event) {
                 event.preventDefault();
-                loadPage('edit_timetable.php');
+                loadPage('../Admin_Pages/edit_timetable.php');
             });
 
             document.getElementById('edit-master-timetable-link').addEventListener('click', function(event) {
                 event.preventDefault();
-                loadPage('edit_master_timetable.php');
+                loadPage('../Admin_Pages/edit_master_timetable.php');
             });
 
             document.getElementById('edit-slider-images-link').addEventListener('click', function(event) {
                 event.preventDefault();
-                loadPage('edit_slider_images.php');
+                loadPage('../Admin_Pages/edit_slider_images.php');
             });
         });
     </script>
