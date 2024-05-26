@@ -1,8 +1,5 @@
 <?php
 session_start(); // Start the session
-//require_once 'php/stay_login.php';
-//require_once 'profile_page.php';
-//require_once 'admin_profile_page.php';
 
 $username = "root";
 $password = "";
@@ -15,27 +12,84 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-// Fetch profile picture from database
-$session_username = $_SESSION['username'];
-$sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
-$stmt = $connection->prepare($sql);
-$stmt->bind_param("s", $session_username);
-$stmt->execute();
-$stmt->store_result();
+// Handle the AJAX request for checking username availability
+if (isset($_POST['check_username'])) {
+    $username = $_POST['username'];
 
-if ($stmt->num_rows > 0) {
-    // Profile picture found, display it
-    $stmt->bind_result($profile_pic_data);
-    $stmt->fetch();
-    $profile_pic = base64_encode($profile_pic_data);
-    $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
-} else {
-    // Profile picture not found, use a default image
-    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+    $sql = "SELECT * FROM teacher WHERE username = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        echo "taken";
+    } else {
+        echo "available";
+    }
+    $stmt->close();
+    exit();
 }
 
-?>
+// Handle the form submission for registration
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $address = $_POST['address'];
+    $age = $_POST['age'];
+    $sex = $_POST['sex'];
+    $marital_status = $_POST['marital_status'];
+    $teacher_id = $_POST['teacher_id'];
+    $subject = $_POST['subject'];
+    $username = $_POST['username'];
+    $mail_id = $_POST['mail_id'];
+    $password = $_POST['password'];
 
+    // Check if username already exists
+    $sql = "SELECT * FROM teacher WHERE username = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        echo "<script>alert('Username already taken, please choose another.');</script>";
+    } else {
+        // Insert new user
+        $sql = "INSERT INTO teacher (first_name, last_name, address, age, sex, marital_status, teacher_id, subject, username, mail_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("sssssssssss", $first_name, $last_name, $address, $age, $sex, $marital_status, $teacher_id, $subject, $username, $mail_id, $password);
+        if ($stmt->execute() === TRUE) {
+            echo "<script>alert('Registration successful!');</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $connection->error;
+        }
+        $stmt->close();
+    }
+}
+
+// Fetch profile picture from database
+$profile_pic_src = 'path_to_default_image.jpg'; // Default profile picture
+
+if (isset($_SESSION['username'])) {
+    $session_username = $_SESSION['username'];
+    $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("s", $session_username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($profile_pic_data);
+        $stmt->fetch();
+        $profile_pic = base64_encode($profile_pic_data);
+        $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+    }
+    $stmt->close();
+}
+
+$connection->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,8 +99,40 @@ if ($stmt->num_rows > 0) {
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
-       
+        .username-status {
+            display: inline-block;
+            margin-left: 200px;
+            color: red;
+            font-weight: bold;
+        }
+        .username-status.available {
+            color: green;
+        }
     </style>
+    <script>
+    $(document).ready(function() {
+        $("#username").keyup(function() {
+            var username = $(this).val().trim();
+
+            if (username != '') {
+                $.ajax({
+                    url: 'registering_page.php',
+                    type: 'post',
+                    data: {check_username: 1, username: username},
+                    success: function(response) {
+                        if (response == 'taken') {
+                            $("#username_status").html("Username already taken, please choose another.").removeClass("available").addClass("taken");
+                        } else if (response == 'available') {
+                            $("#username_status").html("Username is available.").removeClass("taken").addClass("available");
+                        }
+                    }
+                });
+            } else {
+                $("#username_status").html("").removeClass("available taken");
+            }
+        });
+    });
+    </script>
 </head>
 
 <body>
@@ -72,9 +158,7 @@ if ($stmt->num_rows > 0) {
 
         <div class="login_detail">
             <?php
-            // Check if user is logged in
             if (isset($_SESSION['username'])) {
-                // If logged in, display the profile picture and username
                 echo "<div class='dropdown_details'>";
                 echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
                 echo "<div class='dropdown-content'>";
@@ -84,7 +168,6 @@ if ($stmt->num_rows > 0) {
                 echo "</div>";
                 echo "</div>";
             } else {
-                // If not logged in, display login option
                 echo "<a class='active button' href='../pages/login_page.php'>Login</a>";
             }
             ?>
@@ -93,45 +176,44 @@ if ($stmt->num_rows > 0) {
     </header>
 
     <div class="content">
-        <!-- main content goes here -->
-        <!-- Form container with glass effect -->
         <div class="form-container">
-            <form class="register-form" action="../user_data.php" method="post">
+            <form class="register-form" action="registering_page.php" method="post">
                 <label for="first_name">First Name: </label>
-                <input id="first_name" name="first_name" type="text" placeholder="Vasuky"><br>
+                <input id="first_name" name="first_name" type="text" placeholder="Vasuky" required><br>
 
                 <label for="last_name">Last Name: </label>
-                <input id="last_name" name="last_name" type="text" placeholder="Nathan"><br>
+                <input id="last_name" name="last_name" type="text" placeholder="Nathan" required><br>
 
                 <label for="address">Address: </label>
-                <input id="address" name="address" type="text" placeholder="Colombo first street"><br>
+                <input id="address" name="address" type="text" placeholder="Colombo first street" required><br>
 
                 <label for="age">Age: </label>
-                <input id="age" name="age" type="text"><br>
+                <input id="age" name="age" type="text" required><br>
 
                 <label for="sex">Sex: </label>
                 <div class="radio-buttons">
-                    <input type="radio" id="male" name="sex" placeholder="Male"> <label for="male">Male</label>
-                    <input type="radio" id="female" name="sex" placeholder="Female"> <label for="female">Female</label>
+                    <input type="radio" id="male" name="sex" value="Male" required> <label for="male">Male</label>
+                    <input type="radio" id="female" name="sex" value="Female" required> <label for="female">Female</label>
                 </div><br>
 
                 <label for="marital_status">Marital Status: </label>
-                <input id="marital_status" name="marital_status" type="text"><br>
+                <input id="marital_status" name="marital_status" type="text" required><br>
 
                 <label for="teacher_id">Registration Number: </label>
-                <input id="teacher_id" name="teacher_id" type="text" placeholder="Principal 'TN|PRI...' Teacher 'TN|TEA...'"><br>
+                <input id="teacher_id" name="teacher_id" type="text" placeholder="Principal 'TN|PRI...' Teacher 'TN|TEA...'" required><br>
 
                 <label for="subject">Subject: </label>
-                <input id="subject" name="subject" type="text"><br>
+                <input id="subject" name="subject" type="text" required><br>
 
                 <label for="username">User Name: </label>
-                <input id="username" name="username" type="text" placeholder="Vasuky_N"><br>
+                <input id="username" name="username" type="text" placeholder="Vasuky_N" required>
+                <span id="username_status" class="username-status"></span><br>
 
                 <label for="mail_id">Mail Address: </label>
-                <input id="mail_id" name="mail_id" type="email" placeholder="vasuky@example.com"><br>
+                <input id="mail_id" name="mail_id" type="email" placeholder="vasuky@example.com" required><br>
 
                 <label for="password">Password: </label>
-                <input id="password" name="password" type="password"><br>
+                <input id="password" name="password" type="password" required><br>
 
                 <button type="submit" value="submit">Submit</button>
             </form>

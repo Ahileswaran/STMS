@@ -9,10 +9,10 @@ function log_error($error_message) {
     file_put_contents($log_file, $log_message, FILE_APPEND);
 }
 
-$username = "rootdsds";
+$username = "root";
 $password = "";
 $server = "localhost";
-$database = "stms_databasesdsd";
+$database = "stms_database";
 
 try {
     // Establish database connection
