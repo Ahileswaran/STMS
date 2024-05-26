@@ -1,51 +1,41 @@
 <?php
-// Start the session and connect to the database
-session_start();
+session_start(); // Start the session
+
 $username = "root";
 $password = "";
 $server = "localhost";
 $database = "stms_database";
 
 $connection = new mysqli($server, $username, $password, $database);
+
 if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
-/*
-// Function to add image to the database
-function addImage($path, $caption) {
-    global $connection;
-    $stmt = $connection->prepare("INSERT INTO carousel_images (image_path, caption) VALUES (?, ?)");
-    $stmt->bind_param("ss", $path, $caption);
-    $stmt->execute();
-    return $stmt->affected_rows > 0;
-}
 
-// Function to remove image from the database
-function removeImage($id) {
-    global $connection;
-    $stmt = $connection->prepare("DELETE FROM carousel_images WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    return $stmt->affected_rows > 0;
-}
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['slider_image'])) {
+    $image_id = $_POST['image_id'];
+    $caption = $_POST['caption'];
+    $image = $_FILES['slider_image']['tmp_name'];
+    $imgContent = addslashes(file_get_contents($image));
 
-// Handle post requests for adding/removing images
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['add'])) {
-        addImage($_POST['image_path'], $_POST['caption']);
-    } elseif (isset($_POST['remove'])) {
-        removeImage($_POST['image_id']);
+    $sql = "INSERT INTO slider_picture (image_id, caption, slider_pic) VALUES ('$image_id', '$caption', '$imgContent')";
+
+    if ($connection->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $connection->error;
     }
 }
 
-// Fetch all images to list
-$result = $connection->query("SELECT * FROM carousel_images");
-$images = [];
-while ($row = $result->fetch_assoc()) {
-    $images[] = $row;
+// Fetch images from the database
+$sql = "SELECT image_id, caption, slider_pic FROM slider_picture";
+$result = $connection->query($sql);
+$sliderItems = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $sliderItems[] = $row;
+    }
 }
-*/
-
 ?>
 
 <!DOCTYPE html>
@@ -53,138 +43,207 @@ while ($row = $result->fetch_assoc()) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Manage Carousel Images</title>
+    <title>Image Upload and Preview</title>
     <style>
-        .container {
-            padding: 20px;
+        body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .edit-all-container {
+            position: fixed;
             max-width: 800px;
             margin: 0 auto;
-            /* Center the container */
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 100px;
+            margin-left: 600px;
+            overflow: hidden;
         }
 
-        .add-image-form {
-            background-color: #f9f9f9;
-            /* Light grey background */
+        .select-container {
+            background: #333;
+            color: white;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            /* Subtle shadow */
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .select-container form {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            /* Spacing between form elements */
-            margin-bottom: 20px;
+            gap: 15px;
         }
 
-        .add-image-form input[type="text"] {
+        .select-container label,
+        .select-container select,
+        .select-container input,
+        .select-container button {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .select-container input[type="text"],
+        .select-container select {
             border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            /* Include padding in width calculation */
+            font-size: 16px;
         }
 
-        .add-image-form input[type="text"]:focus {
-            border-color: #4CAF50;
-            /* Highlight focus with theme color */
-            outline: none;
-            /* Remove default focus outline */
-        }
-
-        .add-image-form button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+        .select-container button {
+            background-color: #5cb85c;
             color: white;
             border: none;
-            border-radius: 4px;
+            font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            /* Smooth transition for hover effect */
         }
 
-        .add-image-form button:hover {
-            background-color: #45a049;
+        .select-container button:hover {
+            background-color: #4cae4c;
         }
 
-        .image-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 4px;
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            overflow: hidden;
         }
 
-        .image-item img {
-            width: 100px;
+        .slider {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .slider-item {
+            display: none;
+            width: 100%;
+        }
+
+        .slider-item.active {
+            display: block;
+        }
+
+        .slider img {
+            width: 100%;
             height: auto;
-            margin-right: 10px;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
-        .image-item p {
-            flex: 1;
-            margin: 0;
+        .slider-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 1;
         }
 
-        .image-item form {
-            margin-left: 10px;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-
-            .add-image-form {
-                width: calc(100% - 20px);
-                /* Full-width on smaller screens */
-                padding: 10px;
-            }
-
-            .image-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .image-item img {
-                width: 100%;
-                max-width: 300px;
-                margin: 0 0 10px 0;
-            }
-
-            .image-item form {
-                width: 100%;
-                text-align: center;
-                margin: 0;
+        @media (max-width: 768px) {
+            .slider,
+            .select-container {
+                width: 90%;
             }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.slider-item');
+            let currentItem = 0;
+
+            function showNextItem() {
+                items[currentItem].classList.remove('active');
+                currentItem = (currentItem + 1) % items.length;
+                items[currentItem].classList.add('active');
+            }
+
+            setInterval(showNextItem, 3000);
+
+            const previewButton = document.getElementById('previewButton');
+            const imageInput = document.getElementById('slider_image');
+            const previewImage = document.getElementById('previewImage');
+            const previewCaption = document.getElementById('previewCaption');
+            const captionInput = document.getElementById('caption');
+
+            previewButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const file = imageInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+                previewCaption.textContent = captionInput.value;
+                document.querySelector('.preview-container').style.display = 'block';
+            });
+        });
+    </script>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Manage Carousel Images</h2>
-        <form method="post" class="add-image-form">
-            <input type="text" name="image_path" placeholder="Enter image path" required>
-            <input type="text" name="caption" placeholder="Enter caption">
-            <button type="submit" name="add">Add Image</button>
-        </form>
-
-        <h3>Current Images</h3>
-        <?php foreach ($images as $image) : ?>
-            <div class="image-item">
-                <img src="<?= htmlspecialchars($image['image_path']) ?>" alt="Carousel Image">
-                <p><?= htmlspecialchars($image['caption']) ?></p>
-                <form method="post">
-                    <input type="hidden" name="image_id" value="<?= $image['id'] ?>">
-                    <button type="submit" name="remove">Remove Image</button>
-                </form>
+    <div class="edit-all-container">
+        <div class="slider-container">
+            <div class="slider">
+                <?php foreach ($sliderItems as $index => $item) : ?>
+                    <div class="slider-item <?php echo $index === 0 ? 'active' : ''; ?>" id="<?php echo $item['image_id']; ?>">
+                        <img class="animated bounceInRight slider-img" src="data:image/jpeg;base64,<?php echo base64_encode($item['slider_pic']); ?>">
+                        <div class="row">
+                            <h3 class="animated slideInLeft slider-caption mb-2"><?php echo $item['caption']; ?></h3>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
+        </div>
+
+        <div class="select-container">
+            <form action="" method="post" enctype="multipart/form-data">
+                <label for="image_id">Select Image ID:</label>
+                <select name="image_id" id="image_id">
+                    <option value="image_1">Image 1</option>
+                    <option value="image_2">Image 2</option>
+                    <option value="image_3">Image 3</option>
+                </select>
+
+                <label for="caption">Caption:</label>
+                <input type="text" name="caption" id="caption" required>
+
+                <label for="slider_image">Upload Image:</label>
+                <input type="file" name="slider_image" id="slider_image" accept="image/*" required>
+
+                <button id="previewButton">Preview</button>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <div class="preview-container" style="display: none;">
+            <div class="slider">
+                <div class="slider-item active" id="preview_image">
+                    <img class="animated bounceInRight slider-img" id="previewImage" src="">
+                    <div class="row">
+                        <h3 class="animated slideInLeft slider-caption mb-2" id="previewCaption"></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </body>
 
 </html>
+
+<?php
+$connection->close();
+?>

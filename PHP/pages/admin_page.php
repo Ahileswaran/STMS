@@ -49,8 +49,10 @@ if ($stmt->num_rows > 0) {
 
         .scrollable {
             overflow-y: scroll;
-            height: 400px;
+            height: 1000px;
             flex: 1;
+            max-width: 1174px;
+            margin-left: 215px;
         }
 
         table {
@@ -81,6 +83,16 @@ if ($stmt->num_rows > 0) {
             margin-left: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            max-width: 282px;
+            margin: 0 auto;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 71px;
         }
 
         .form-container input[type="text"],
@@ -97,7 +109,8 @@ if ($stmt->num_rows > 0) {
             color: white;
             border: none;
             cursor: pointer;
-            width: 100%; /* Make the button full width */
+            width: 100%;
+            /* Make the button full width */
         }
 
         .form-container button:hover {
@@ -157,8 +170,7 @@ if ($stmt->num_rows > 0) {
             <ul>
                 <li><a href="../Admin_Pages/profile.php" id="profile-link">Profile</a></li>
                 <li><a href="../Admin_Pages/edit_teachers.php" id="edit-teachers-link">Manage Teachers</a></li>
-                <li><a href="../Admin_Pages/delete_teachers.php" id="delete-teachers-link">Delete Teachers</a></li>
-                <li><a href="../Admin_Pages/edit_timetable.php" id="edit-timetable-link">Manage Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_timetable.php" id="edit-timetable-link">Manage Class Timetable</a></li>
                 <li><a href="../Admin_Pages/edit_master_timetable.php" id="edit-master-timetable-link">Manage Master Timetable</a></li>
                 <li><a href="../Admin_Pages/edit_slider_images.php" id="edit-slider-images-link">Edit Slider Images</a></li>
             </ul>
@@ -190,11 +202,6 @@ if ($stmt->num_rows > 0) {
             document.getElementById('edit-teachers-link').addEventListener('click', function(event) {
                 event.preventDefault();
                 loadPage('../Admin_Pages/edit_teachers.php');
-            });
-
-            document.getElementById('delete-teachers-link').addEventListener('click', function(event) {
-                event.preventDefault();
-                loadPage('../Admin_Pages/delete_teachers.php');
             });
 
             document.getElementById('edit-timetable-link').addEventListener('click', function(event) {
