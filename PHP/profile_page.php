@@ -22,9 +22,26 @@ if ($connection->connect_error) {
 $username = $_SESSION['username'];
 $table_name = "teacher_time_table_" . $username; // Construct the table name dynamically
 
-$query_timetable = "SELECT * FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}'";
-$result_timetable = mysqli_query($connection, $query_timetable);
-
+try {
+    $query_timetable = "SELECT * FROM $table_name WHERE registration_id='{$_SESSION['registration_id']}'";
+    $result_timetable = mysqli_query($connection, $query_timetable);
+} catch (mysqli_sql_exception $e) {
+    // Table does not exist, create it
+    $create_table_query = "CREATE TABLE $table_name (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        registration_id VARCHAR(255) NOT NULL,
+        class_day VARCHAR(255) NOT NULL,
+        start_time TIME NOT NULL,
+        end_time TIME NOT NULL,
+        class_id VARCHAR(255) NOT NULL
+    )";
+    if ($connection->query($create_table_query) === TRUE) {
+        echo "Table $table_name created successfully";
+        $result_timetable = mysqli_query($connection, $query_timetable);
+    } else {
+        die("Error creating table: " . $connection->error);
+    }
+}
 
 // Fetch profile picture from database
 $session_username = $_SESSION['username'];
@@ -49,11 +66,38 @@ if ($stmt->num_rows > 0) {
 $teacher_username = $_SESSION['username'];
 $syllabus_table_name = "teacher_syllabus_table_" . $teacher_username;
 
-$syllabus_query = "SELECT * FROM $syllabus_table_name WHERE registration_id = ?";
-$syllabus_stmt = $connection->prepare($syllabus_query);
-$syllabus_stmt->bind_param("s", $_SESSION['registration_id']);
-$syllabus_stmt->execute();
-$syllabus_result = $syllabus_stmt->get_result();
+try {
+    $syllabus_query = "SELECT * FROM $syllabus_table_name WHERE registration_id = ?";
+    $syllabus_stmt = $connection->prepare($syllabus_query);
+    $syllabus_stmt->bind_param("s", $_SESSION['registration_id']);
+    $syllabus_stmt->execute();
+    $syllabus_result = $syllabus_stmt->get_result();
+} catch (mysqli_sql_exception $e) {
+    // Table does not exist, create it
+    $create_syllabus_table_query = "CREATE TABLE $syllabus_table_name (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        registration_id VARCHAR(255) NOT NULL,
+        week_id INT NOT NULL,
+        assign_date DATE NOT NULL,
+        conduct_date DATE NOT NULL,
+        start_time TIME NOT NULL,
+        lesson_time TIME NOT NULL,
+        mastery VARCHAR(255) NOT NULL,
+        section_number INT NOT NULL,
+        course_content TEXT NOT NULL,
+        teaching_date DATE NOT NULL,
+        note TEXT
+    )";
+    if ($connection->query($create_syllabus_table_query) === TRUE) {
+        echo "Table $syllabus_table_name created successfully";
+        $syllabus_stmt = $connection->prepare($syllabus_query);
+        $syllabus_stmt->bind_param("s", $_SESSION['registration_id']);
+        $syllabus_stmt->execute();
+        $syllabus_result = $syllabus_stmt->get_result();
+    } else {
+        $syllabus_result = null; // Proceed without the syllabus table
+    }
+}
 
 $stmt->close();
 ?>
@@ -203,11 +247,8 @@ $stmt->close();
                                 <th>Note</th>
                             </tr>
                             <?php
-                            switch ($syllabus_result->num_rows) {
-                                case 0:
-                                    echo "<tr><td colspan='10' class='error'>No syllabus details available for this user.</td></tr>";
-                                    break;
-                                default:
+                            if ($syllabus_result) {
+                                if ($syllabus_result->num_rows > 0) {
                                     while ($row = $syllabus_result->fetch_assoc()) {
                                         echo "<tr>";
                                         echo "<td>" . htmlspecialchars($row['week_id']) . "</td>";
@@ -222,7 +263,11 @@ $stmt->close();
                                         echo "<td>" . htmlspecialchars($row['note']) . "</td>";
                                         echo "</tr>";
                                     }
-                                    break;
+                                } else {
+                                    echo "<tr><td colspan='10' class='error'>No syllabus details available for this user.</td></tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='10' class='error'>Syllabus table not available.</td></tr>";
                             }
                             ?>
                         </table>
