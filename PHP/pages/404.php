@@ -1,5 +1,5 @@
 <?php
-$error_message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : null;
+$error_message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : "The page you are looking for doesn't exist or an error occurred.";
 ?>
 
 <!DOCTYPE html>
@@ -10,10 +10,12 @@ $error_message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : null
     <link rel="stylesheet" href="../../styles.css">
     <style>
         .not-found {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
             text-align: center;
-            margin-top: 188px;
-            padding: 63px;
+            height: 100vh;
             background-color: #f8f8f8;
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -52,7 +54,7 @@ $error_message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : null
 <body>
     <div class="not-found">
         <h1>404 Not Found</h1>
-        <p><?php echo $error_message ?: "The page you are looking for doesn't exist or an error occurred."; ?></p>
+        <p><?php echo $error_message; ?></p>
         <a href="../../index.php">Go Back to Home</a>
     </div>
 </body>

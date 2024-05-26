@@ -1,0 +1,5 @@
+# Enable the Rewrite Engine
+RewriteEngine On
+
+# Set the 404 error document
+ErrorDocument 404 /STMS/PHP/pages/404.php
