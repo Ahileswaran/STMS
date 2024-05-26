@@ -2,7 +2,8 @@
 session_start(); // Start the session
 
 // Define the error logging function or include it
-function log_error($error_message) {
+function log_error($error_message)
+{
     $log_file = __DIR__ . '/error_log.txt'; // Adjust path as needed
     $current_time = date('Y-m-d H:i:s');
     $log_message = "[{$current_time}] Error: {$error_message}\n";
@@ -79,21 +80,24 @@ try {
             </select>
         </div>
         <div class="Search_field">
-            <input type="text" name="search" placeholder="Search...">
-            <button type="submit">Search</button>
+            <form action="./PHP/pages/search.php" method="GET">
+                <input type="text" name="search" placeholder="Search..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
-        <?php if (isset($_SESSION['username'])): ?>
-        <div class="login_detail">
-            <div class='dropdown_details'>
-                <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
-                <div class='dropdown-content'>
-                    <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
-                    <a href='PHP/pages/profile_redirect.php'>Profile</a>
-                    <a href='PHP/logout.php'>Logout</a>
+
+        <?php if (isset($_SESSION['username'])) : ?>
+            <div class="login_detail">
+                <div class='dropdown_details'>
+                    <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
+                    <div class='dropdown-content'>
+                        <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
+                        <a href='PHP/pages/profile_redirect.php'>Profile</a>
+                        <a href='PHP/logout.php'>Logout</a>
+                    </div>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
     </header>
 
