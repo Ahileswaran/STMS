@@ -128,8 +128,10 @@ $stmt->close();
             </select>
         </div>
         <div class="Search_field">
-            <input type="text" name="search" placeholder="Search...">
-            <button type="submit">Search</button>
+            <form action="../PHP/pages/search.php" method="GET">
+                <input type="text" name="search" placeholder="Search..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
         <div class="login_detail">

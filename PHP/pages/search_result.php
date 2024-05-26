@@ -142,9 +142,9 @@ unset($_SESSION['search_results']);
     <header class="header">
         <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
-            <a class="active button" href="index.php">Home</a>
-            <a class="active button" href="PHP/pages/registering_page.php">Register</a>
-            <a class="active button" href="PHP/pages/login_page.php">Login</a>
+            <a class="active button" href="../../index.php">Home</a>
+            <a class="active button" href="../../PHP/pages/registering_page.php">Register</a>
+            <a class="active button" href="../../PHP/pages/login_page.php">Login</a>
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
@@ -155,7 +155,7 @@ unset($_SESSION['search_results']);
             </select>
         </div>
         <div class="Search_field">
-            <form action="./PHP/pages/search.php" method="GET">
+            <form action="./search.php" method="GET">
                 <input type="text" name="search" placeholder="Search..." required>
                 <button type="submit">Search</button>
             </form>
@@ -170,8 +170,8 @@ unset($_SESSION['search_results']);
                 echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
                 echo "<div class='dropdown-content'>";
                 echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-                echo "<a href='php/profile_redirect.php'>Profile</a>";
-                echo "<a href='php/logout.php'>Logout</a>";
+                echo "<a href='../profile_redirect.php'>Profile</a>";
+                echo "<a href='../logout.php'>Logout</a>";
                 echo "</div>";
                 echo "</div>";
             } else {

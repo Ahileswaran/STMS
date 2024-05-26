@@ -105,33 +105,37 @@ $connection->close();
             color: red;
             font-weight: bold;
         }
+
         .username-status.available {
             color: green;
         }
     </style>
     <script>
-    $(document).ready(function() {
-        $("#username").keyup(function() {
-            var username = $(this).val().trim();
+        $(document).ready(function() {
+            $("#username").keyup(function() {
+                var username = $(this).val().trim();
 
-            if (username != '') {
-                $.ajax({
-                    url: 'registering_page.php',
-                    type: 'post',
-                    data: {check_username: 1, username: username},
-                    success: function(response) {
-                        if (response == 'taken') {
-                            $("#username_status").html("Username already taken, please choose another.").removeClass("available").addClass("taken");
-                        } else if (response == 'available') {
-                            $("#username_status").html("Username is available.").removeClass("taken").addClass("available");
+                if (username != '') {
+                    $.ajax({
+                        url: 'registering_page.php',
+                        type: 'post',
+                        data: {
+                            check_username: 1,
+                            username: username
+                        },
+                        success: function(response) {
+                            if (response == 'taken') {
+                                $("#username_status").html("Username already taken, please choose another.").removeClass("available").addClass("taken");
+                            } else if (response == 'available') {
+                                $("#username_status").html("Username is available.").removeClass("taken").addClass("available");
+                            }
                         }
-                    }
-                });
-            } else {
-                $("#username_status").html("").removeClass("available taken");
-            }
+                    });
+                } else {
+                    $("#username_status").html("").removeClass("available taken");
+                }
+            });
         });
-    });
     </script>
 </head>
 
@@ -152,25 +156,24 @@ $connection->close();
             </select>
         </div>
         <div class="Search_field">
-            <input type="text" name="search" placeholder="Search...">
-            <button type="submit">Search</button>
+            <form action="search.php" method="GET">
+                <input type="text" name="search" placeholder="Search..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
-        <div class="login_detail">
-            <?php
-            if (isset($_SESSION['username'])) {
-                echo "<div class='dropdown_details'>";
-                echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
-                echo "<div class='dropdown-content'>";
-                echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-                echo "<a href='php/profile_redirect.php'>Profile</a>";
-                echo "<a href='php/logout.php'>Logout</a>";
-                echo "</div>";
-                echo "</div>";
-            } else {
-                echo "<a class='active button' href='../pages/login_page.php'>Login</a>";
-            }
-            ?>
+        <?php if (isset($_SESSION['username'])) : ?>
+            <div class="login_detail">
+                <div class='dropdown_details'>
+                    <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
+                    <div class='dropdown-content'>
+                        <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
+                        <a href='../profile_redirect.php'>Profile</a>
+                        <a href='../logout.php'>Logout</a>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
         </div>
 
     </header>

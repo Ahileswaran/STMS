@@ -18,7 +18,7 @@ try {
     // Check if user is logged in
     if (isset($_SESSION['username'])) {
         $session_username = $_SESSION['username'];
-        
+
         // Fetch profile picture from database
         $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
         $stmt = $connection->prepare($sql);
@@ -36,7 +36,7 @@ try {
             // Profile picture not found, use a default image
             $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
         }
-        
+
         require_once '../stay_login.php';
         $login_form_disabled = true;
     } else {
@@ -58,21 +58,26 @@ try {
     <link rel="stylesheet" href="../../styles.css">
     <style>
         /* Additional CSS to ensure footer placement */
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             display: flex;
             flex-direction: column;
         }
+
         .content {
             flex: 1;
         }
+
         .disabled-field {
             background-color: #f0f0f0;
             cursor: not-allowed;
         }
+
         .message {
-            color: red; /* Customize this color as needed */
+            color: red;
+            /* Customize this color as needed */
             font-weight: bold;
             margin-bottom: 20px;
         }
@@ -96,31 +101,33 @@ try {
             </select>
         </div>
         <div class="Search_field">
-            <input type="text" name="search" placeholder="Search...">
-            <button type="submit">Search</button>
+            <form action="search.php" method="GET">
+                <input type="text" name="search" placeholder="Search..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
-        <?php if (isset($_SESSION['username'])): ?>
-        <div class="login_detail">
-            <div class='dropdown_details'>
-                <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
-                <div class='dropdown-content'>
-                    <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
-                    <a href='../profile_redirect.php'>Profile</a>
-                    <a href='../logout.php'>Logout</a>
+        <?php if (isset($_SESSION['username'])) : ?>
+            <div class="login_detail">
+                <div class='dropdown_details'>
+                    <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
+                    <div class='dropdown-content'>
+                        <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
+                        <a href='../profile_redirect.php'>Profile</a>
+                        <a href='../logout.php'>Logout</a>
+                    </div>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
     </header>
 
     <div class="content">
         <!-- main content goes here -->
-        
+
         <div class="form-container">
             <div class="teacher-profile">
-                <?php if ($login_form_disabled): ?>
-                <div class="message">Please log out before attempting to log in again.</div>
+                <?php if ($login_form_disabled) : ?>
+                    <div class="message">Please log out before attempting to log in again.</div>
                 <?php endif; ?>
                 <form class="register-form" action="../../PHP/login.php" method="post" id="loginForm">
                     <label for="user-name">User Name/Mail: </label>

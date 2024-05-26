@@ -62,8 +62,10 @@ if ($stmt->num_rows > 0) {
             </select>
         </div>
         <div class="Search_field">
-            <input type="text" name="search" placeholder="Search...">
-            <button type="submit">Search</button>
+            <form action="search.php" method="GET">
+                <input type="text" name="search" placeholder="Search..." required>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
         <div class="login_detail">
