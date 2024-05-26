@@ -56,13 +56,11 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <header class="header">
         <img src="images/logo-STMS.jpg" alt="logo" class="logo-image">
@@ -85,8 +83,6 @@ try {
                 <button type="submit">Search</button>
             </form>
         </div>
-
-
         <?php if (isset($_SESSION['username'])) : ?>
             <div class="login_detail">
                 <div class='dropdown_details'>
@@ -98,62 +94,56 @@ try {
                     </div>
                 </div>
             </div>
+        <?php else: ?>
+            <!-- Placeholder for maintaining layout -->
+            <div class="login_detail_placeholder"></div>
         <?php endif; ?>
     </header>
-
-    <div class="slider">
-        <div class="slider-item active" id="image_1">
-            <img class="animated bounceInRight slider-img" src="images/slider/pic1.jpg">
-            <div class="row">
-                <h3 class="animated slideInLeft slider-caption mb-2">Events</h3>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slider-item active" id="image_1">
+                <img class="animated bounceInRight slider-img" src="images/slider/pic1.jpg">
+                <div class="row">
+                    <h3 class="animated slideInLeft slider-caption mb-2">Events</h3>
+                </div>
             </div>
-        </div>
-        <div class="slider-item">
-            <img class="animated bounceInRight slider-img" src="images/slider/pic2.jpg">
-            <div class="row">
-                <h3 class="animated slideInLeft slider-caption mb-2">Meetings</h3>
+            <div class="slider-item">
+                <img class="animated bounceInRight slider-img" src="images/slider/pic2.jpg">
+                <div class="row">
+                    <h3 class="animated slideInLeft slider-caption mb-2">Meetings</h3>
+                </div>
             </div>
-        </div>
-        <div class="slider-item">
-            <img class="animated bounceInRight slider-img" src="images/slider/pic3.jpg">
-            <div class="row">
-                <h3 class="animated slideInLeft slider-caption mb-2">Celebration</h3>
+            <div class="slider-item">
+                <img class="animated bounceInRight slider-img" src="images/slider/pic3.jpg">
+                <div class="row">
+                    <h3 class="animated slideInLeft slider-caption mb-2">Celebration</h3>
+                </div>
             </div>
         </div>
     </div>
-
     <div class="content">
         <!-- main content goes here -->
-
         <div class="master-table">
-
             <div class="worldclock">
                 <p id="currentDateTime"></p>
                 <p id="classDay"></p>
-
                 <script>
                     // Generate a random number to use as a cache buster
                     const cacheBuster = Math.random();
-
                     // Fetch current date and time from the World Time API with cache-busting parameter
                     fetch(`http://worldtimeapi.org/api/timezone/Asia/Colombo?cache=${cacheBuster}`)
                         .then(response => response.json())
                         .then(data => {
                             const currentDateTime = new Date(data.datetime);
-                            const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-                                "Saturday"
-                            ];
+                            const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                             const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
-
-                            document.getElementById("currentDateTime").textContent = "Current Date and Time: " +
-                                currentDateTime.toLocaleString();
+                            document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
                             document.getElementById("classDay").textContent = "Class Day: " + classDay;
                         })
                         .catch(error => {
                             console.error('Error fetching data:', error);
                         });
                 </script>
-
                 <div class="drop_menu_table">
                     <select id="daySelector" name="Day" onchange="generateTable()">
                         <option value="monday">Monday</option>
@@ -162,7 +152,6 @@ try {
                         <option value="thursday">Thursday</option>
                         <option value="friday">Friday</option>
                     </select>
-
                     <select id="timePeriodSelector" name="Time Period">
                         <option value="full">Full Time Period</option>
                         <option value="time_7">07:50:00 - 08:30:00</option>
@@ -174,18 +163,14 @@ try {
                         <option value="time_12">12:10:00 - 12:50:00</option>
                         <option value="time_1">12:50:00 - 13:30:00</option>
                     </select>
-
                     <button id="refreshButton" onclick="generateTable()">View Table</button>
                 </div>
-
             </div>
-
             <script>
                 function generateTable() {
                     // Get the selected day and time period
                     var selectedDay = document.getElementById("daySelector").value;
                     var selectedTimePeriod = document.getElementById("timePeriodSelector").value;
-
                     // Send an AJAX request to generate_table.php with the selected day and time period
                     $.ajax({
                         url: "generate_table.php",
@@ -203,19 +188,14 @@ try {
                         }
                     });
                 }
-
                 // Call generateTable function initially to load the default table
                 generateTable();
             </script>
-
             <div id="tableContainer">
                 <!-- Table generated by PHP will be displayed here -->
             </div>
-
         </div>
-
     </div>
-
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo">
@@ -233,8 +213,6 @@ try {
             </div>
         </div>
     </footer>
-
     <script src="javaScript.js"></script>
 </body>
-
 </html>

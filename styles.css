@@ -9,7 +9,6 @@ body {
 }
 
 /* Header style */
-
 .header {
     position: fixed;
     top: 0;
@@ -25,44 +24,13 @@ body {
 }
 
 .header .logo-image {
-    justify-content: flex-start;
-    margin-right: auto;
     height: 80px;
 }
 
-.header .navigation {
-    justify-content: flex-end;
-    margin-left: auto;
+.header nav {
     display: flex;
-}
-
-/* Style for active state in navigation */
-nav a.active {
-    background-color: #3498db;
-    color: #fff;
-}
-
-/* Style for all buttons in navigation */
-nav a.button,
-nav select {
-    padding: 10px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    margin-right: 5px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-/* Updated styles for the dropdown menu */
-.drop_menu select {
-    padding: 10px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    margin-right: 15px;
+    align-items: center;
+    margin-left: auto;
 }
 
 .header .Search_field {
@@ -96,24 +64,55 @@ nav select {
     transition: background-color 0.3s ease;
 }
 
+/* Style for active state in navigation */
+nav a.active {
+    background-color: #3498db;
+    color: #fff;
+}
+
+/* Style for all buttons in navigation */
+nav a.button,
+nav select {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Updated styles for the dropdown menu */
+.drop_menu select {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+/* Slider container */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 1800px;
+    margin: 120px auto 0 auto; /* Adjust margin-top to accommodate fixed header */
+    overflow: hidden;
+}
+
 /* Style for the slider */
 .slider {
     position: relative;
     width: 100%;
-    /* Set the width to 100% for responsiveness */
-    max-width: 1800px;
-    /* Set a maximum width */
-    height: auto;
-    /* Allow the height to adjust automatically */
-    margin: 100px auto 0 auto;
-    overflow: hidden;
 }
 
 .slider-item {
     position: relative;
     display: none;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */ /* Removed */
 }
 
 .slider-item.active {
@@ -123,7 +122,6 @@ nav select {
 .slider img {
     width: 100%;
     height: auto;
-    /* Allow the height to adjust automatically */
     object-fit: cover;
 }
 
@@ -135,13 +133,11 @@ nav select {
     font-size: 24px;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    z-index: 1;
+    z-index: 1; /* Ensure the caption is above the images */
 }
 
-
-/*Class Schedule table */
-
-.tatableContainer {
+/* Class Schedule table */
+.tableContainer {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
@@ -194,9 +190,7 @@ tr:nth-child(odd) {
     margin-top: 20px;
 }
 
-
 /* Style for the current date and time display */
-
 .worldclock {
     padding-left: 15px;
     margin-left: 20px;
@@ -263,15 +257,12 @@ tr:nth-child(odd) {
     text-decoration: underline;
 }
 
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
 
-
-/* Footer style*/
-
+/* Footer style */
 .footer {
     background-color: #29333d;
     color: #fff;
@@ -348,11 +339,7 @@ body {
     margin-top: 10px;
 }
 
-
-
-
-/*--------------- Login Page and Registering Page Style ---------------*/
-
+/* Login Page and Registering Page Style */
 .form-container {
     max-width: 600px;
     margin: 0 auto;
@@ -413,9 +400,7 @@ body {
     background-color: #0056b3;
 }
 
-
-/* Style for resource download Page*/
-
+/* Resource Download Page */
 .resource-page {
     padding-top: 20px;
     padding-bottom: 200px;
@@ -423,8 +408,7 @@ body {
     margin-left: 100px;
 }
 
-/* Style for teachers guide download Page*/
-
+/* Teachers Guide Download Page */
 .teachers-guide-page {
     padding-top: 20px;
     padding-bottom: 200px;
@@ -432,8 +416,7 @@ body {
     margin-left: 100px;
 }
 
-/* Style for syllabai download Page*/
-
+/* Syllabai Download Page */
 .syllabai-page {
     padding-top: 20px;
     padding-bottom: 200px;
@@ -441,8 +424,7 @@ body {
     margin-left: 100px;
 }
 
-/* Style for the Profile Page */
-
+/* Profile Page */
 .add-profile-pic {
     margin-left: 150px;
     margin-top: 20px;
@@ -469,9 +451,7 @@ body {
     background-color: #2980b9;
 }
 
-
-
-/* Style for the Admin Page */
+/* Admin Page */
 .admin-page {
     display: flex;
     flex-direction: column;
@@ -517,8 +497,7 @@ body {
     background-color: #45a049;
 }
 
-/*Style for the Leave Letter Generating Page */
-
+/* Leave Letter Generating Page */
 .levae-letter-page {
     align-items: center;
     margin-left: 300px;
@@ -527,7 +506,6 @@ body {
 
 .Wrire-letter {
     align-items: center;
-
 }
 
 .genarate-letter {
@@ -536,10 +514,7 @@ body {
     align-items: center;
 }
 
-
-
-/*Style for the About Page */
-
+/* About Page */
 .about-page {
     padding: 20px;
     border-radius: 10px;
@@ -550,8 +525,7 @@ body {
     align-items: flex-start;
 }
 
-/*Style for the Syllabus Page */
-
+/* Syllabus Page */
 .syllabus-page {
     padding: 20px;
     border-radius: 10px;
@@ -561,7 +535,6 @@ body {
     flex-direction: column;
     align-items: flex-start;
 }
-
 
 .syllabus-table {
     margin: 20px;
@@ -581,8 +554,7 @@ body {
     position: relative;
 }
 
-/*Style for the Substitute Manegment Page */
-
+/* Substitute Management Page */
 .substitute-page {
     padding: 20px;
     border-radius: 10px;
@@ -593,9 +565,7 @@ body {
     align-items: flex-start;
 }
 
-
-
-/* Style for Teacher Time Table Form */
+/* Teacher Time Table Form */
 .teacher_time_table {
     padding: 20px;
     border-radius: 10px;
@@ -647,7 +617,7 @@ body {
     background-color: #45a049;
 }
 
-/* Style for Teacher Syllabus Form */
+/* Teacher Syllabus Form */
 .teacher_syllabus,
 .preview_syllabus_table {
     padding: 20px;
@@ -721,10 +691,7 @@ body {
     background-color: #45a049;
 }
 
-
-
-
-/* Style for syllabus table container */
+/* Syllabus table container */
 .syllabus_table {
     padding: 10px;
     /* Reduce padding to make the table smaller */
@@ -744,14 +711,14 @@ body {
     /* Reduce margin */
 }
 
-/* Style for the syllabus table itself */
+/* Syllabus table itself */
 .syllabus_table table {
     width: 100%;
     border-collapse: collapse;
     /* Collapse borders */
 }
 
-/* Style for table header cells */
+/* Table header cells */
 .syllabus_table th {
     background-color: #5ab8f7;
     /* Light gray background for header cells */
@@ -762,7 +729,7 @@ body {
     /* Reduce font size */
 }
 
-/* Style for table data cells */
+/* Table data cells */
 .syllabus_table td {
     padding: 8px;
     /* Reduce padding */
@@ -771,7 +738,7 @@ body {
     /* Reduce font size */
 }
 
-/* Style for error message when no syllabus details available */
+/* Error message when no syllabus details available */
 .syllabus_table .error {
     text-align: center;
     color: red;
@@ -780,10 +747,7 @@ body {
     /* Reduce font size */
 }
 
-
-/* Style For logged-in details Dropdown menu */
-
-/* Dropdown container */
+/* Logged-in details dropdown menu */
 .dropdown_details {
     padding-right: 10px;
     position: relative;
@@ -802,8 +766,7 @@ body {
     padding-right: 50px;
 }
 
-/*--------------------- Dropdown content (hidden by default) -------------------*/
-
+/* Dropdown content (hidden by default) */
 .welcome-message {
     font-size: 14px;
     font-style: italic;
@@ -811,7 +774,6 @@ body {
     color: #333;
     margin-bottom: 8px;
 }
-
 
 .dropdown-content {
     display: none;
@@ -846,14 +808,9 @@ body {
     opacity: 0.8;
 }
 
-
-
-
-
 /* Admin Dashboard Styles */
 .admin-dashboard {
     position: fixed;
-
 }
 
 .admin-nav {
@@ -943,9 +900,7 @@ body {
     background-color: #555;
 }
 
-
 /* Responsive styles */
-
 @media screen and (max-width: 768px) {
     .form-container {
         padding: 1rem;
