@@ -1,39 +1,56 @@
 <?php
 session_start(); // Start the session
-//require_once 'php/stay_login.php';
-//require_once 'profile_page.php';
-//require_once 'admin_profile_page.php';
+
+// Define the error logging function or include it
+function log_error($error_message) {
+    $log_file = __DIR__ . '/error_log.txt'; // Adjust path as needed
+    $current_time = date('Y-m-d H:i:s');
+    $log_message = "[{$current_time}] Error: {$error_message}\n";
+    file_put_contents($log_file, $log_message, FILE_APPEND);
+}
 
 $username = "root";
 $password = "";
 $server = "localhost";
 $database = "stms_database";
 
-$connection = new mysqli($server, $username, $password, $database);
+try {
+    // Establish database connection
+    $connection = new mysqli($server, $username, $password, $database);
+    if ($connection->connect_error) {
+        throw new Exception("Connection failed: " . $connection->connect_error);
+    }
 
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
+    // Fetch profile picture from database
+    $session_username = $_SESSION['username'];
+    $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+    $stmt = $connection->prepare($sql);
+    if ($stmt === false) {
+        throw new Exception("Prepare statement failed: " . $connection->error);
+    }
+
+    $stmt->bind_param("s", $session_username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        // Profile picture found, display it
+        $stmt->bind_result($profile_pic_data);
+        $stmt->fetch();
+        $profile_pic = base64_encode($profile_pic_data);
+        $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+    } else {
+        // Profile picture not found, use a default image
+        $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+    }
+
+    $stmt->close();
+    $connection->close();
+} catch (Exception $e) {
+    log_error($e->getMessage());
+    header("Location: PHP/pages/404.php?error=" . urlencode($e->getMessage()));
+    exit();
 }
-
-// Fetch profile picture from database
-$session_username = $_SESSION['username'];
-$sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
-$stmt = $connection->prepare($sql);
-$stmt->bind_param("s", $session_username);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    // Profile picture found, display it
-    $stmt->bind_result($profile_pic_data);
-    $stmt->fetch();
-    $profile_pic = base64_encode($profile_pic_data);
-    $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
-} else {
-    // Profile picture not found, use a default image
-    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +67,8 @@ if ($stmt->num_rows > 0) {
         <img src="images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
             <a class="active button" href="index.php">Home</a>
-            <a class="active button" href="../STMS/PHP/pages/registering_page.php">Register</a>
-            <a class="active button" href="../STMS/PHP/pages/login_page.php">Login</a>
+            <a class="active button" href="PHP/pages/registering_page.php">Register</a>
+            <a class="active button" href="PHP/pages/login_page.php">Login</a>
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
@@ -72,43 +89,37 @@ if ($stmt->num_rows > 0) {
                 <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
                 <div class='dropdown-content'>
                     <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
-                    <a href='php/profile_redirect.php'>Profile</a>
-                    <a href='php/logout.php'>Logout</a>
+                    <a href='PHP/pages/profile_redirect.php'>Profile</a>
+                    <a href='PHP/logout.php'>Logout</a>
                 </div>
             </div>
         </div>
         <?php endif; ?>
-        </div>
-
     </header>
 
     <div class="slider">
         <div class="slider-item active" id="image_1">
-            <img class="animated bounceInRight slider-img" src="../STMS/images/slider/pic1.jpg">
+            <img class="animated bounceInRight slider-img" src="images/slider/pic1.jpg">
             <div class="row">
                 <h3 class="animated slideInLeft slider-caption mb-2">Events</h3>
             </div>
         </div>
         <div class="slider-item">
-            <img class="animated bounceInRight slider-img" src="../STMS/images/slider/pic2.jpg">
+            <img class="animated bounceInRight slider-img" src="images/slider/pic2.jpg">
             <div class="row">
                 <h3 class="animated slideInLeft slider-caption mb-2">Meetings</h3>
             </div>
         </div>
         <div class="slider-item">
-            <img class="animated bounceInRight slider-img" src="../STMS/images/slider/pic3.jpg">
+            <img class="animated bounceInRight slider-img" src="images/slider/pic3.jpg">
             <div class="row">
                 <h3 class="animated slideInLeft slider-caption mb-2">Celebration</h3>
             </div>
         </div>
     </div>
 
-
-
-
     <div class="content">
         <!-- main content goes here -->
-
 
         <div class="master-table">
 
@@ -164,8 +175,6 @@ if ($stmt->num_rows > 0) {
                 </div>
 
             </div>
-
-
 
             <script>
                 function generateTable() {
