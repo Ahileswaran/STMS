@@ -153,11 +153,8 @@ try {
             </div>
             <div class="footer-links">
                 <ul>
-                    <li><a href="#">Legal Stuff</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Security</a></li>
-                    <li><a href="#">Website Accessibility</a></li>
-                    <li><a href="#">Manage Cookies</a></li>
+                    <li><a href="about_page.php">About</a></li>
+                    <li><a href="manage_cookies.php">Manage Cookies</a></li>
                 </ul>
             </div>
         </div>

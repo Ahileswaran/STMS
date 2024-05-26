@@ -53,43 +53,49 @@ try {
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
-        .about-page {
-            padding: 20px;
+        .footer {
+            position: fixed;
+        }
+
+        .container {
             max-width: 800px;
             margin: 0 auto;
-            background: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin-top: 120px;
-            margin-bottom: 40px;
+            padding: 20px;
         }
 
-        .about-page h1,
-        .about-page h3 {
+        h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        .about-page p,
-        .about-page ul {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #333;
+        .cookie-settings {
+            margin-top: 200px;
+            margin-bottom: 20px;
+            margin-left: 280px;
         }
 
-        .about-page ul {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
-
-        .about-page li {
+        .cookie-settings label {
+            display: block;
             margin-bottom: 10px;
         }
 
-        @media (max-width: 768px) {
-            .about-page {
-                padding: 15px;
-                margin: 10px;
-            }
+        .cookie-settings input {
+            margin-right: 10px;
+        }
+
+        .cookie-settings button {
+            display: block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cookie-settings button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -130,26 +136,50 @@ try {
     </header>
 
     <div class="content">
-        <!-- main content goes here -->
-        <div class="about-page">
-            <h1>About</h1>
-            <h3>School Teachers Management System</h3>
-            <p>
-                Welcome to the School Teachers Management System (STMS), a comprehensive platform designed and developed by Dragons to streamline the management of school teachers and their activities. Our system includes several important features:
-            </p>
-            <ul>
-                <li>The system is administered by the school principal, who has full control over all activities.</li>
-                <li>Teachers can access the system only after logging in with their credentials.</li>
-                <li>Before logging in, teachers must create their profiles using the Register option.</li>
-                <li>Teachers are required to create a timetable for their subjects, which is then combined into a master timetable displayed on the Home page.</li>
-                <li>The system allows teachers to generate or write leave letters if needed, available through their profile page.</li>
-                <li>The principal can assign substitute teachers when regular teachers take leave.</li>
-                <li>The principal can add or remove teachers and assign classes as needed.</li>
-                <li>All activities within the system are monitored by the principal to ensure smooth operation.</li>
-                <li>Teachers can download guides and syllabi for their subjects from the Downloads section.</li>
-                <li>The system provides an interactive syllabus page for each subject, detailing the syllabus for three terms and displaying upcoming events and reminders.</li>
-            </ul>
+
+    <div class="container">
+        <h1>Manage Cookies</h1>
+        <div class="cookie-settings">
+            <label>
+                <input type="checkbox" id="acceptSessionCookies"> Accept Session Cookies
+            </label>
+            <label>
+                <input type="checkbox" id="acceptAuthCookies"> Accept Authentication Cookies
+            </label>
+            <label>
+                <input type="checkbox" id="acceptPreferenceCookies"> Accept Preference Cookies
+            </label>
+            <label>
+                <input type="checkbox" id="acceptAnalyticsCookies"> Accept Analytics Cookies
+            </label>
+            <button id="saveCookieSettings">Save Settings</button>
         </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const acceptSessionCookies = document.getElementById("acceptSessionCookies");
+            const acceptAuthCookies = document.getElementById("acceptAuthCookies");
+            const acceptPreferenceCookies = document.getElementById("acceptPreferenceCookies");
+            const acceptAnalyticsCookies = document.getElementById("acceptAnalyticsCookies");
+            const saveCookieSettings = document.getElementById("saveCookieSettings");
+
+            // Load cookie settings from localStorage
+            acceptSessionCookies.checked = localStorage.getItem("acceptSessionCookies") === "true";
+            acceptAuthCookies.checked = localStorage.getItem("acceptAuthCookies") === "true";
+            acceptPreferenceCookies.checked = localStorage.getItem("acceptPreferenceCookies") === "true";
+            acceptAnalyticsCookies.checked = localStorage.getItem("acceptAnalyticsCookies") === "true";
+
+            saveCookieSettings.addEventListener("click", function () {
+                localStorage.setItem("acceptSessionCookies", acceptSessionCookies.checked);
+                localStorage.setItem("acceptAuthCookies", acceptAuthCookies.checked);
+                localStorage.setItem("acceptPreferenceCookies", acceptPreferenceCookies.checked);
+                localStorage.setItem("acceptAnalyticsCookies", acceptAnalyticsCookies.checked);
+                alert("Cookie settings saved!");
+            });
+        });
+    </script>
+
     </div>
 
     <footer class="footer">
