@@ -1,3 +1,54 @@
+<?php
+session_start(); // Ensure the session is started
+
+$username = "root";
+$password = "";
+$server = "localhost";
+$database = "stms_database";
+
+$connection = new mysqli($server, $username, $password, $database);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+$login_form_disabled = false;
+
+try {
+    // Check if user is logged in
+    if (isset($_SESSION['username'])) {
+        $session_username = $_SESSION['username'];
+        
+        // Fetch profile picture from database
+        $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("s", $session_username);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            // Profile picture found, display it
+            $stmt->bind_result($profile_pic_data);
+            $stmt->fetch();
+            $profile_pic = base64_encode($profile_pic_data);
+            $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+        } else {
+            // Profile picture not found, use a default image
+            $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+        }
+        
+        require_once '../stay_login.php';
+        $login_form_disabled = true;
+    } else {
+        throw new Exception("User not logged in.");
+    }
+} catch (Exception $e) {
+    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+    $login_form_disabled = false;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +66,15 @@
         }
         .content {
             flex: 1;
+        }
+        .disabled-field {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+        .message {
+            color: red; /* Customize this color as needed */
+            font-weight: bold;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -40,41 +100,36 @@
             <button type="submit">Search</button>
         </div>
 
+        <?php if (isset($_SESSION['username'])): ?>
         <div class="login_detail">
-            <?php
-            // Check if user is logged in
-            if (isset($_SESSION['username'])) {
-                // If logged in, display the profile picture and username
-                echo "<div class='dropdown_details'>";
-                echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
-                echo "<div class='dropdown-content'>";
-                echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-                echo "<a href='php/profile_redirect.php'>Profile</a>";
-                echo "<a href='php/logout.php'>Logout</a>";
-                echo "</div>";
-                echo "</div>";
-            } else {
-                // If not logged in, display login option
-                echo "<a class='active button' href='../pages/login_page.php'>Login</a>";
-            }
-            ?>
+            <div class='dropdown_details'>
+                <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
+                <div class='dropdown-content'>
+                    <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
+                    <a href='../profile_redirect.php'>Profile</a>
+                    <a href='../logout.php'>Logout</a>
+                </div>
+            </div>
         </div>
+        <?php endif; ?>
     </header>
 
     <div class="content">
         <!-- main content goes here -->
-
-        <!-- Form container with glass effect -->
+        
         <div class="form-container">
             <div class="teacher-profile">
-                <form class="register-form" action="../../PHP/login.php" method="post">
+                <?php if ($login_form_disabled): ?>
+                <div class="message">Please log out before attempting to log in again.</div>
+                <?php endif; ?>
+                <form class="register-form" action="../../PHP/login.php" method="post" id="loginForm">
                     <label for="user-name">User Name/Mail: </label>
-                    <input id="user-name" name="user-name" type="text" required placeholder="User Name or Mail id..." autocomplete="username"><br><br>
+                    <input id="user-name" name="user-name" type="text" required placeholder="User Name or Mail id..." autocomplete="username" <?php if ($login_form_disabled) echo 'disabled class="disabled-field"'; ?>><br><br>
 
                     <label for="password">Password: </label>
-                    <input id="password" name="password" type="password" required placeholder="Password..." autocomplete="current-password"><br><br>
+                    <input id="password" name="password" type="password" required placeholder="Password..." autocomplete="current-password" <?php if ($login_form_disabled) echo 'disabled class="disabled-field"'; ?>><br><br>
 
-                    <button type="submit" value="enter">Login</button>
+                    <button type="submit" value="enter" <?php if ($login_form_disabled) echo 'disabled class="disabled-field"'; ?>>Login</button>
 
                     <a href="registering_page.php" class="login_link">Register</a><br>
                     <a href="reset-password.php" class="login_link">Forgot password</a>
@@ -100,8 +155,6 @@
             </div>
         </div>
     </footer>
-
-    <script src="../../javaScript.js"></script>
 </body>
 
 </html>

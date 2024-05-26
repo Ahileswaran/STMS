@@ -50,8 +50,8 @@ if ($stmt->num_rows > 0) {
         <img src="images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
             <a class="active button" href="index.php">Home</a>
-            <a class="active button" href="./php/pages/registering_page.php">Register</a>
-            <a class="active button" href="./php/pages/login_page.php">Login</a>
+            <a class="active button" href="../STMS/PHP/pages/registering_page.php">Register</a>
+            <a class="active button" href="../STMS/PHP/pages/login_page.php">Login</a>
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
@@ -66,24 +66,18 @@ if ($stmt->num_rows > 0) {
             <button type="submit">Search</button>
         </div>
 
+        <?php if (isset($_SESSION['username'])): ?>
         <div class="login_detail">
-            <?php
-            // Check if user is logged in
-            if (isset($_SESSION['username'])) {
-                // If logged in, display the profile picture and username
-                echo "<div class='dropdown_details'>";
-                echo "<img src='$profile_pic_src' alt='Profile Picture' class='profile-pic'>";
-                echo "<div class='dropdown-content'>";
-                echo "<p class='welcome-message'>Welcome, " . $_SESSION['username'] . "</p>";
-                echo "<a href='php/profile_redirect.php'>Profile</a>";
-                echo "<a href='php/logout.php'>Logout</a>";
-                echo "</div>";
-                echo "</div>";
-            } else {
-                // If not logged in, display login option
-                echo "<a class='active button' href='../pages/login_page.php'>Login</a>";
-            }
-            ?>
+            <div class='dropdown_details'>
+                <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
+                <div class='dropdown-content'>
+                    <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
+                    <a href='php/profile_redirect.php'>Profile</a>
+                    <a href='php/logout.php'>Logout</a>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
         </div>
 
     </header>

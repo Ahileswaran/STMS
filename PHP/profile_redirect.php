@@ -25,10 +25,10 @@ if(isset($_SESSION['username'])) {
         
         // Redirect based on user's role
         if($user_role == 'teacher') {
-            header("Location: profile_page.php");
+            header("Location: ./pages/profile_page.php");
             exit();
         } elseif($user_role == 'principal') {
-            header("Location: admin_profile_page.php");
+            header("Location: ./pages/admin_page.php");
             exit();
         }
     } else {
