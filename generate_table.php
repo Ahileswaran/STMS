@@ -41,23 +41,23 @@ if ($result->num_rows > 0) {
 // Map the selected time period value to the corresponding time slots
 $timePeriodMap = [
     "full" => [
-        '07:50:00 - 08:30:00',
-        '08:30:00 - 09:10:00',
-        '09:10:00 - 09:50:00',
-        '09:50:00 - 10:30:00',
-        '10:50:00 - 11:30:00',
-        '11:30:00 - 12:10:00',
-        '12:10:00 - 12:50:00',
-        '12:50:00 - 13:30:00'
+        1 => '07:50:00 - 08:30:00',
+        2 => '08:30:00 - 09:10:00',
+        3 => '09:10:00 - 09:50:00',
+        4 => '09:50:00 - 10:30:00',
+        5 => '10:50:00 - 11:30:00',
+        6 => '11:30:00 - 12:10:00',
+        7 => '12:10:00 - 12:50:00',
+        8 => '12:50:00 - 13:30:00'
     ],
-    "time_7" => '07:50:00 - 08:30:00',
-    "time_8" => '08:30:00 - 09:10:00',
-    "time_9" => '09:10:00 - 09:50:00',
-    "time_9_50" => '09:50:00 - 10:30:00',
-    "time_10" => '10:50:00 - 11:30:00',
-    "time_11" => '11:30:00 - 12:10:00',
-    "time_12" => '12:10:00 - 12:50:00',
-    "time_1" => '12:50:00 - 13:30:00'
+    "time_7" => 1,
+    "time_8" => 2,
+    "time_9" => 3,
+    "time_9_50" => 4,
+    "time_10" => 5,
+    "time_11" => 6,
+    "time_12" => 7,
+    "time_1" => 8
 ];
 
 // Get the selected time slots based on the current time period
@@ -68,8 +68,8 @@ if (isset($timePeriodMap[$currentTimePeriod])) {
     $selectedTimeSlots = $timePeriodMap["full"];
 }
 
-// Modify the SQL query to join class_time_table with master_time_table based on the username
-$sql = "SELECT c.class_id, c.start_time, c.end_time, c.$currentDay AS subject, m.username
+// Modify the SQL query to join class_time_table with master_time_table based on the period
+$sql = "SELECT c.class_id, m.period, c.$currentDay AS subject, m.username
         FROM class_time_table c
         INNER JOIN master_time_table m ON c.start_time = m.start_time AND c.end_time = m.end_time
         WHERE c.$currentDay IS NOT NULL";
@@ -77,10 +77,10 @@ $sql = "SELECT c.class_id, c.start_time, c.end_time, c.$currentDay AS subject, m
 // Adjust the query based on the selected time period
 if ($currentTimePeriod !== "full" && !is_array($selectedTimeSlots)) {
     // Modify the query to fetch data for the selected time period
-    $sql .= " AND c.start_time <= '$selectedTimeSlots' AND c.end_time >= '$selectedTimeSlots'";
+    $sql .= " AND m.period = '$selectedTimeSlots'";
 }
 
-$sql .= " ORDER BY c.start_time";
+$sql .= " ORDER BY m.period";
 
 $result = $connection->query($sql);
 
@@ -95,7 +95,8 @@ if ($result) {
     while ($row = $result->fetch_assoc()) {
         $classSchedules[$row['class_id']][] = [
             'class_id' => $row['class_id'], // Ensure class_id is included
-            'time' => $row["start_time"] . " - " . $row["end_time"],
+            'period' => $row["period"],
+            'time' => $timePeriodMap["full"][$row["period"]],
             'subject' => $row['subject'],
             'username' => $row['username'] // Include the username
         ];
@@ -276,7 +277,7 @@ th:nth-child(6), td:nth-child(6) {
 echo "<div class='container'>";
 echo "<table border='1'>";
 echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
-echo "<tr><th>Time</th>";
+echo "<tr><th>Period</th>";
 foreach ($grades_table1 as $grade) {
     echo "<th>$grade</th>";
 }
@@ -284,14 +285,14 @@ echo "</tr>";
 
 if (is_array($selectedTimeSlots)) {
     // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $timeSlot) {
+    foreach ($selectedTimeSlots as $period => $timeSlot) {
         echo "<tr>";
         echo "<td>" . $timeSlot . "</td>";
         foreach ($grades_table1 as $grade) {
             echo "<td>";
             $classFound = false;
             foreach ($classSchedules[$grade] as $class) {
-                if ($class['time'] == $timeSlot) {
+                if ($class['period'] == $period) {
                     echo "<div class='name'>" . $class['subject'] . "</div><br>";
                     echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
                     if (isset($profilePictures[$class['username']])) {
@@ -314,11 +315,11 @@ if (is_array($selectedTimeSlots)) {
     // Display the time slots for the selected time period
     for ($i = 0; $i < $maxClasses; $i++) {
         echo "<tr>";
-        // Display the time slot
-        echo "<td>" . $selectedTimeSlots . "</td>";
+        // Display the period
+        echo "<td>" . $timePeriodMap["full"][$selectedTimeSlots] . "</td>";
         foreach ($grades_table1 as $grade) {
             echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $selectedTimeSlots) {
+            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['period'] == $selectedTimeSlots) {
                 // Display the subject name, username, and profile picture
                 echo "<div class='name'>" . $classSchedules[$grade][$i]['subject'] . "</div><br>";
                 echo "<div class='username'>Username: " . $classSchedules[$grade][$i]['username'] . "</div><br>";
@@ -343,7 +344,7 @@ echo "</div>";
 echo "<div class='container'>";
 echo "<table border='1'>";
 echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
-echo "<tr><th>Time</th>";
+echo "<tr><th>Period</th>";
 foreach ($grades_table2 as $grade) {
     echo "<th>$grade</th>";
 }
@@ -351,14 +352,14 @@ echo "</tr>";
 
 if (is_array($selectedTimeSlots)) {
     // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $timeSlot) {
+    foreach ($selectedTimeSlots as $period => $timeSlot) {
         echo "<tr>";
         echo "<td>" . $timeSlot . "</td>";
         foreach ($grades_table2 as $grade) {
             echo "<td>";
             $classFound = false;
             foreach ($classSchedules[$grade] as $class) {
-                if ($class['time'] == $timeSlot) {
+                if ($class['period'] == $period) {
                     echo "<div class='name'>" . $class['subject'] . "</div><br>";
                     echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
                     if (isset($profilePictures[$class['username']])) {
@@ -381,11 +382,11 @@ if (is_array($selectedTimeSlots)) {
     // Display the time slots for the selected time period
     for ($i = 0; $i < $maxClasses; $i++) {
         echo "<tr>";
-        // Display the time slot
-        echo "<td>" . $selectedTimeSlots . "</td>";
+        // Display the period
+        echo "<td>" . $timePeriodMap["full"][$selectedTimeSlots] . "</td>";
         foreach ($grades_table2 as $grade) {
             echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['time'] === $selectedTimeSlots) {
+            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['period'] == $selectedTimeSlots) {
                 // Display the subject name, username, and profile picture
                 echo "<div class='name'>" . $classSchedules[$grade][$i]['subject'] . "</div><br>";
                 echo "<div class='username'>Username: " . $classSchedules[$grade][$i]['username'] . "</div><br>";
@@ -406,3 +407,4 @@ if (is_array($selectedTimeSlots)) {
 echo "</table>";
 echo "</div>";
 ?>
+
