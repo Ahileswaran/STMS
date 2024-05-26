@@ -89,8 +89,8 @@ try {
                     <img src='<?php echo $profile_pic_src; ?>' alt='Profile Picture' class='profile-pic'>
                     <div class='dropdown-content'>
                         <p class='welcome-message'>Welcome, <?php echo $_SESSION['username']; ?></p>
-                        <a href='PHP/pages/profile_redirect.php'>Profile</a>
-                        <a href='PHP/logout.php'>Logout</a>
+                        <a href='./PHP/profile_redirect.php'>Profile</a>
+                        <a href='./PHP/logout.php'>Logout</a>
                     </div>
                 </div>
             </div>
