@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($stmt->execute()) {
         $sql_login = "INSERT INTO login (username, email, user_password, user_role) VALUES ('$username', '$email', '$user_password', '$user_role')";
         if (mysqli_query($connection, $sql_login)) {
-            echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.html';</script>";
+            echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.php';</script>";
         }
     } else {
         echo "ERROR: Could not able to execute $stmt. " . $stmt->error;

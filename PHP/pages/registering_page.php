@@ -119,7 +119,7 @@ if ($stmt->num_rows > 0) {
                 <input id="marital_status" name="marital_status" type="text"><br>
 
                 <label for="teacher_id">Registration Number: </label>
-                <input id="teacher_id" name="teacher_id" type="text"><br>
+                <input id="teacher_id" name="teacher_id" type="text" placeholder="Principal 'TN|PRI...' Teacher 'TN|TEA...'"><br>
 
                 <label for="subject">Subject: </label>
                 <input id="subject" name="subject" type="text"><br>
