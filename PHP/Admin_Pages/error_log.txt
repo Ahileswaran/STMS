@@ -1,0 +1,3 @@
+[2024-05-26 22:01:07] Error: Table 'stms_database.teachers' doesn't exist
+[2024-05-26 22:01:11] Error: Table 'stms_database.teachers' doesn't exist
+[2024-05-26 22:01:19] Error: Table 'stms_database.teachers' doesn't exist

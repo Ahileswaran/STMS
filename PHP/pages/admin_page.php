@@ -1,8 +1,5 @@
 <?php
 session_start(); // Start the session
-//require_once 'php/stay_login.php';
-//require_once 'profile_page.php';
-//require_once 'admin_profile_page.php';
 
 $username = "root";
 $password = "";
@@ -43,6 +40,70 @@ if ($stmt->num_rows > 0) {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            padding: 20px;
+        }
+
+        .scrollable {
+            overflow-y: scroll;
+            height: 400px;
+            flex: 1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 20px;
+            margin-left: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%; /* Make the button full width */
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 
 <body>
@@ -97,7 +158,7 @@ if ($stmt->num_rows > 0) {
                 <li><a href="../Admin_Pages/profile.php" id="profile-link">Profile</a></li>
                 <li><a href="../Admin_Pages/edit_teachers.php" id="edit-teachers-link">Manage Teachers</a></li>
                 <li><a href="../Admin_Pages/delete_teachers.php" id="delete-teachers-link">Delete Teachers</a></li>
-                <li><a href="../Admin_Pages/edit_timetable.php" id="edit-timetable-link">Mange Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_timetable.php" id="edit-timetable-link">Manage Timetable</a></li>
                 <li><a href="../Admin_Pages/edit_master_timetable.php" id="edit-master-timetable-link">Manage Master Timetable</a></li>
                 <li><a href="../Admin_Pages/edit_slider_images.php" id="edit-slider-images-link">Edit Slider Images</a></li>
             </ul>
@@ -105,7 +166,7 @@ if ($stmt->num_rows > 0) {
     </div>
 
     <div class="main-content" id="main-content">
-        <!-- Place the main content here -->
+        <!-- Main content will be loaded here dynamically -->
     </div>
 
     <script>
@@ -125,7 +186,6 @@ if ($stmt->num_rows > 0) {
                 event.preventDefault();
                 loadPage('../Admin_Pages/profile.php');
             });
-
 
             document.getElementById('edit-teachers-link').addEventListener('click', function(event) {
                 event.preventDefault();
@@ -151,6 +211,9 @@ if ($stmt->num_rows > 0) {
                 event.preventDefault();
                 loadPage('../Admin_Pages/edit_slider_images.php');
             });
+
+            // Load the default page on initial load
+            loadPage('../Admin_Pages/edit_teachers.php');
         });
     </script>
 

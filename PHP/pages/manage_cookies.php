@@ -190,7 +190,7 @@ try {
             </div>
             <div class="footer-links">
                 <ul>
-                    <li><a href="../pages/manage_cookies.php">About</a></li>
+                    <li><a href="../pages/about_page.php">About</a></li>
                     <li><a href="../pages/manage_cookies.php">Manage Cookies</a></li>
                 </ul>
             </div>
