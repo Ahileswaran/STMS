@@ -61,14 +61,11 @@ if ($stmt->num_rows > 0) {
             margin-top: 20px;
         }
 
-        table,
-        th,
-        td {
+        table, th, td {
             border: 1px solid #ccc;
         }
 
-        th,
-        td {
+        th, td {
             padding: 10px;
             text-align: left;
         }
@@ -110,11 +107,47 @@ if ($stmt->num_rows > 0) {
             border: none;
             cursor: pointer;
             width: 100%;
-            /* Make the button full width */
         }
 
         .form-container button:hover {
             background-color: #45a049;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .dropdown_details {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown_details:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p, .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .welcome-message {
+            margin: 0;
         }
     </style>
 </head>
@@ -161,18 +194,18 @@ if ($stmt->num_rows > 0) {
             }
             ?>
         </div>
-
     </header>
 
     <div class="admin-dashboard">
         <!-- Admin Dashboard Navigation -->
         <nav class="admin-nav">
             <ul>
-                <li><a href="../Admin_Pages/profile.php" id="profile-link">Profile</a></li>
-                <li><a href="../Admin_Pages/edit_teachers.php" id="edit-teachers-link">Manage Teachers</a></li>
-                <li><a href="../Admin_Pages/edit_timetable.php" id="edit-timetable-link">Manage Class Timetable</a></li>
-                <li><a href="../Admin_Pages/edit_master_timetable.php" id="edit-master-timetable-link">Manage Master Timetable</a></li>
-                <li><a href="../Admin_Pages/edit_slider_images.php" id="edit-slider-images-link">Edit Slider Images</a></li>
+                <li><a href="#" id="profile-link">Profile</a></li>
+                <li><a href="#" id="edit-teachers-link">Manage Teachers</a></li>
+                <li><a href="#" id="edit-class-table-link">Manage Class Timetable</a></li>
+                <li><a href="#" id="edit-master-table-link">Manage Master Timetable</a></li>
+                <li><a href="#" id="edit_teacher_time_tabl-link">Manage Teacher Timetable</a></li>
+                <li><a href="#" id="edit-slider-images-link">Edit Slider Images</a></li>
             </ul>
         </nav>
     </div>
@@ -182,7 +215,7 @@ if ($stmt->num_rows > 0) {
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             function loadPage(url) {
                 fetch(url)
                     .then(response => response.text())
@@ -194,33 +227,47 @@ if ($stmt->num_rows > 0) {
                     });
             }
 
-            document.getElementById('profile-link').addEventListener('click', function(event) {
+            const links = {
+                profile: '../Admin_Pages/profile.php',
+                editTeachers: '../Admin_Pages/edit_teachers.php',
+                editClassTable: '../Admin_Pages/edit_class_table.php',
+                editMasterTable: '../Admin_Pages/edit_master_table.php',
+                editTeacherTimetable: '../Admin_Pages/edit_teacher_time_table.php',
+                editSliderImages: '../Admin_Pages/edit_slider_images.php'
+            };
+
+            document.getElementById('profile-link').addEventListener('click', function (event) {
                 event.preventDefault();
-                loadPage('../Admin_Pages/profile.php');
+                loadPage(links.profile);
             });
 
-            document.getElementById('edit-teachers-link').addEventListener('click', function(event) {
+            document.getElementById('edit-teachers-link').addEventListener('click', function (event) {
                 event.preventDefault();
-                loadPage('../Admin_Pages/edit_teachers.php');
+                loadPage(links.editTeachers);
             });
 
-            document.getElementById('edit-timetable-link').addEventListener('click', function(event) {
+            document.getElementById('edit-class-table-link').addEventListener('click', function (event) {
                 event.preventDefault();
-                loadPage('../Admin_Pages/edit_timetable.php');
+                loadPage(links.editClassTable);
             });
 
-            document.getElementById('edit-master-timetable-link').addEventListener('click', function(event) {
+            document.getElementById('edit-master-table-link').addEventListener('click', function (event) {
                 event.preventDefault();
-                loadPage('../Admin_Pages/edit_master_timetable.php');
+                loadPage(links.editMasterTable);
             });
 
-            document.getElementById('edit-slider-images-link').addEventListener('click', function(event) {
+            document.getElementById('edit_teacher_time_tabl-link').addEventListener('click', function (event) {
                 event.preventDefault();
-                loadPage('../Admin_Pages/edit_slider_images.php');
+                loadPage(links.editTeacherTimetable);
+            });
+
+            document.getElementById('edit-slider-images-link').addEventListener('click', function (event) {
+                event.preventDefault();
+                loadPage(links.editSliderImages);
             });
 
             // Load the default page on initial load
-            loadPage('../Admin_Pages/edit_teachers.php');
+            loadPage(links.editTeachers);
         });
     </script>
 
