@@ -204,7 +204,7 @@ if ($stmt->num_rows > 0) {
                 <li><a href="#" id="edit-teachers-link">Manage Teachers</a></li>
                 <li><a href="#" id="edit-class-table-link">Manage Class Timetable</a></li>
                 <li><a href="#" id="edit-master-table-link">Manage Master Timetable</a></li>
-                <li><a href="#" id="edit_teacher_time_tabl-link">Manage Teacher Timetable</a></li>
+                <li><a href="#" id="edit-teacher-time-table-link">Manage Teacher Timetable</a></li> <!-- Corrected ID -->
                 <li><a href="#" id="edit-slider-images-link">Edit Slider Images</a></li>
             </ul>
         </nav>
@@ -256,7 +256,7 @@ if ($stmt->num_rows > 0) {
                 loadPage(links.editMasterTable);
             });
 
-            document.getElementById('edit_teacher_time_tabl-link').addEventListener('click', function (event) {
+            document.getElementById('edit-teacher-time-table-link').addEventListener('click', function (event) { 
                 event.preventDefault();
                 loadPage(links.editTeacherTimetable);
             });
