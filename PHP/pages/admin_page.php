@@ -149,6 +149,12 @@ if ($stmt->num_rows > 0) {
         .welcome-message {
             margin: 0;
         }
+
+        .main-content {
+            width: 100%;
+            height: 1000px; /* Adjust as needed */
+            border: none;
+        }
     </style>
 </head>
 
@@ -200,76 +206,17 @@ if ($stmt->num_rows > 0) {
         <!-- Admin Dashboard Navigation -->
         <nav class="admin-nav">
             <ul>
-                <li><a href="#" id="profile-link">Profile</a></li>
-                <li><a href="#" id="edit-teachers-link">Manage Teachers</a></li>
-                <li><a href="#" id="edit-class-table-link">Manage Class Timetable</a></li>
-                <li><a href="#" id="edit-master-table-link">Manage Master Timetable</a></li>
-                <li><a href="#" id="edit-teacher-time-table-link">Manage Teacher Timetable</a></li> <!-- Corrected ID -->
-                <li><a href="#" id="edit-slider-images-link">Edit Slider Images</a></li>
+                <li><a href="../Admin_Pages/profile.php" target="main-frame" id="profile-link">Profile</a></li>
+                <li><a href="../Admin_Pages/edit_teachers.php" target="main-frame" id="edit-teachers-link">Manage Teachers</a></li>
+                <li><a href="../Admin_Pages/edit_class_table.php" target="main-frame" id="edit-class-table-link">Manage Class Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_master_table.php" target="main-frame" id="edit-master-table-link">Manage Master Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_teacher_time_table.php" target="main-frame" id="edit-teacher-time-table-link">Manage Teacher Timetable</a></li>
+                <li><a href="../Admin_Pages/edit_slider_images.php" target="main-frame" id="edit-slider-images-link">Edit Slider Images</a></li>
             </ul>
         </nav>
     </div>
 
-    <div class="main-content" id="main-content">
-        <!-- Main content will be loaded here dynamically -->
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function loadPage(url) {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('main-content').innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('Error loading page:', error);
-                    });
-            }
-
-            const links = {
-                profile: '../Admin_Pages/profile.php',
-                editTeachers: '../Admin_Pages/edit_teachers.php',
-                editClassTable: '../Admin_Pages/edit_class_table.php',
-                editMasterTable: '../Admin_Pages/edit_master_table.php',
-                editTeacherTimetable: '../Admin_Pages/edit_teacher_time_table.php',
-                editSliderImages: '../Admin_Pages/edit_slider_images.php'
-            };
-
-            document.getElementById('profile-link').addEventListener('click', function (event) {
-                event.preventDefault();
-                loadPage(links.profile);
-            });
-
-            document.getElementById('edit-teachers-link').addEventListener('click', function (event) {
-                event.preventDefault();
-                loadPage(links.editTeachers);
-            });
-
-            document.getElementById('edit-class-table-link').addEventListener('click', function (event) {
-                event.preventDefault();
-                loadPage(links.editClassTable);
-            });
-
-            document.getElementById('edit-master-table-link').addEventListener('click', function (event) {
-                event.preventDefault();
-                loadPage(links.editMasterTable);
-            });
-
-            document.getElementById('edit-teacher-time-table-link').addEventListener('click', function (event) { 
-                event.preventDefault();
-                loadPage(links.editTeacherTimetable);
-            });
-
-            document.getElementById('edit-slider-images-link').addEventListener('click', function (event) {
-                event.preventDefault();
-                loadPage(links.editSliderImages);
-            });
-
-            // Load the default page on initial load
-            loadPage(links.editTeachers);
-        });
-    </script>
+    <iframe src="../Admin_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
 
 </body>
 
