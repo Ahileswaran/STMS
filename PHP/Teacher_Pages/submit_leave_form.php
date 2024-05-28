@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start the session
 
-$username = "root";
-$password = "";
-$server = "localhost";
-$database = "stms_database";
+$username = "root"; 
+$password = ""; 
+$server = "localhost";  
+$database = "stms_database"; 
 
 $connection = new mysqli($server, $username, $password, $database);
 
@@ -12,8 +12,8 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_SESSION['username']; // Automatically fill the username from session
     $name = $_POST['name'];
     $post = $_POST['post'];
     $department = $_POST['department'];
@@ -27,16 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $leave_period_address = $_POST['leave_period_address'];
     $applicant_signature = $_POST['applicant_signature'];
 
-    $sql = "INSERT INTO teacher_leave_form (name, post, department, leave_type, leave_days, leave_taken_current_year, appointment_date, leave_start_date, duty_resume_date, leave_reason, leave_period_address, applicant_signature) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO teacher_leave_form (username, name, post, department, leave_type, leave_days, leave_taken_current_year, appointment_date, leave_start_date, duty_resume_date, leave_reason, leave_period_address, applicant_signature) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param("sssiiissssss", $name, $post, $department, $leave_type, $leave_days, $leave_taken_current_year, $appointment_date, $leave_start_date, $duty_resume_date, $leave_reason, $leave_period_address, $applicant_signature);
-    $stmt->execute();
+    $stmt->bind_param("sssssiissssss", $username, $name, $post, $department, $leave_type, $leave_days, $leave_taken_current_year, $appointment_date, $leave_start_date, $duty_resume_date, $leave_reason, $leave_period_address, $applicant_signature);
 
-    // Check for errors
-    if ($stmt->error) {
-        echo "Error: " . $stmt->error;
-    } else {
+    if ($stmt->execute()) {
         echo "Leave form submitted successfully!";
+    } else {
+        echo "Error: " . $stmt->error;
     }
 
     $stmt->close();
@@ -47,7 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Teacher Leave Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Leave Form</title>
     <style>
         .form-container {
             max-width: 600px;
@@ -90,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="form-container">
         <h2>Teacher Leave Form</h2>
-        <form method="POST">
+        <form method="POST" action="submit_leave_form.php">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 

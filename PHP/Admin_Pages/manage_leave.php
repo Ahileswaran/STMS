@@ -31,13 +31,35 @@ if ($stmt->num_rows > 0) {
     $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
 }
 
+// Handle form approval
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['form_id'])) {
+    $form_id = $_POST['form_id'];
+    $approval = $_POST['approval'];
+    $supervising_officer_signature = $_POST['supervising_officer_signature'];
+    $department_officer_signature = $_POST['department_officer_signature'];
+
+    $sql = "UPDATE teacher_leave_form SET supervising_officer_signature = ?, department_officer_signature = ?, leave_granted = ? WHERE id = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ssii", $supervising_officer_signature, $department_officer_signature, $approval, $form_id);
+    $stmt->execute();
+}
+
+// Fetch all pending leave forms
+$sql = "SELECT * FROM teacher_leave_form WHERE leave_granted IS NULL";
+$result = $connection->query($sql);
+
+$pending_forms = [];
+if ($result) {
+    $pending_forms = $result->fetch_all(MYSQLI_ASSOC);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>School Teacher Management System</title>
+    <title>Manage Teacher Leave Forms</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
         .container {
@@ -91,27 +113,6 @@ if ($stmt->num_rows > 0) {
             margin-top: 71px;
         }
 
-        .form-container input[type="text"],
-        .form-container input[type="number"],
-        .form-container select {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .form-container button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .form-container button:hover {
-            background-color: #45a049;
-        }
-
         .profile-pic {
             width: 50px;
             height: 50px;
@@ -149,36 +150,33 @@ if ($stmt->num_rows > 0) {
             margin: 0;
         }
 
-        .main-content {
-            width: 100%;
-            height: 1000px; /* Adjust as needed */
-            border: none;
+        .approval-form {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
         }
 
-        .admin-nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .admin-nav li {
-            margin: 10px 0;
-        }
-
-        .admin-nav a {
-            display: block;
-            padding: 10px;
-            color: #000;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .admin-nav a:hover {
-            background-color: #ddd;
-        }
-
-        .admin-nav a.active {
+        .approval-form button {
+            padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .approval-form button:hover {
+            background-color: #45a049;
+        }
+
+        .message-granted {
+            color: green;
+        }
+
+        .message-not-granted {
+            color: red;
         }
     </style>
 </head>
@@ -227,35 +225,48 @@ if ($stmt->num_rows > 0) {
         </div>
     </header>
 
-    <div class="admin-dashboard">
-        <!-- Admin Dashboard Navigation -->
-        <nav class="admin-nav">
-            <ul>
-                <li><a href="../Admin_Pages/profile.php" target="main-frame" id="profile-link">Profile</a></li>
-                <li><a href="../Admin_Pages/edit_teachers.php" target="main-frame" id="edit-teachers-link">Manage Teachers</a></li>
-                <li><a href="../Admin_Pages/manage_leave.php" target="main-frame" id="manage-leave-link">Manage Leave</a></li>
-                <li><a href="../Admin_Pages/edit_class_table.php" target="main-frame" id="edit-class-table-link">Manage Class Timetable</a></li>
-                <li><a href="../Admin_Pages/edit_master_table.php" target="main-frame" id="edit-master-table-link">Manage Master Timetable</a></li>
-                <li><a href="../Admin_Pages/edit_teacher_time_table.php" target="main-frame" id="edit-teacher-time-table-link">Manage Teacher Timetable</a></li>
-                <li><a href="../Admin_Pages/edit_slider_images.php" target="main-frame" id="edit-slider-images-link">Edit Slider Images</a></li>
-            </ul>
-        </nav>
+    <div class="container">
+        <div class="scrollable">
+            <h2>Pending Teacher Leave Forms</h2>
+            <?php foreach ($pending_forms as $form): ?>
+                <div class="approval-form">
+                    <p><strong>Name:</strong> <?php echo htmlspecialchars($form['name']); ?></p>
+                    <p><strong>Post:</strong> <?php echo htmlspecialchars($form['post']); ?></p>
+                    <p><strong>Department:</strong> <?php echo htmlspecialchars($form['department']); ?></p>
+                    <p><strong>Leave Type:</strong> <?php echo htmlspecialchars($form['leave_type']); ?></p>
+                    <p><strong>Leave Days:</strong> <?php echo htmlspecialchars($form['leave_days']); ?></p>
+                    <p><strong>Leave Taken Current Year:</strong> <?php echo htmlspecialchars($form['leave_taken_current_year']); ?></p>
+                    <p><strong>First Appointment Date:</strong> <?php echo htmlspecialchars($form['appointment_date']); ?></p>
+                    <p><strong>Leave Starting Date:</strong> <?php echo htmlspecialchars($form['leave_start_date']); ?></p>
+                    <p><strong>Duty Resume Date:</strong> <?php echo htmlspecialchars($form['duty_resume_date']); ?></p>
+                    <p><strong>Reason for Leave:</strong> <?php echo htmlspecialchars($form['leave_reason']); ?></p>
+                    <p><strong>Leave Period Address:</strong> <?php echo htmlspecialchars($form['leave_period_address']); ?></p>
+
+                    <form method="POST">
+                        <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
+                        <label for="supervising_officer_signature">Supervising Officer Signature:</label>
+                        <input type="text" id="supervising_officer_signature" name="supervising_officer_signature" required>
+
+                        <label for="department_officer_signature">Department Officer Signature:</label>
+                        <input type="text" id="department_officer_signature" name="department_officer_signature" required>
+
+                        <label for="approval">Approval:</label>
+                        <select id="approval" name="approval" required>
+                            <option value="1">Grant</option>
+                            <option value="0">Not Grant</option>
+                        </select>
+
+                        <button type="submit">Submit</button>
+                    </form>
+
+                    <?php if (isset($form['leave_granted'])): ?>
+                        <p class="<?php echo $form['leave_granted'] ? 'message-granted' : 'message-not-granted'; ?>">
+                            Leave <?php echo $form['leave_granted'] ? 'Granted' : 'Not Granted'; ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-
-    <iframe src="../Admin_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const links = document.querySelectorAll(".admin-nav a");
-
-            links.forEach(link => {
-                link.addEventListener("click", function() {
-                    links.forEach(l => l.classList.remove("active"));
-                    this.classList.add("active");
-                });
-            });
-        });
-    </script>
 </body>
-
 </html>

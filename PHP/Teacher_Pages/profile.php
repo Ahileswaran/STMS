@@ -12,6 +12,7 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
+
 // Fetch profile picture from database
 $session_username = $_SESSION['username'];
 $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
@@ -32,6 +33,30 @@ if ($stmt->num_rows > 0) {
 }
 
 $stmt->close();
+
+
+// Fetch leave status from database
+$leave_status_sql = "SELECT id, leave_granted FROM teacher_leave_form WHERE username = ? ORDER BY id DESC LIMIT 1";
+$leave_stmt = $connection->prepare($leave_status_sql);
+$leave_stmt->bind_param("s", $session_username);
+$leave_stmt->execute();
+$leave_stmt->store_result();
+
+$leave_status_message = "No leave requests found.";
+if ($leave_stmt->num_rows > 0) {
+    $leave_stmt->bind_result($leave_id, $leave_granted);
+    $leave_stmt->fetch();
+    if ($leave_granted === NULL) {
+        $leave_status_message = "Leave request ID $leave_id: Pending";
+    } elseif ($leave_granted == 1) {
+        $leave_status_message = "Leave request ID $leave_id: Granted";
+    } else {
+        $leave_status_message = "Leave request ID $leave_id: Not Approved";
+    }
+}
+
+$leave_stmt->close();
+$connection->close();
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +111,15 @@ $stmt->close();
         .add-profile-pic input[type="file"] {
             display: none;
         }
+        .message-granted {
+            color: green;
+        }
+        .message-not-granted {
+            color: red;
+        }
+        .message-pending {
+            color: orange;
+        }
     </style>
 </head>
 
@@ -104,6 +138,10 @@ $stmt->close();
         <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4>
         <h4>Username: <?php echo $_SESSION['username']; ?></h4>
         <h4>Email: <?php echo $_SESSION['email']; ?></h4>
+
+        <h4 class="<?php echo $leave_granted === NULL ? 'message-pending' : ($leave_granted == 1 ? 'message-granted' : 'message-not-granted'); ?>">
+            <?php echo $leave_status_message; ?>
+        </h4>
     </div>
 
     <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">

@@ -204,16 +204,19 @@ $stmt->close();
         <nav class="admin-nav">
             <ul>
                 <li><a href="../../STMS/PHP/Teacher_Pages/profile.php" target="main-frame" id="profile-link">Profile</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/submit_leave_form.php" target="main-frame" id="leave-Form-link">Submit Leave Form</a></li>
                 <li><a href="../../STMS/PHP/Teacher_Pages/teacher_time_table.php" target="main-frame" id="time-table-link">Time Table</a></li>
                 <li><a href="../../STMS/PHP/Teacher_Pages/teacher_syllabus_table.php" target="main-frame" id="view-syllabus-link">View Syllabus</a></li>
                 <li><a href="../../STMS/PHP/Teacher_Pages/write_leave_letter.php" target="main-frame" id="leave-letter-link">Write Leave Letter</a></li>
-                <li><a href="../../STMS/PHP/Teacher_Pages/generate_leave_form.php" target="main-frame" id="leave-Form-link">Gnerate Leave Form</a></li>
                 <li><a href="../../STMS/PHP/Teacher_Pages/assessment_planner.php" target="main-frame" id="assessment-planner-link">Assessment Planner</a></li>
             </ul>
         </nav>
     </div>
 
-    <div class="teacher-main-content"></div>
+    <div class="teacher-main-content">
+
+    
+    </div>
 
     <iframe src="../PHP/Teacher_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
 
