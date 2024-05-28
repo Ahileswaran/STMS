@@ -43,6 +43,12 @@ $stmt->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            margin-left: 200px;
+        }
         .glass-container {
             padding: 20px;
             background: rgba(255, 255, 255, 0.7);
@@ -63,8 +69,20 @@ $stmt->close();
             border: 2px solid #ccc;
             margin-bottom: 20px;
         }
-        h4 {
+        .pro-content {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .pro-content h4 {
             margin: 10px 0;
+            font-weight: normal;
+        }
+        .pro-content h4 span.label {
+            font-weight: bold;
+            color: #333;
         }
         .add-profile-pic {
             text-align: center;
@@ -95,16 +113,18 @@ $stmt->close();
         <div class="profile-pic-container">
             <img id="upload_pic" src="<?php echo $profile_pic_src; ?>" alt="Profile Picture">
         </div>
-        <h4>First Name: <?php echo $_SESSION['first_name']; ?></h4>
-        <h4>Last Name: <?php echo $_SESSION['last_name']; ?></h4>
-        <h4>Address: <?php echo $_SESSION['user_address']; ?></h4>
-        <h4>Age: <?php echo $_SESSION['age']; ?></h4>
-        <h4>Sex: <?php echo $_SESSION['sex']; ?></h4>
-        <h4>Marital Status: <?php echo $_SESSION['marital_status']; ?></h4>
-        <h4>Registration Id: <?php echo $_SESSION['registration_id']; ?></h4>
-        <h4>Subject: <?php echo $_SESSION['subject_name']; ?></h4>
-        <h4>Username: <?php echo $_SESSION['username']; ?></h4>
-        <h4>Email: <?php echo $_SESSION['email']; ?></h4>
+        <div class="pro-content">
+            <h4><span class="label">First Name:</span> <?php echo $_SESSION['first_name']; ?></h4>
+            <h4><span class="label">Last Name:</span> <?php echo $_SESSION['last_name']; ?></h4>
+            <h4><span class="label">Address:</span> <?php echo $_SESSION['user_address']; ?></h4>
+            <h4><span class="label">Age:</span> <?php echo $_SESSION['age']; ?></h4>
+            <h4><span class="label">Sex:</span> <?php echo $_SESSION['sex']; ?></h4>
+            <h4><span class="label">Marital Status:</span> <?php echo $_SESSION['marital_status']; ?></h4>
+            <h4><span class="label">Registration Id:</span> <?php echo $_SESSION['registration_id']; ?></h4>
+            <h4><span class="label">Subject:</span> <?php echo $_SESSION['subject_name']; ?></h4>
+            <h4><span class="label">Username:</span> <?php echo $_SESSION['username']; ?></h4>
+            <h4><span class="label">Email:</span> <?php echo $_SESSION['email']; ?></h4>
+        </div>
     </div>
 
     <form action="upload_profile_pic.php" method="post" enctype="multipart/form-data">

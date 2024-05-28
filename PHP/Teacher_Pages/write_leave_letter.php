@@ -258,7 +258,6 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
     <div class="content">
         <!-- main content goes here -->
         <div class="leave-letter-page">
-            <h1>WrtieLeave Letter</h1>
             <div class="Write-letter">
                 <h3><b>Write the Leave Letter Here</b></h3>
                 <form method="post" action="">

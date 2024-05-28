@@ -69,11 +69,12 @@ if ($result) {
         }
 
         .scrollable {
-            overflow-y: scroll;
+            overflow-y: auto;
             height: 1000px;
             flex: 1;
             max-width: 1174px;
-            margin-left: 215px;
+            margin-left: 380px;
+            margin-top: 200px;
         }
 
         table {
@@ -82,11 +83,14 @@ if ($result) {
             margin-top: 20px;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid #ccc;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
@@ -128,7 +132,7 @@ if ($result) {
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
@@ -136,7 +140,8 @@ if ($result) {
             display: block;
         }
 
-        .dropdown-content p, .dropdown-content a {
+        .dropdown-content p,
+        .dropdown-content a {
             padding: 12px 16px;
             text-decoration: none;
             display: block;
@@ -228,45 +233,67 @@ if ($result) {
     <div class="container">
         <div class="scrollable">
             <h2>Pending Teacher Leave Forms</h2>
-            <?php foreach ($pending_forms as $form): ?>
-                <div class="approval-form">
-                    <p><strong>Name:</strong> <?php echo htmlspecialchars($form['name']); ?></p>
-                    <p><strong>Post:</strong> <?php echo htmlspecialchars($form['post']); ?></p>
-                    <p><strong>Department:</strong> <?php echo htmlspecialchars($form['department']); ?></p>
-                    <p><strong>Leave Type:</strong> <?php echo htmlspecialchars($form['leave_type']); ?></p>
-                    <p><strong>Leave Days:</strong> <?php echo htmlspecialchars($form['leave_days']); ?></p>
-                    <p><strong>Leave Taken Current Year:</strong> <?php echo htmlspecialchars($form['leave_taken_current_year']); ?></p>
-                    <p><strong>First Appointment Date:</strong> <?php echo htmlspecialchars($form['appointment_date']); ?></p>
-                    <p><strong>Leave Starting Date:</strong> <?php echo htmlspecialchars($form['leave_start_date']); ?></p>
-                    <p><strong>Duty Resume Date:</strong> <?php echo htmlspecialchars($form['duty_resume_date']); ?></p>
-                    <p><strong>Reason for Leave:</strong> <?php echo htmlspecialchars($form['leave_reason']); ?></p>
-                    <p><strong>Leave Period Address:</strong> <?php echo htmlspecialchars($form['leave_period_address']); ?></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Post</th>
+                        <th>Department</th>
+                        <th>Leave Type</th>
+                        <th>Leave Days</th>
+                        <th>Leave Taken Current Year</th>
+                        <th>First Appointment Date</th>
+                        <th>Leave Starting Date</th>
+                        <th>Duty Resume Date</th>
+                        <th>Reason for Leave</th>
+                        <th>Leave Period Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($pending_forms as $form) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($form['name']); ?></td>
+                            <td><?php echo htmlspecialchars($form['post']); ?></td>
+                            <td><?php echo htmlspecialchars($form['department']); ?></td>
+                            <td><?php echo htmlspecialchars($form['leave_type']); ?></td>
+                            <td><?php echo htmlspecialchars($form['leave_days']); ?></td>
+                            <td><?php echo htmlspecialchars($form['leave_taken_current_year']); ?></td>
+                            <td><?php echo htmlspecialchars($form['appointment_date']); ?></td>
+                            <td><?php echo htmlspecialchars($form['leave_start_date']); ?></td>
+                            <td><?php echo htmlspecialchars($form['duty_resume_date']); ?></td>
+                            <td><?php echo htmlspecialchars($form['leave_reason']); ?></td>
+                            <td><?php echo htmlspecialchars($form['leave_period_address']); ?></td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
+                                    <label for="supervising_officer_signature">Supervising Officer Signature:</label>
+                                    <input type="text" id="supervising_officer_signature" name="supervising_officer_signature" required>
 
-                    <form method="POST">
-                        <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
-                        <label for="supervising_officer_signature">Supervising Officer Signature:</label>
-                        <input type="text" id="supervising_officer_signature" name="supervising_officer_signature" required>
+                                    <label for="department_officer_signature">Department Officer Signature:</label>
+                                    <input type="text" id="department_officer_signature" name="department_officer_signature" required>
 
-                        <label for="department_officer_signature">Department Officer Signature:</label>
-                        <input type="text" id="department_officer_signature" name="department_officer_signature" required>
+                                    <label for="approval">Approval:</label>
+                                    <select id="approval" name="approval" required>
+                                        <option value="1">Grant</option>
+                                        <option value="0">Not Grant</option>
+                                    </select>
 
-                        <label for="approval">Approval:</label>
-                        <select id="approval" name="approval" required>
-                            <option value="1">Grant</option>
-                            <option value="0">Not Grant</option>
-                        </select>
+                                    <button type="submit">Submit</button>
+                                </form>
 
-                        <button type="submit">Submit</button>
-                    </form>
-
-                    <?php if (isset($form['leave_granted'])): ?>
-                        <p class="<?php echo $form['leave_granted'] ? 'message-granted' : 'message-not-granted'; ?>">
-                            Leave <?php echo $form['leave_granted'] ? 'Granted' : 'Not Granted'; ?>
-                        </p>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
+                                <?php if (isset($form['leave_granted'])) : ?>
+                                    <p class="<?php echo $form['leave_granted'] ? 'message-granted' : 'message-not-granted'; ?>">
+                                        Leave <?php echo $form['leave_granted'] ? 'Granted' : 'Not Granted'; ?>
+                                    </p>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
+
 </html>
