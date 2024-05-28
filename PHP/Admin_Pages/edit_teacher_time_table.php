@@ -78,6 +78,7 @@ if (!empty($table_name)) {
     <title>Teacher Time Table Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;

@@ -21,6 +21,130 @@ function readTeachers($connection) {
 $teachers = readTeachers($connection);
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>School Teacher Management System</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            padding: 20px;
+        }
+
+        .scrollable {
+            overflow-y: scroll;
+            height: 1000px;
+            flex: 1;
+            max-width: 1174px;
+            margin-left: 215px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 20px;
+            margin-left: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 282px;
+            margin: 0 auto;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 71px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .dropdown_details {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown_details:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p, .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .welcome-message {
+            margin: 0;
+        }
+
+        .main-content {
+            width: 100%;
+            height: 1000px; /* Adjust as needed */
+            border: none;
+        }
+    </style>
+</head>
 <div class="container">
     <div class="scrollable">
         <h2>Edit Teachers</h2>

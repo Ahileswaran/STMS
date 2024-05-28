@@ -59,6 +59,9 @@ if ($result) {
     $class_time_table = $result->fetch_all(MYSQLI_ASSOC);
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>

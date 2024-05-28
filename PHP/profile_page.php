@@ -109,6 +109,26 @@ $stmt->close();
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        .teacher-main-content {
+            margin-left: 237px;
+            width: calc(100% - 237px);
+            height: 900px;
+            position: fixed;
+            background: none;
+            margin-top: 100px;
+        }
+
+        iframe.main-content {
+            width: calc(100% - 237px);
+            height: calc(100vh - 100px);
+            border: none;
+            /* Remove border */
+            position: fixed;
+            top: 100px;
+            left: 237px;
+        }
+    </style>
 </head>
 
 <body>
@@ -158,59 +178,20 @@ $stmt->close();
         <!-- Admin Dashboard Navigation -->
         <nav class="admin-nav">
             <ul>
-                <li><a href="../../STMS/PHP/Teacher_Pages/profile_view.php" id="profile-link">Profile</a></li>
-                <li><a href="../../STMS/PHP/Teacher_Pages/teacher_time_table.php" id="time-table-link">Time Table</a></li>
-                <li><a href="../../STMS/PHP/Teacher_Pages/teacher_syllabus_table.php" id="view-syllabus-link">View Syllabus</a></li>
-                <li><a href="#" id="leave-letter-link">Create Leave Letter</a></li>
-                <li><a href="#" id="settings-link">Settings</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/profile.php" target="main-frame" id="profile-link">Profile</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/teacher_time_table.php" target="main-frame" id="time-table-link">Time Table</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/teacher_syllabus_table.php" target="main-frame" id="view-syllabus-link">View Syllabus</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/write_leave_letter.php" target="main-frame" id="leave-letter-link">Write Leave Letter</a></li>
             </ul>
         </nav>
     </div>
 
-    <div class="main-content" id="main-content">
-        <!-- Place the main content here -->
+    <div class="teacher-main-content">
+
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function loadPage(url) {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('main-content').innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('Error loading page:', error);
-                    });
-            }
+    <iframe src="../PHP/Teacher_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
 
-            document.getElementById('profile-link').addEventListener('click', function(event) {
-                event.preventDefault();
-                loadPage('../../STMS/PHP/Teacher_Pages/profile_view.php');
-            });
-
-
-            document.getElementById('time-table-link').addEventListener('click', function(event) {
-                event.preventDefault();
-                loadPage('../../STMS/PHP/Teacher_Pages/teacher_time_table.php');
-            });
-
-            document.getElementById('view-syllabus-link').addEventListener('click', function(event) {
-                event.preventDefault();
-                loadPage('../../STMS/PHP/Teacher_Pages/teacher_syllabus_table.php');
-            });
-
-            document.getElementById('leave-letter-link').addEventListener('click', function(event) {
-                event.preventDefault();
-                loadPage('#');
-            });
-
-            document.getElementById('settings-link').addEventListener('click', function(event) {
-                event.preventDefault();
-                loadPage('#');
-            });
-        });
-    </script>
 
 
     <script src="javaScript.js"></script>
