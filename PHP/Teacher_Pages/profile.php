@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start the session
 
-$username = "root"; 
-$password = ""; 
-$server = "localhost";  
-$database = "stms_database"; 
+$username = "root";
+$password = "";
+$server = "localhost";
+$database = "stms_database";
 
 $connection = new mysqli($server, $username, $password, $database);
 
@@ -63,6 +63,9 @@ $connection->close();
 <html lang="en">
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>School Teacher Management System</title>
+    <link rel="stylesheet" href="../styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
@@ -76,9 +79,11 @@ $connection->close();
             margin: auto;
             margin-top: 50px;
         }
+
         .profile-pic-container {
             text-align: center;
         }
+
         .profile-pic-container img {
             border-radius: 50%;
             width: 150px;
@@ -87,17 +92,21 @@ $connection->close();
             border: 2px solid #ccc;
             margin-bottom: 20px;
         }
+
         h4 {
             margin: 10px 0;
         }
+
         .add-profile-pic {
             text-align: center;
             margin-top: 20px;
         }
+
         .add-profile-pic label {
             display: block;
             margin-bottom: 10px;
         }
+
         .add-profile-pic button {
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -105,18 +114,23 @@ $connection->close();
             border: none;
             cursor: pointer;
         }
+
         .add-profile-pic button:hover {
             background-color: #45a049;
         }
+
         .add-profile-pic input[type="file"] {
             display: none;
         }
+
         .message-granted {
             color: green;
         }
+
         .message-not-granted {
             color: red;
         }
+
         .message-pending {
             color: orange;
         }

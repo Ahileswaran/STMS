@@ -132,7 +132,8 @@ try {
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             border: 1px solid #ccc;
             text-align: center;
@@ -142,7 +143,10 @@ try {
             color: red;
         }
 
-        .form-container input, .form-container select, .form-container .quill-editor, .form-container textarea {
+        .form-container input,
+        .form-container select,
+        .form-container .quill-editor,
+        .form-container textarea {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
@@ -289,36 +293,41 @@ try {
             </table>
         </div>
 
-        <div class="glass-container form-container">
-            <h3>Add/Edit Syllabus Entry</h3>
-            <form id="syllabus-form" method="post" action="">
-                <input type="hidden" id="id" name="id">
-                <input type="hidden" id="action" name="action" value="create">
-                <label for="week_id">Week ID:</label>
-                <input type="number" id="week_id" name="week_id" required>
-                <label for="assign_date">Assign Date:</label>
-                <input type="date" id="assign_date" name="assign_date" required>
-                <label for="conduct_date">Conduct Date:</label>
-                <input type="date" id="conduct_date" name="conduct_date" required>
-                <label for="start_time">Start Time:</label>
-                <input type="time" id="start_time" name="start_time" required>
-                <label for="lesson_time">Lesson Time:</label>
-                <input type="time" id="lesson_time" name="lesson_time" required>
-                <label for="mastery">Mastery:</label>
-                <input type="text" id="mastery" name="mastery" required>
-                <label for="section_number">Section Number:</label>
-                <input type="number" id="section_number" name="section_number" required>
-                <label for="course_content">Course Content:</label>
-                <div id="course-content-editor" class="quill-editor"></div>
-                <input type="hidden" id="course_content" name="course_content">
-                <label for="teaching_date">Teaching Date:</label>
-                <input type="date" id="teaching_date" name="teaching_date" required>
-                <label for="note">Note:</label>
-                <textarea id="note" name="note"></textarea>
-                <button type="submit">Save</button>
-                <button type="button" class="cancel" onclick="resetForm()">Cancel</button>
-            </form>
+        <div class="teacher-main-content">
+            <div class="glass-container form-container">
+                <h3>Add/Edit Syllabus Entry</h3>
+                <form id="syllabus-form" method="post" action="">
+                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="action" name="action" value="create">
+                    <label for="week_id">Week ID:</label>
+                    <input type="number" id="week_id" name="week_id" required>
+                    <label for="assign_date">Assign Date:</label>
+                    <input type="date" id="assign_date" name="assign_date" required>
+                    <label for="conduct_date">Conduct Date:</label>
+                    <input type="date" id="conduct_date" name="conduct_date" required>
+                    <label for="start_time">Start Time:</label>
+                    <input type="time" id="start_time" name="start_time" required>
+                    <label for="lesson_time">Lesson Time:</label>
+                    <input type="time" id="lesson_time" name="lesson_time" required>
+                    <label for="mastery">Mastery:</label>
+                    <input type="text" id="mastery" name="mastery" required>
+                    <label for="section_number">Section Number:</label>
+                    <input type="number" id="section_number" name="section_number" required>
+                    <label for="course_content">Course Content:</label>
+                    <div id="course-content-editor" class="quill-editor"></div>
+                    <input type="hidden" id="course_content" name="course_content">
+                    <label for="teaching_date">Teaching Date:</label>
+                    <input type="date" id="teaching_date" name="teaching_date" required>
+                    <label for="note">Note:</label>
+                    <textarea id="note" name="note"></textarea>
+                    <button type="submit">Save</button>
+                    <button type="button" class="cancel" onclick="resetForm()">Cancel</button>
+                </form>
+            </div>
+
         </div>
+
+
     </div>
 </body>
 

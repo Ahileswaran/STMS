@@ -111,12 +111,12 @@ $stmt->close();
     <link rel="stylesheet" href="../styles.css">
     <style>
         .teacher-main-content {
-            margin-left: 237px;
             width: calc(100% - 237px);
-            height: 900px;
-            position: fixed;
-            background: none;
-            margin-top: 100px;
+            height: calc(100vh - 100px);
+            border: none;
+            position: relative;
+            top: 100px;
+            left: 237px;
         }
 
         iframe.main-content {
@@ -215,7 +215,7 @@ $stmt->close();
 
     <div class="teacher-main-content">
 
-    
+
     </div>
 
     <iframe src="../PHP/Teacher_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
