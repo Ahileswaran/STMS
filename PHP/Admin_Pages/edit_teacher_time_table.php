@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif (isset($_SESSION['table_name'])) {
         $table_name = $_SESSION['table_name'];
-        
+
         if (isset($_POST['delete_registration_id'])) {
             // Delete operation
             $delete_registration_id = $_POST['delete_registration_id'];
@@ -74,27 +74,34 @@ if (!empty($table_name)) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Teacher Time Table Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background: none;
+            /* Remove background color */
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
             width: 90%;
-            max-width: 1200px;
-            margin: 50px auto;
+            max-width: 922px;
             padding: 20px;
-            background-color: #fff;
+            background-color: transparent;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            margin-left: 250px;
         }
+        
 
         h2 {
             text-align: center;
@@ -130,6 +137,7 @@ if (!empty($table_name)) {
 
         .scrollable {
             overflow-x: auto;
+            margin-top: 50px;
         }
 
         table {
@@ -138,7 +146,8 @@ if (!empty($table_name)) {
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
@@ -173,8 +182,29 @@ if (!empty($table_name)) {
         .delete-button:hover {
             background-color: #e53935;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                margin: 20px;
+                padding: 10px;
+            }
+
+            .form-container input,
+            .form-container select,
+            .form-container button {
+                font-size: 14px;
+            }
+
+            table,
+            th,
+            td {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Find Teacher Time Table</h2>
@@ -185,62 +215,62 @@ if (!empty($table_name)) {
         </form>
         <p><?php echo $feedback; ?></p>
 
-        <?php if (!empty($teacher_time_table)): ?>
-        <div class="scrollable">
-            <h2>Edit Teacher Time Table: <?php echo htmlspecialchars($table_name); ?></h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Registration ID</th>
-                        <th>Class ID</th>
-                        <th>Subject ID</th>
-                        <th>Class Day</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($teacher_time_table as $row): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($row['registration_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['class_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['subject_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['class_day']); ?></td>
-                        <td><?php echo htmlspecialchars($row['start_time']); ?></td>
-                        <td><?php echo htmlspecialchars($row['end_time']); ?></td>
-                        <td>
-                            <button class="edit-button" data-registration-id="<?php echo $row['registration_id']; ?>">Edit</button>
-                            <form method="POST" style="display:inline;">
-                                <input type="hidden" name="delete_registration_id" value="<?php echo $row['registration_id']; ?>">
-                                <button type="submit" class="delete-button">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+        <?php if (!empty($teacher_time_table)) : ?>
+            <div class="scrollable">
+                <h2>Edit Teacher Time Table: <?php echo htmlspecialchars($table_name); ?></h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Registration ID</th>
+                            <th>Class ID</th>
+                            <th>Subject ID</th>
+                            <th>Class Day</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($teacher_time_table as $row) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($row['registration_id']); ?></td>
+                                <td><?php echo htmlspecialchars($row['class_id']); ?></td>
+                                <td><?php echo htmlspecialchars($row['subject_id']); ?></td>
+                                <td><?php echo htmlspecialchars($row['class_day']); ?></td>
+                                <td><?php echo htmlspecialchars($row['start_time']); ?></td>
+                                <td><?php echo htmlspecialchars($row['end_time']); ?></td>
+                                <td>
+                                    <button class="edit-button" data-registration-id="<?php echo $row['registration_id']; ?>">Edit</button>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="delete_registration_id" value="<?php echo $row['registration_id']; ?>">
+                                        <button type="submit" class="delete-button">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="form-container">
-            <h3>Add/Edit Teacher Time Table</h3>
-            <form id="teacher-time-table-form" method="POST">
-                <input type="hidden" name="update_registration_id" id="update_registration_id">
-                <label for="registration_id">Registration ID:</label>
-                <input type="text" name="registration_id" id="registration_id" required>
-                <label for="class_id">Class ID:</label>
-                <input type="text" name="class_id" id="class_id" required>
-                <label for="subject_id">Subject ID:</label>
-                <input type="text" name="subject_id" id="subject_id" required>
-                <label for="class_day">Class Day:</label>
-                <input type="text" name="class_day" id="class_day" required>
-                <label for="start_time">Start Time:</label>
-                <input type="time" name="start_time" id="start_time" required>
-                <label for="end_time">End Time:</label>
-                <input type="time" name="end_time" id="end_time" required>
-                <button type="submit">Save</button>
-            </form>
-        </div>
+            <div class="form-container">
+                <h3>Add/Edit Teacher Time Table</h3>
+                <form id="teacher-time-table-form" method="POST">
+                    <input type="hidden" name="update_registration_id" id="update_registration_id">
+                    <label for="registration_id">Registration ID:</label>
+                    <input type="text" name="registration_id" id="registration_id" required>
+                    <label for="class_id">Class ID:</label>
+                    <input type="text" name="class_id" id="class_id" required>
+                    <label for="subject_id">Subject ID:</label>
+                    <input type="text" name="subject_id" id="subject_id" required>
+                    <label for="class_day">Class Day:</label>
+                    <input type="text" name="class_day" id="class_day" required>
+                    <label for="start_time">Start Time:</label>
+                    <input type="time" name="start_time" id="start_time" required>
+                    <label for="end_time">End Time:</label>
+                    <input type="time" name="end_time" id="end_time" required>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -273,6 +303,5 @@ if (!empty($table_name)) {
         });
     </script>
 </body>
-</html>
 
-                
+</html>

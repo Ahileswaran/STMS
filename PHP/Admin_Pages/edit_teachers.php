@@ -41,6 +41,7 @@ $teachers = readTeachers($connection);
             flex: 1;
             max-width: 1174px;
             margin-left: 215px;
+            margin-top: 50px;
         }
 
         table {

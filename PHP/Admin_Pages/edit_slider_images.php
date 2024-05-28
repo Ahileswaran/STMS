@@ -47,22 +47,25 @@ if ($result->num_rows > 0) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: none;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .edit-all-container {
-            position: fixed;
+            width: 90%;
             max-width: 800px;
-            margin: 0 auto;
             padding: 20px;
-            background: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background: transparent;
             border-radius: 10px;
-            margin-top: 100px;
-            margin-left: 600px;
-            overflow: hidden;
+            margin: 20px auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 58px;
+            margin-left: 650px;
         }
 
         .select-container {
@@ -70,7 +73,6 @@ if ($result->num_rows > 0) {
             color: white;
             padding: 20px;
             border-radius: 10px;
-            max-width: 400px;
             margin: 20px auto;
             text-align: center;
         }
@@ -119,8 +121,6 @@ if ($result->num_rows > 0) {
         .slider {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
         }
 
         .slider-item {
@@ -151,9 +151,14 @@ if ($result->num_rows > 0) {
         }
 
         @media (max-width: 768px) {
-            .slider,
+
+            .edit-all-container,
             .select-container {
-                width: 90%;
+                width: 100%;
+            }
+
+            .slider-caption {
+                font-size: 18px;
             }
         }
     </style>
@@ -199,10 +204,8 @@ if ($result->num_rows > 0) {
             <div class="slider">
                 <?php foreach ($sliderItems as $index => $item) : ?>
                     <div class="slider-item <?php echo $index === 0 ? 'active' : ''; ?>" id="<?php echo $item['image_id']; ?>">
-                        <img class="animated bounceInRight slider-img" src="data:image/jpeg;base64,<?php echo base64_encode($item['slider_pic']); ?>">
-                        <div class="row">
-                            <h3 class="animated slideInLeft slider-caption mb-2"><?php echo $item['caption']; ?></h3>
-                        </div>
+                        <img class="slider-img" src="data:image/jpeg;base64,<?php echo base64_encode($item['slider_pic']); ?>">
+                        <div class="slider-caption"><?php echo $item['caption']; ?></div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -231,10 +234,8 @@ if ($result->num_rows > 0) {
         <div class="preview-container" style="display: none;">
             <div class="slider">
                 <div class="slider-item active" id="preview_image">
-                    <img class="animated bounceInRight slider-img" id="previewImage" src="">
-                    <div class="row">
-                        <h3 class="animated slideInLeft slider-caption mb-2" id="previewCaption"></h3>
-                    </div>
+                    <img class="slider-img" id="previewImage" src="">
+                    <div class="slider-caption" id="previewCaption"></div>
                 </div>
             </div>
         </div>

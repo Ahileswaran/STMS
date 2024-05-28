@@ -153,6 +153,8 @@ if ($stmt->num_rows > 0) {
             width: 100%;
             height: 1000px; /* Adjust as needed */
             border: none;
+            background: transparent;
+            overflow-y: auto;
         }
 
         .admin-nav ul {
@@ -179,6 +181,36 @@ if ($stmt->num_rows > 0) {
         .admin-nav a.active {
             background-color: #4CAF50;
             color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .scrollable {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            .form-container {
+                margin-top: 20px;
+                margin-left: 0;
+            }
+
+            .admin-nav {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .admin-nav li {
+                flex: 1 1 100%;
+                margin: 5px 0;
+            }
+
+            .main-content {
+                height: auto; /* Adjust to fit content */
+            }
         }
     </style>
 </head>
