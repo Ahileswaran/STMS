@@ -123,10 +123,35 @@ $stmt->close();
             width: calc(100% - 237px);
             height: calc(100vh - 100px);
             border: none;
-            /* Remove border */
             position: fixed;
             top: 100px;
             left: 237px;
+        }
+
+        .admin-nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .admin-nav li {
+            margin: 10px 0;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 10px;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .admin-nav a:hover {
+            background-color: #ddd;
+        }
+
+        .admin-nav a.active {
+            background-color: #4CAF50;
+            color: white;
         }
     </style>
 </head>
@@ -182,19 +207,28 @@ $stmt->close();
                 <li><a href="../../STMS/PHP/Teacher_Pages/teacher_time_table.php" target="main-frame" id="time-table-link">Time Table</a></li>
                 <li><a href="../../STMS/PHP/Teacher_Pages/teacher_syllabus_table.php" target="main-frame" id="view-syllabus-link">View Syllabus</a></li>
                 <li><a href="../../STMS/PHP/Teacher_Pages/write_leave_letter.php" target="main-frame" id="leave-letter-link">Write Leave Letter</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/generate_leave_form.php" target="main-frame" id="leave-Form-link">Gnerate Leave Form</a></li>
+                <li><a href="../../STMS/PHP/Teacher_Pages/assessment_planner.php" target="main-frame" id="assessment-planner-link">Assessment Planner</a></li>
             </ul>
         </nav>
     </div>
 
-    <div class="teacher-main-content">
-
-    </div>
+    <div class="teacher-main-content"></div>
 
     <iframe src="../PHP/Teacher_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll(".admin-nav a");
 
-
-    <script src="javaScript.js"></script>
+            links.forEach(link => {
+                link.addEventListener("click", function() {
+                    links.forEach(l => l.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

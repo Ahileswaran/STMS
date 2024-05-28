@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Fetch all letters for the logged-in user
-$sql = "SELECT letter_id, date, time, content FROM leave_letter WHERE username = ?";
+$sql = "SELECT letter_id, date, time, content FROM leave_letter WHERE username = ? ORDER BY date DESC";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("s", $session_username);
 $stmt->execute();
@@ -84,6 +84,8 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
@@ -124,16 +126,8 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
             margin-bottom: 10px;
         }
 
-        .Write-letter textarea {
-            width: 100%;
-            max-width: 100%;
+        .quill-editor {
             height: 400px;
-            padding: 15px;
-            font-size: 1em;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            resize: none;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .Write-letter button {
@@ -149,6 +143,26 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
 
         .Write-letter button:hover {
             background-color: #45a049;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .buttons-container button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .buttons-container button:hover {
+            background-color: #0056b3;
         }
 
         .letters-container {
@@ -191,13 +205,8 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
             cursor: pointer;
         }
 
-        .letter-item button.edit {
-            background-color: #2196F3;
-            right: 70px;
-        }
-
         @media (max-width: 768px) {
-            .Write-letter textarea {
+            .quill-editor {
                 height: 300px;
             }
 
@@ -211,19 +220,37 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
         }
     </style>
     <script>
-        function loadLetter(letter_id, content) {
-            document.getElementById('longText').value = content;
-            document.getElementById('letter_id').value = letter_id;
-        }
-
-        function toggleLetters() {
-            var container = document.querySelector('.letters-container');
-            if (container.style.display === "none") {
+        function toggleLetters(containerClass) {
+            var container = document.querySelector(containerClass);
+            if (container.style.display === "none" || container.style.display === "") {
                 container.style.display = "block";
             } else {
                 container.style.display = "none";
             }
         }
+
+        function printLetter() {
+            var printContents = document.querySelector('.ql-editor').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            window.location.reload();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var quill = new Quill('#editor-container', {
+                theme: 'snow'
+            });
+            window.quillEditor = quill;
+
+            var form = document.querySelector('form');
+            form.onsubmit = function() {
+                var quillContent = document.querySelector('.ql-editor').innerHTML;
+                document.getElementById('longText').value = quillContent;
+            };
+        });
     </script>
 </head>
 
@@ -235,21 +262,40 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
             <div class="Write-letter">
                 <h3><b>Write the Leave Letter Here</b></h3>
                 <form method="post" action="">
-                    <textarea id="longText" name="longText" rows="40" cols="100"></textarea><br><br>
+                    <div id="editor-container" class="quill-editor"></div>
                     <input type="hidden" id="letter_id" name="letter_id">
+                    <textarea id="longText" name="longText" style="display:none;"></textarea>
                     <button type="submit" name="save" value="txt">Submit</button>
-                    <button type="button" value="txt">Edit</button>
+                    <button type="button" onclick="printLetter()">Print</button>
                 </form>
             </div>
-            <button onclick="toggleLetters()">View Previous Letters</button>
-            <div class="letters-container">
+            <div class="buttons-container">
+                <button onclick="toggleLetters('.all-letters-container')">View All Letters</button>
+                <button onclick="toggleLetters('.previous-letters-container')">View Previous Letters</button>
+            </div>
+            <div class="letters-container all-letters-container">
+                <h3>All Letters</h3>
                 <?php foreach ($letters as $letter): ?>
                     <div class="letter-item">
                         <h4>Letter ID: <?php echo $letter['letter_id']; ?></h4>
                         <p>Date: <?php echo $letter['date']; ?></p>
                         <p>Time: <?php echo $letter['time']; ?></p>
-                        <p><?php echo nl2br($letter['content']); ?></p>
-                        <button class="edit" onclick="loadLetter(<?php echo $letter['letter_id']; ?>, '<?php echo addslashes($letter['content']); ?>')">Edit</button>
+                        <p><?php echo nl2br(htmlspecialchars($letter['content'], ENT_QUOTES, 'UTF-8')); ?></p>
+                        <form method="post" action="" style="display:inline;">
+                            <input type="hidden" name="letter_id" value="<?php echo $letter['letter_id']; ?>">
+                            <button type="submit" name="delete">Delete</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="letters-container previous-letters-container">
+                <h3>Previous Letters</h3>
+                <?php foreach (array_slice($letters, 0, 5) as $letter): ?>
+                    <div class="letter-item">
+                        <h4>Letter ID: <?php echo $letter['letter_id']; ?></h4>
+                        <p>Date: <?php echo $letter['date']; ?></p>
+                        <p>Time: <?php echo $letter['time']; ?></p>
+                        <p><?php echo nl2br(htmlspecialchars($letter['content'], ENT_QUOTES, 'UTF-8')); ?></p>
                         <form method="post" action="" style="display:inline;">
                             <input type="hidden" name="letter_id" value="<?php echo $letter['letter_id']; ?>">
                             <button type="submit" name="delete">Delete</button>

@@ -32,7 +32,6 @@ if ($stmt->num_rows > 0) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -155,6 +154,32 @@ if ($stmt->num_rows > 0) {
             height: 1000px; /* Adjust as needed */
             border: none;
         }
+
+        .admin-nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .admin-nav li {
+            margin: 10px 0;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 10px;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .admin-nav a:hover {
+            background-color: #ddd;
+        }
+
+        .admin-nav a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
 </head>
 
@@ -218,6 +243,18 @@ if ($stmt->num_rows > 0) {
 
     <iframe src="../Admin_Pages/profile.php" class="main-content" name="main-frame" id="main-content"></iframe>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll(".admin-nav a");
+
+            links.forEach(link => {
+                link.addEventListener("click", function() {
+                    links.forEach(l => l.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
