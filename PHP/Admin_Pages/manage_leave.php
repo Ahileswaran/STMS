@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['select_substitute'])) 
     <style>
         .container {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             padding: 20px;
         }
 
@@ -266,86 +266,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['select_substitute'])) 
     </header>
 
     <div class="container">
-        <div class="scrollable">
-            <h2>Pending Teacher Leave Forms</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Post</th>
-                        <th>Department</th>
-                        <th>Leave Type</th>
-                        <th>Leave Days</th>
-                        <th>Leave Taken Current Year</th>
-                        <th>First Appointment Date</th>
-                        <th>Leave Starting Date</th>
-                        <th>Duty Resume Date</th>
-                        <th>Reason for Leave</th>
-                        <th>Leave Period Address</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($pending_forms as $form) : ?>
+        <?php if (!empty($pending_forms)) : ?>
+            <div class="scrollable">
+                <h2>Pending Teacher Leave Forms</h2>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($form['name']); ?></td>
-                            <td><?php echo htmlspecialchars($form['post']); ?></td>
-                            <td><?php echo htmlspecialchars($form['department']); ?></td>
-                            <td><?php echo htmlspecialchars($form['leave_type']); ?></td>
-                            <td><?php echo htmlspecialchars($form['leave_days']); ?></td>
-                            <td><?php echo htmlspecialchars($form['leave_taken_current_year']); ?></td>
-                            <td><?php echo htmlspecialchars($form['appointment_date']); ?></td>
-                            <td><?php echo htmlspecialchars($form['leave_start_date']); ?></td>
-                            <td><?php echo htmlspecialchars($form['duty_resume_date']); ?></td>
-                            <td><?php echo htmlspecialchars($form['leave_reason']); ?></td>
-                            <td><?php echo htmlspecialchars($form['leave_period_address']); ?></td>
-                            <td>
-                                <form method="POST">
-                                    <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
-                                    <label for="supervising_officer_signature">Supervising Officer Signature:</label>
-                                    <input type="text" id="supervising_officer_signature" name="supervising_officer_signature" required>
-
-                                    <label for="department_officer_signature">Department Officer Signature:</label>
-                                    <input type="text" id="department_officer_signature" name="department_officer_signature" required>
-
-                                    <label for="approval">Approval:</label>
-                                    <select id="approval" name="approval" required>
-                                        <option value="1">Grant</option>
-                                        <option value="0">Not Grant</option>
-                                    </select>
-
-                                    <button type="submit">Submit</button>
-                                </form>
-
-                                <button onclick="showSubstituteForm(<?php echo $form['id']; ?>)">Find Substitute Teacher</button>
-
-                                <div id="substituteForm<?php echo $form['id']; ?>" style="display: none;">
+                            <th>Name</th>
+                            <th>Post</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Leave Days</th>
+                            <th>Leave Taken Current Year</th>
+                            <th>First Appointment Date</th>
+                            <th>Leave Starting Date</th>
+                            <th>Duty Resume Date</th>
+                            <th>Reason for Leave</th>
+                            <th>Leave Period Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($pending_forms as $form) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($form['name']); ?></td>
+                                <td><?php echo htmlspecialchars($form['post']); ?></td>
+                                <td><?php echo htmlspecialchars($form['department']); ?></td>
+                                <td><?php echo htmlspecialchars($form['leave_type']); ?></td>
+                                <td><?php echo htmlspecialchars($form['leave_days']); ?></td>
+                                <td><?php echo htmlspecialchars($form['leave_taken_current_year']); ?></td>
+                                <td><?php echo htmlspecialchars($form['appointment_date']); ?></td>
+                                <td><?php echo htmlspecialchars($form['leave_start_date']); ?></td>
+                                <td><?php echo htmlspecialchars($form['duty_resume_date']); ?></td>
+                                <td><?php echo htmlspecialchars($form['leave_reason']); ?></td>
+                                <td><?php echo htmlspecialchars($form['leave_period_address']); ?></td>
+                                <td>
                                     <form method="POST">
                                         <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
-                                        <label for="day">Day:</label>
-                                        <input type="text" id="day" name="day" required>
+                                        <label for="supervising_officer_signature">Supervising Officer Signature:</label>
+                                        <input type="text" id="supervising_officer_signature" name="supervising_officer_signature" required>
 
-                                        <label for="period">Period:</label>
-                                        <input type="text" id="period" name="period" required>
+                                        <label for="department_officer_signature">Department Officer Signature:</label>
+                                        <input type="text" id="department_officer_signature" name="department_officer_signature" required>
 
-                                        <label for="subject">Subject:</label>
-                                        <input type="text" id="subject" name="subject" required>
+                                        <label for="approval">Approval:</label>
+                                        <select id="approval" name="approval" required>
+                                            <option value="1">Grant</option>
+                                            <option value="0">Not Grant</option>
+                                        </select>
 
-                                        <button type="submit" name="search_substitute">Search</button>
+                                        <button type="submit">Submit</button>
                                     </form>
-                                </div>
 
-                                <?php if (isset($form['leave_granted'])) : ?>
-                                    <p class="<?php echo $form['leave_granted'] ? 'message-granted' : 'message-not-granted'; ?>">
-                                        Leave <?php echo $form['leave_granted'] ? 'Granted' : 'Not Granted'; ?>
-                                    </p>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+                                    <button onclick="showSubstituteForm(<?php echo $form['id']; ?>)">Find Substitute Teacher</button>
+
+                                    <div id="substituteForm<?php echo $form['id']; ?>" style="display: none;">
+                                        <form method="POST">
+                                            <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
+                                            <label for="day">Day:</label>
+                                            <input type="text" id="day" name="day" required>
+
+                                            <label for="period">Period:</label>
+                                            <input type="text" id="period" name="period" required>
+
+                                            <label for="subject">Subject:</label>
+                                            <input type="text" id="subject" name="subject" required>
+
+                                            <button type="submit" name="search_substitute">Search</button>
+                                        </form>
+                                    </div>
+
+                                    <?php if (isset($form['leave_granted'])) : ?>
+                                        <p class="<?php echo $form['leave_granted'] ? 'message-granted' : 'message-not-granted'; ?>">
+                                            Leave <?php echo $form['leave_granted'] ? 'Granted' : 'Not Granted'; ?>
+                                        </p>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else : ?>
+            <p>There are no pending leave requests!</p>
+        <?php endif; ?>
 
         <?php if (!empty($substitutes)) : ?>
             <div class="scrollable">

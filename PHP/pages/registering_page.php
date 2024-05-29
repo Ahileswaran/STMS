@@ -35,7 +35,7 @@ if (isset($_POST['check_username'])) {
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
-    $address = $_POST['address'];
+    $user_address = $_POST['address']; // Use 'address' from form input
     $age = $_POST['age'];
     $sex = $_POST['sex'];
     $marital_status = $_POST['marital_status'];
@@ -56,9 +56,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         echo "<script>alert('Username already taken, please choose another.');</script>";
     } else {
         // Insert new user
-        $sql = "INSERT INTO teacher (first_name, last_name, address, age, sex, marital_status, teacher_id, subject, username, mail_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO teacher (first_name, last_name, user_address, age, sex, marital_status, registration_id, subject_name, username, email, user_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("sssssssssss", $first_name, $last_name, $address, $age, $sex, $marital_status, $teacher_id, $subject, $username, $mail_id, $password);
+        $stmt->bind_param("sssssssssss", $first_name, $last_name, $user_address, $age, $sex, $marital_status, $teacher_id, $subject, $username, $mail_id, $password);
         if ($stmt->execute() === TRUE) {
             echo "<script>alert('Registration successful!');</script>";
         } else {
@@ -67,6 +67,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $stmt->close();
     }
 }
+
 
 // Fetch profile picture from database
 $profile_pic_src = 'path_to_default_image.jpg'; // Default profile picture
@@ -203,12 +204,12 @@ $connection->close();
                 <input id="marital_status" name="marital_status" type="text" required><br>
 
                 <label for="teacher_id">Registration Number: </label>
-                <input id="teacher_id" name="teacher_id" type="text" placeholder="Principal 'TN|PRI...' Teacher 'TN|TEA...'" required><br>
+                <input id="teacher_id" name="teacher_id" type="text" placeholder="TN|TEA..." required><br>
 
                 <label for="subject">Subject: </label>
                 <input id="subject" name="subject" type="text" required><br>
 
-                <label for="username">User Name: </label>
+                <label for="username">Username: </label>
                 <input id="username" name="username" type="text" placeholder="Vasuky_N" required>
                 <span id="username_status" class="username-status"></span><br>
 
