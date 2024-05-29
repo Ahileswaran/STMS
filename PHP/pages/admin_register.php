@@ -1,4 +1,12 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Include the PHPMailer files
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+
 session_start(); // Start the session
 
 $username = "root";
@@ -42,11 +50,22 @@ if (isset($_POST['check_username'])) {
     exit();
 }
 
+// Generate random authentication code
+function generateRandomCode($length = 6) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 // Handle the form submission for registration
 if (isset($_POST['admin_username']) && isset($_POST['admin_password']) && !$admin_exists) {
     $first_name = $_POST['admin_first_name'];
     $last_name = $_POST['admin_last_name'];
-    $user_address = $_POST['admin_address']; // Use 'address' from form input
+    $user_address = $_POST['admin_address'];
     $age = $_POST['admin_age'];
     $sex = $_POST['admin_sex'];
     $marital_status = $_POST['admin_marital_status'];
@@ -55,36 +74,51 @@ if (isset($_POST['admin_username']) && isset($_POST['admin_password']) && !$admi
     $mail_id = $_POST['admin_mail_id'];
     $password = $_POST['admin_password'];
 
-    // Check if username already exists
-    $sql = "SELECT * FROM principal WHERE username = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->store_result();
+    // Generate random authentication code
+    $auth_code = generateRandomCode();
 
-    if ($stmt->num_rows > 0) {
-        echo "<script>alert('Username already taken, please choose another.');</script>";
-    } else {
-        // Insert new admin
-        $sql = "INSERT INTO principal (first_name, last_name, user_address, age, sex, marital_status, registration_id, username, email, user_password, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-        $stmt = $connection->prepare($sql);
-        $stmt->bind_param("ssssssssss", $first_name, $last_name, $user_address, $age, $sex, $marital_status, $registration_id, $username, $mail_id, $password);
-        if ($stmt->execute()) {
-            // Insert login details into login table
-            $sql_login = "INSERT INTO login (username, email, user_password) VALUES (?, ?, ?)";
-            $stmt_login = $connection->prepare($sql_login);
-            $stmt_login->bind_param("sss", $username, $mail_id, $password);
+    // Store auth code and registration data in session
+    $_SESSION['auth_code'] = $auth_code;
+    $_SESSION['pending_registration'] = [
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'user_address' => $user_address,
+        'age' => $age,
+        'sex' => $sex,
+        'marital_status' => $marital_status,
+        'registration_id' => $registration_id,
+        'username' => $username,
+        'mail_id' => $mail_id,
+        'password' => $password
+    ];
 
-            if ($stmt_login->execute()) {
-                echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.php';</script>";
-            } else {
-                echo "ERROR: Could not execute $sql_login. " . $stmt_login->error;
-            }
-            $stmt_login->close();
-        } else {
-            echo "ERROR: Could not execute $sql. " . $stmt->error;
-        }
-        $stmt->close();
+    // Send authentication code to user's email using PHPMailer
+    $mail = new PHPMailer(true);
+    try {
+        // Server settings
+        $mail->SMTPDebug = 2;                      // Enable verbose debug output
+        $mail->isSMTP();                           // Set mailer to use SMTP
+        $mail->Host       = 'smtp.gmail.com';      // Specify main and backup SMTP servers
+        $mail->SMTPAuth   = true;                  // Enable SMTP authentication
+        $mail->Username   = 'website.stms@gmail.com';// SMTP username
+        $mail->Password   = '12345678@#'; // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption, `ssl` also accepted
+        $mail->Port       = 587;                   // TCP port to connect to
+
+        // Recipients
+        $mail->setFrom('website.stms@gmail.com', 'STMS');
+        $mail->addAddress($mail_id, $first_name . ' ' . $last_name); // Add a recipient
+
+        // Content
+        $mail->isHTML(true);                       // Set email format to HTML
+        $mail->Subject = 'Your Authentication Code';
+        $mail->Body    = "Your authentication code is: $auth_code";
+
+        $mail->send();
+        header('Location: verify_auth_code.php');
+        exit();
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
 
@@ -119,9 +153,10 @@ $connection->close();
     <title>Admin Registration</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
-        .content{
+        .content {
             margin-top: 100px;
         }
+
         .status-message {
             display: inline-block;
             margin-left: 200px;
@@ -221,13 +256,13 @@ $connection->close();
                 <div id="admin-form">
                     <form class="register-form" action="admin_register.php" method="post">
                         <label for="admin_first_name">First Name: </label>
-                        <input id="admin_first_name" name="admin_first_name" type="text" placeholder="John" required><br>
+                        <input id="admin_first_name" name="admin_first_name" type="text" placeholder="Siva" required><br>
 
                         <label for="admin_last_name">Last Name: </label>
-                        <input id="admin_last_name" name="admin_last_name" type="text" placeholder="Doe" required><br>
+                        <input id="admin_last_name" name="admin_last_name" type="text" placeholder="Vasan" required><br>
 
                         <label for="admin_address">Address: </label>
-                        <input id="admin_address" name="admin_address" type="text" placeholder="New York" required><br>
+                        <input id="admin_address" name="admin_address" type="text" placeholder="Colombo" required><br>
 
                         <label for="admin_age">Age: </label>
                         <input id="admin_age" name="admin_age" type="text" required><br>
