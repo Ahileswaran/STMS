@@ -77,8 +77,11 @@ try {
     $create_syllabus_table_query = "CREATE TABLE $syllabus_table_name (
         id INT AUTO_INCREMENT PRIMARY KEY,
         registration_id VARCHAR(255) NOT NULL,
-        week_id INT NOT NULL,
+        term_id INT NOT NULL,
+        class_id VARCHAR(255) NOT NULL,
+        subject_id VARCHAR(255) NOT NULL,
         assign_date DATE NOT NULL,
+        week_id INT NOT NULL,
         conduct_date DATE NOT NULL,
         start_time TIME NOT NULL,
         lesson_time TIME NOT NULL,
