@@ -265,7 +265,7 @@ if ($stmt->num_rows > 0) {
             <ul>
                 <li><a href="../Admin_Pages/profile.php" target="main-frame" id="profile-link">Profile</a></li>
                 <li><a href="../Admin_Pages/edit_teachers.php" target="main-frame" id="edit-teachers-link">Manage Teachers</a></li>
-                <li><a href="../Admin_Pages/manage_leave.php" target="main-frame" id="manage-leave-link">Manage Leave</a></li>
+                <li><a href="../Admin_Pages/manage_leave.php" target="main-frame" id="manage-leave-link">Manage Leave and Substitute</a></li>
                 <li><a href="../Admin_Pages/edit_class_table.php" target="main-frame" id="edit-class-table-link">Manage Class Timetable</a></li>
                 <li><a href="../Admin_Pages/edit_master_table.php" target="main-frame" id="edit-master-table-link">Manage Master Timetable</a></li>
                 <li><a href="../Admin_Pages/edit_teacher_time_table.php" target="main-frame" id="edit-teacher-time-table-link">Manage Teacher Timetable</a></li>

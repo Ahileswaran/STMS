@@ -32,16 +32,18 @@ if ($stmt->num_rows > 0) {
 }
 
 // Handle form approval
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['form_id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['form_id']) && !isset($_POST['search_substitute']) && !isset($_POST['select_substitute'])) {
     $form_id = $_POST['form_id'];
-    $approval = $_POST['approval'];
-    $supervising_officer_signature = $_POST['supervising_officer_signature'];
-    $department_officer_signature = $_POST['department_officer_signature'];
+    $approval = isset($_POST['approval']) ? $_POST['approval'] : null;
+    $supervising_officer_signature = isset($_POST['supervising_officer_signature']) ? $_POST['supervising_officer_signature'] : '';
+    $department_officer_signature = isset($_POST['department_officer_signature']) ? $_POST['department_officer_signature'] : '';
 
-    $sql = "UPDATE teacher_leave_form SET supervising_officer_signature = ?, department_officer_signature = ?, leave_granted = ? WHERE id = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->bind_param("ssii", $supervising_officer_signature, $department_officer_signature, $approval, $form_id);
-    $stmt->execute();
+    if ($approval !== null && $supervising_officer_signature && $department_officer_signature) {
+        $sql = "UPDATE teacher_leave_form SET supervising_officer_signature = ?, department_officer_signature = ?, leave_granted = ? WHERE id = ?";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ssii", $supervising_officer_signature, $department_officer_signature, $approval, $form_id);
+        $stmt->execute();
+    }
 }
 
 // Fetch all pending leave forms
@@ -52,6 +54,39 @@ $pending_forms = [];
 if ($result) {
     $pending_forms = $result->fetch_all(MYSQLI_ASSOC);
 }
+
+// Find substitute teacher
+$substitutes = [];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search_substitute'])) {
+    $day = $_POST['day'];
+    $period = $_POST['period'];
+    $subject = $_POST['subject'];
+    $form_id = $_POST['form_id'];
+
+    $sql = "
+    SELECT DISTINCT t.username, t.registration_id
+    FROM master_time_table t
+    WHERE t.class_day = ? AND t.period = ? AND t.subject_id = ? AND t.username != (
+        SELECT username FROM teacher_leave_form WHERE id = ?
+    )";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("sssi", $day, $period, $subject, $form_id);
+    $stmt->execute();
+    $substitute_result = $stmt->get_result();
+    $substitutes = $substitute_result->fetch_all(MYSQLI_ASSOC);
+}
+
+// Handle substitute selection
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['select_substitute'])) {
+    $form_id = $_POST['form_id'];
+    $substitute_username = $_POST['substitute_username'];
+
+    $sql = "UPDATE teacher_leave_form SET substitute_officer_signature = ? WHERE id = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("si", $substitute_username, $form_id);
+    $stmt->execute();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -282,6 +317,24 @@ if ($result) {
                                     <button type="submit">Submit</button>
                                 </form>
 
+                                <button onclick="showSubstituteForm(<?php echo $form['id']; ?>)">Find Substitute Teacher</button>
+
+                                <div id="substituteForm<?php echo $form['id']; ?>" style="display: none;">
+                                    <form method="POST">
+                                        <input type="hidden" name="form_id" value="<?php echo $form['id']; ?>">
+                                        <label for="day">Day:</label>
+                                        <input type="text" id="day" name="day" required>
+
+                                        <label for="period">Period:</label>
+                                        <input type="text" id="period" name="period" required>
+
+                                        <label for="subject">Subject:</label>
+                                        <input type="text" id="subject" name="subject" required>
+
+                                        <button type="submit" name="search_substitute">Search</button>
+                                    </form>
+                                </div>
+
                                 <?php if (isset($form['leave_granted'])) : ?>
                                     <p class="<?php echo $form['leave_granted'] ? 'message-granted' : 'message-not-granted'; ?>">
                                         Leave <?php echo $form['leave_granted'] ? 'Granted' : 'Not Granted'; ?>
@@ -293,7 +346,48 @@ if ($result) {
                 </tbody>
             </table>
         </div>
+
+        <?php if (!empty($substitutes)) : ?>
+            <div class="scrollable">
+                <h2>Available Substitute Teachers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Registration ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($substitutes as $substitute) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($substitute['username']); ?></td>
+                                <td><?php echo htmlspecialchars($substitute['registration_id']); ?></td>
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" name="form_id" value="<?php echo $_POST['form_id']; ?>">
+                                        <input type="hidden" name="substitute_username" value="<?php echo $substitute['username']; ?>">
+                                        <button type="submit" name="select_substitute">Select</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
     </div>
+
+    <script>
+        function showSubstituteForm(formId) {
+            var form = document.getElementById('substituteForm' + formId);
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>
