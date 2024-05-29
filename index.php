@@ -46,6 +46,27 @@ try {
     }
 
     $stmt->close();
+
+    // Fetch slider images from database
+    $slider_images = [];
+    $sql = "SELECT caption, slider_pic FROM slider_picture";
+    $stmt = $connection->prepare($sql);
+    if ($stmt === false) {
+        throw new Exception("Prepare statement failed: " . $connection->error);
+    }
+
+    $stmt->execute();
+    $stmt->bind_result($caption, $slider_pic_data);
+
+    while ($stmt->fetch()) {
+        $slider_pic = base64_encode($slider_pic_data);
+        $slider_images[] = [
+            'caption' => $caption,
+            'slider_pic' => 'data:image/jpeg;base64,' . $slider_pic
+        ];
+    }
+
+    $stmt->close();
     $connection->close();
 } catch (Exception $e) {
     log_error($e->getMessage());
@@ -101,24 +122,14 @@ try {
     </header>
     <div class="slider-container">
         <div class="slider">
-            <div class="slider-item active" id="image_1">
-                <img class="animated bounceInRight slider-img" src="images/slider/pic1.jpg">
-                <div class="row">
-                    <h3 class="animated slideInLeft slider-caption mb-2">Events</h3>
+            <?php foreach ($slider_images as $index => $image) : ?>
+                <div class="slider-item <?php echo $index === 0 ? 'active' : ''; ?>" id="image_<?php echo $index + 1; ?>">
+                    <img class="animated bounceInRight slider-img" src="<?php echo $image['slider_pic']; ?>">
+                    <div class="row">
+                        <h3 class="animated slideInLeft slider-caption mb-2"><?php echo $image['caption']; ?></h3>
+                    </div>
                 </div>
-            </div>
-            <div class="slider-item">
-                <img class="animated bounceInRight slider-img" src="images/slider/pic2.jpg">
-                <div class="row">
-                    <h3 class="animated slideInLeft slider-caption mb-2">Meetings</h3>
-                </div>
-            </div>
-            <div class="slider-item">
-                <img class="animated bounceInRight slider-img" src="images/slider/pic3.jpg">
-                <div class="row">
-                    <h3 class="animated slideInLeft slider-caption mb-2">Celebration</h3>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
     <div class="content">
@@ -135,7 +146,7 @@ try {
                         .then(response => response.json())
                         .then(data => {
                             const currentDateTime = new Date(data.datetime);
-                            const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                            const dayOfWeek = ["Sunday", "Monday", Tuesday, "Wednesday", "Thursday", "Friday", "Saturday"];
                             const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
                             document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
                             document.getElementById("classDay").textContent = "Class Day: " + classDay;

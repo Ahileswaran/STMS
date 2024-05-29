@@ -18,12 +18,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['slider_image'])) {
     $image = $_FILES['slider_image']['tmp_name'];
     $imgContent = addslashes(file_get_contents($image));
 
-    $sql = "INSERT INTO slider_picture (image_id, caption, slider_pic) VALUES ('$image_id', '$caption', '$imgContent')";
+    // Check if the image ID already exists
+    $check_sql = "SELECT * FROM slider_picture WHERE image_id = '$image_id'";
+    $check_result = $connection->query($check_sql);
 
-    if ($connection->query($sql) === TRUE) {
-        echo "New record created successfully";
+    if ($check_result->num_rows > 0) {
+        // If image ID exists, update the existing record
+        $update_sql = "UPDATE slider_picture SET caption = '$caption', slider_pic = '$imgContent' WHERE image_id = '$image_id'";
+        if ($connection->query($update_sql) === TRUE) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error: " . $update_sql . "<br>" . $connection->error;
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . $connection->error;
+        // If image ID does not exist, insert a new record
+        $insert_sql = "INSERT INTO slider_picture (image_id, caption, slider_pic) VALUES ('$image_id', '$caption', '$imgContent')";
+        if ($connection->query($insert_sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $insert_sql . "<br>" . $connection->error;
+        }
     }
 }
 
