@@ -1,10 +1,10 @@
 <?php
 require_once 'stay_login.php';
 
-$username = "root"; 
-$password = ""; 
-$server = "localhost";  
-$database = "stms_database"; 
+$username = "root";
+$password = "";
+$server = "localhost";
+$database = "stms_database";
 
 $connection = new mysqli($server, $username, $password, $database);
 
@@ -13,27 +13,21 @@ if ($connection->connect_error) {
 }
 
 // Check if the user is logged in
-if(isset($_SESSION['username'])) {
-    // Retrieve user's role from the database
+if (isset($_SESSION['username'])) {
+    // Retrieve the logged-in username
     $username = $_SESSION['username'];
-    $query = "SELECT user_role FROM login WHERE username = '$username'";
+
+    // Check if the username exists in the principal table
+    $query = "SELECT username FROM principal WHERE username = '$username'";
     $result = $connection->query($query);
-    
-    if($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $user_role = $row['user_role'];
-        
-        // Redirect based on user's role
-        if($user_role == 'teacher') {
-            header("Location: ./pages/profile_page.php");
-            exit();
-        } elseif($user_role == 'principal') {
-            header("Location: ./pages/admin_page.php");
-            exit();
-        }
+
+    if ($result->num_rows > 0) {
+        // If username is found in the principal table, redirect to admin page
+        header("Location: ./pages/admin_page.php");
+        exit();
     } else {
-        // If user role not found, redirect to login page
-        header("Location: login_page.php");
+        // If username is not found in the principal table, assume it is a teacher and redirect to profile page
+        header("Location: ./pages/profile_page.php");
         exit();
     }
 } else {
@@ -41,4 +35,6 @@ if(isset($_SESSION['username'])) {
     header("Location: login_page.php");
     exit();
 }
+
+$connection->close();
 ?>

@@ -12,32 +12,24 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
+// Check if an admin is already set
+$admin_exists = false;
+$sql = "SELECT * FROM principal WHERE admin = 1";
+$stmt = $connection->prepare($sql);
+$stmt->execute();
+$stmt->store_result();
+if ($stmt->num_rows > 0) {
+    $admin_exists = true;
+}
+$stmt->close();
+
 // Handle the AJAX request for checking username availability
 if (isset($_POST['check_username'])) {
     $username = $_POST['username'];
 
-    $sql = "SELECT * FROM teacher WHERE username = ?";
+    $sql = "SELECT * FROM principal WHERE username = ?";
     $stmt = $connection->prepare($sql);
     $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        echo "taken";
-    } else {
-        echo "available";
-    }
-    $stmt->close();
-    exit();
-}
-
-// Handle the AJAX request for checking registration ID availability
-if (isset($_POST['check_registration_id'])) {
-    $registration_id = $_POST['registration_id'];
-
-    $sql = "SELECT * FROM teacher WHERE registration_id = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->bind_param("s", $registration_id);
     $stmt->execute();
     $stmt->store_result();
 
@@ -51,21 +43,20 @@ if (isset($_POST['check_registration_id'])) {
 }
 
 // Handle the form submission for registration
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $user_address = $_POST['address']; // Use 'address' from form input
-    $age = $_POST['age'];
-    $sex = $_POST['sex'];
-    $marital_status = $_POST['marital_status'];
-    $teacher_id = $_POST['teacher_id'];
-    $subject = $_POST['subject'];
-    $username = $_POST['username'];
-    $mail_id = $_POST['mail_id'];
-    $password = $_POST['password'];
+if (isset($_POST['admin_username']) && isset($_POST['admin_password']) && !$admin_exists) {
+    $first_name = $_POST['admin_first_name'];
+    $last_name = $_POST['admin_last_name'];
+    $user_address = $_POST['admin_address']; // Use 'address' from form input
+    $age = $_POST['admin_age'];
+    $sex = $_POST['admin_sex'];
+    $marital_status = $_POST['admin_marital_status'];
+    $registration_id = $_POST['admin_registration_id'];
+    $username = $_POST['admin_username'];
+    $mail_id = $_POST['admin_mail_id'];
+    $password = $_POST['admin_password'];
 
     // Check if username already exists
-    $sql = "SELECT * FROM teacher WHERE username = ?";
+    $sql = "SELECT * FROM principal WHERE username = ?";
     $stmt = $connection->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -74,14 +65,24 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     if ($stmt->num_rows > 0) {
         echo "<script>alert('Username already taken, please choose another.');</script>";
     } else {
-        // Insert new user
-        $sql = "INSERT INTO teacher (first_name, last_name, user_address, age, sex, marital_status, registration_id, subject_name, username, email, user_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Insert new admin
+        $sql = "INSERT INTO principal (first_name, last_name, user_address, age, sex, marital_status, registration_id, username, email, user_password, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("sssssssssss", $first_name, $last_name, $user_address, $age, $sex, $marital_status, $teacher_id, $subject, $username, $mail_id, $password);
-        if ($stmt->execute() === TRUE) {
-            echo "<script>alert('Registration successful!');</script>";
+        $stmt->bind_param("ssssssssss", $first_name, $last_name, $user_address, $age, $sex, $marital_status, $registration_id, $username, $mail_id, $password);
+        if ($stmt->execute()) {
+            // Insert login details into login table
+            $sql_login = "INSERT INTO login (username, email, user_password) VALUES (?, ?, ?)";
+            $stmt_login = $connection->prepare($sql_login);
+            $stmt_login->bind_param("sss", $username, $mail_id, $password);
+
+            if ($stmt_login->execute()) {
+                echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.php';</script>";
+            } else {
+                echo "ERROR: Could not execute $sql_login. " . $stmt_login->error;
+            }
+            $stmt_login->close();
         } else {
-            echo "Error: " . $sql . "<br>" . $connection->error;
+            echo "ERROR: Could not execute $sql. " . $stmt->error;
         }
         $stmt->close();
     }
@@ -115,9 +116,12 @@ $connection->close();
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>School Teacher Management System</title>
+    <title>Admin Registration</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
+        .content{
+            margin-top: 100px;
+        }
         .status-message {
             display: inline-block;
             margin-left: 200px;
@@ -128,16 +132,27 @@ $connection->close();
         .status-message.available {
             color: green;
         }
+
+        .form-container {
+            text-align: left;
+            margin: auto;
+            width: 50%;
+        }
+
+        .radio-buttons {
+            display: flex;
+            gap: 10px;
+        }
     </style>
     <script>
         $(document).ready(function() {
             // Username availability check
-            $("#username").keyup(function() {
+            $("#admin_username").keyup(function() {
                 var username = $(this).val().trim();
 
                 if (username != '') {
                     $.ajax({
-                        url: 'registering_page.php',
+                        url: 'admin_register.php',
                         type: 'post',
                         data: {
                             check_username: 1,
@@ -155,38 +170,6 @@ $connection->close();
                     $("#username_status").html("").removeClass("available taken");
                 }
             });
-
-            // Registration ID availability and format check
-            $("#teacher_id").keyup(function() {
-                var registration_id = $(this).val().trim();
-                var regex = /^TN\|TEA.*$/;
-
-                if (!regex.test(registration_id)) {
-                    $("#teacher_id_status").html("Registration ID must start with 'TN|TEA'").removeClass("available").addClass("taken");
-                    $("#submit_button").prop("disabled", true);
-                } else if (registration_id != '') {
-                    $.ajax({
-                        url: 'registering_page.php',
-                        type: 'post',
-                        data: {
-                            check_registration_id: 1,
-                            registration_id: registration_id
-                        },
-                        success: function(response) {
-                            if (response == 'taken') {
-                                $("#teacher_id_status").html("Registration ID already taken, please choose another.").removeClass("available").addClass("taken");
-                                $("#submit_button").prop("disabled", true);
-                            } else if (response == 'available') {
-                                $("#teacher_id_status").html("Registration ID is available.").removeClass("taken").addClass("available");
-                                $("#submit_button").prop("disabled", false);
-                            }
-                        }
-                    });
-                } else {
-                    $("#teacher_id_status").html("").removeClass("available taken");
-                    $("#submit_button").prop("disabled", false);
-                }
-            });
         });
     </script>
 </head>
@@ -196,7 +179,7 @@ $connection->close();
         <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
             <a class="active button" href="../../index.php">Home</a>
-            <a class="active button" href="#">Register</a>
+            <a class="active button" href="register.php">Register</a>
             <a class="active button" href="./login_page.php">Login</a>
         </nav>
         <div class="drop_menu">
@@ -231,45 +214,50 @@ $connection->close();
     </header>
 
     <div class="content">
-    <div id="admin-form">
-                <form class="register-form" action="admin_register.php" method="post">
-                    <label for="admin_first_name">First Name: </label>
-                    <input id="admin_first_name" name="admin_first_name" type="text" placeholder="John" required><br>
+        <div class="form-container">
+            <?php if ($admin_exists) : ?>
+                <div id="admin-message" class="status-message">An admin is already set.</div>
+            <?php else : ?>
+                <div id="admin-form">
+                    <form class="register-form" action="admin_register.php" method="post">
+                        <label for="admin_first_name">First Name: </label>
+                        <input id="admin_first_name" name="admin_first_name" type="text" placeholder="John" required><br>
 
-                    <label for="admin_last_name">Last Name: </label>
-                    <input id="admin_last_name" name="admin_last_name" type="text" placeholder="Doe" required><br>
+                        <label for="admin_last_name">Last Name: </label>
+                        <input id="admin_last_name" name="admin_last_name" type="text" placeholder="Doe" required><br>
 
-                    <label for="admin_address">Address: </label>
-                    <input id="admin_address" name="admin_address" type="text" placeholder="New York" required><br>
+                        <label for="admin_address">Address: </label>
+                        <input id="admin_address" name="admin_address" type="text" placeholder="New York" required><br>
 
-                    <label for="admin_age">Age: </label>
-                    <input id="admin_age" name="admin_age" type="text" required><br>
+                        <label for="admin_age">Age: </label>
+                        <input id="admin_age" name="admin_age" type="text" required><br>
 
-                    <label for="admin_sex">Sex: </label>
-                    <div class="radio-buttons">
-                        <input type="radio" id="admin_male" name="admin_sex" value="Male" required> <label for="admin_male">Male</label>
-                        <input type="radio" id="admin_female" name="admin_sex" value="Female" required> <label for="admin_female">Female</label>
-                    </div><br>
+                        <label for="admin_sex">Sex: </label>
+                        <div class="radio-buttons">
+                            <input type="radio" id="admin_male" name="admin_sex" value="Male" required> <label for="admin_male">Male</label>
+                            <input type="radio" id="admin_female" name="admin_sex" value="Female" required> <label for="admin_female">Female</label>
+                        </div><br>
 
-                    <label for="admin_marital_status">Marital Status: </label>
-                    <input id="admin_marital_status" name="admin_marital_status" type="text" required><br>
+                        <label for="admin_marital_status">Marital Status: </label>
+                        <input id="admin_marital_status" name="admin_marital_status" type="text" required><br>
 
-                    <label for="admin_principal_id">Registration Number: </label>
-                    <input id="admin_principal_id" name="admin_principal_id" type="text" required><br>
+                        <label for="admin_registration_id">Registration Number: </label>
+                        <input id="admin_registration_id" name="admin_registration_id" type="text" required><br>
 
-                    <label for="admin_username">Username: </label>
-                    <input id="admin_username" name="admin_username" type="text" required><br>
+                        <label for="admin_username">Username: </label>
+                        <input id="admin_username" name="admin_username" type="text" required>
+                        <span id="username_status" class="status-message"></span><br>
 
-                    <label for="admin_mail_id">Mail Address: </label>
-                    <input id="admin_mail_id" name="admin_mail_id" type="email" required><br>
+                        <label for="admin_mail_id">Mail Address: </label>
+                        <input id="admin_mail_id" name="admin_mail_id" type="email" required><br>
 
-                    <label for="admin_password">Password: </label>
-                    <input id="admin_password" name="admin_password" type="password" required><br>
+                        <label for="admin_password">Password: </label>
+                        <input id="admin_password" name="admin_password" type="password" required><br>
 
-                    <button type="submit" value="submit">Submit</button>
-                </form>
-                <div id="admin-message" class="status-message"></div>
-            </div>
+                        <button type="submit" value="submit">Submit</button>
+                    </form>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
