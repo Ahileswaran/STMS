@@ -23,11 +23,11 @@ if (isset($_SESSION['username'])) {
 
     if ($result->num_rows > 0) {
         // If username is found in the principal table, redirect to admin page
-        header("Location: ./pages/admin_page.php");
+        header("Location: ../PHP/pages/admin_page.php");
         exit();
     } else {
         // If username is not found in the principal table, assume it is a teacher and redirect to profile page
-        header("Location: ./pages/profile_page.php");
+        header("Location: ../PHP/profile_page.php");
         exit();
     }
 } else {
