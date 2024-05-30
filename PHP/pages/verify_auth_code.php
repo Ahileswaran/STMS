@@ -16,17 +16,14 @@ if (isset($_POST['auth_code'])) {
             die("Connection failed: " . $connection->connect_error);
         }
 
-        // Hash the password before storing it
-        $hashed_password = password_hash($registration_data['password'], PASSWORD_BCRYPT);
-
         $sql = "INSERT INTO principal (first_name, last_name, user_address, age, sex, marital_status, registration_id, username, email, user_password, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
         $stmt = $connection->prepare($sql);
-        $stmt->bind_param("ssssssssss", $registration_data['first_name'], $registration_data['last_name'], $registration_data['user_address'], $registration_data['age'], $registration_data['sex'], $registration_data['marital_status'], $registration_data['registration_id'], $registration_data['username'], $registration_data['mail_id'], $hashed_password);
+        $stmt->bind_param("ssssssssss", $registration_data['first_name'], $registration_data['last_name'], $registration_data['user_address'], $registration_data['age'], $registration_data['sex'], $registration_data['marital_status'], $registration_data['registration_id'], $registration_data['username'], $registration_data['mail_id'], $registration_data['password']);
 
         if ($stmt->execute()) {
             $sql_login = "INSERT INTO login (username, email, user_password) VALUES (?, ?, ?)";
             $stmt_login = $connection->prepare($sql_login);
-            $stmt_login->bind_param("sss", $registration_data['username'], $registration_data['mail_id'], $hashed_password);
+            $stmt_login->bind_param("sss", $registration_data['username'], $registration_data['mail_id'], $registration_data['password']);
             if ($stmt_login->execute()) {
                 echo "<script>alert('Registration successful.'); window.location.href = '../index.php';</script>";
             } else {

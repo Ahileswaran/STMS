@@ -92,7 +92,7 @@ if (isset($_POST['admin_username']) && isset($_POST['admin_password']) && !$admi
         'password' => $password
     ];
 
-    // Send authentication code to user's email using PHPMailer
+    // Send authentication code to user's email using PHPMailer with Mailtrap Email Sending SMTP
     $mail = new PHPMailer(true);
     try {
         // Server settings
