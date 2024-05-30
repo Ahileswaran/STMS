@@ -138,7 +138,7 @@ $connection->close();
         </div>
     </footer>
 
-    <script src="../../javaScript.js"></script>
+    <script src="../../JavaScripts/javaScript.js"></script>
     <script>
         function redirect(select) {
             var url = select.value;
