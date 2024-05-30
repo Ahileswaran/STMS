@@ -2,14 +2,12 @@
 //session_start(); // Start the session
 require_once 'display_propic.php';
 
-// Check if the day and time period parameters are set in the request
-if (isset($_GET['day']) && isset($_GET['time_period'])) {
+// Check if the day parameter is set in the request
+if (isset($_GET['day'])) {
     $currentDay = strtolower($_GET['day']);
-    $currentTimePeriod = $_GET['time_period'];
 } else {
-    // Default to 'friday' and 'full' time period if parameters are not provided
+    // Default to 'friday' if the parameter is not provided
     $currentDay = 'friday';
-    $currentTimePeriod = 'full';
 }
 
 $username = "root";
@@ -38,49 +36,24 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Map the selected time period value to the corresponding time slots
-$timePeriodMap = [
-    "full" => [
-        1 => '07:50:00 - 08:30:00',
-        2 => '08:30:00 - 09:10:00',
-        3 => '09:10:00 - 09:50:00',
-        4 => '09:50:00 - 10:30:00',
-        5 => '10:50:00 - 11:30:00',
-        6 => '11:30:00 - 12:10:00',
-        7 => '12:10:00 - 12:50:00',
-        8 => '12:50:00 - 13:30:00'
-    ],
-    "time_7" => 1,
-    "time_8" => 2,
-    "time_9" => 3,
-    "time_9_50" => 4,
-    "time_10" => 5,
-    "time_11" => 6,
-    "time_12" => 7,
-    "time_1" => 8
+// Map the time slots
+$timeSlots = [
+    1 => '07:50:00 - 08:30:00',
+    2 => '08:30:00 - 09:10:00',
+    3 => '09:10:00 - 09:50:00',
+    4 => '09:50:00 - 10:30:00',
+    5 => '10:50:00 - 11:30:00',
+    6 => '11:30:00 - 12:10:00',
+    7 => '12:10:00 - 12:50:00',
+    8 => '12:50:00 - 13:30:00'
 ];
-
-// Get the selected time slots based on the current time period
-if (isset($timePeriodMap[$currentTimePeriod])) {
-    $selectedTimeSlots = $timePeriodMap[$currentTimePeriod];
-} else {
-    // Default to full time period if invalid time period selected
-    $selectedTimeSlots = $timePeriodMap["full"];
-}
 
 // Modify the SQL query to join class_time_table with master_time_table based on the period
 $sql = "SELECT c.class_id, m.period, c.$currentDay AS subject, m.username
         FROM class_time_table c
         INNER JOIN master_time_table m ON c.start_time = m.start_time AND c.end_time = m.end_time
-        WHERE c.$currentDay IS NOT NULL";
-
-// Adjust the query based on the selected time period
-if ($currentTimePeriod !== "full" && !is_array($selectedTimeSlots)) {
-    // Modify the query to fetch data for the selected time period
-    $sql .= " AND m.period = '$selectedTimeSlots'";
-}
-
-$sql .= " ORDER BY m.period";
+        WHERE c.$currentDay IS NOT NULL
+        ORDER BY m.period";
 
 $result = $connection->query($sql);
 
@@ -96,7 +69,7 @@ if ($result) {
         $classSchedules[$row['class_id']][] = [
             'class_id' => $row['class_id'], // Ensure class_id is included
             'period' => $row["period"],
-            'time' => $timePeriodMap["full"][$row["period"]],
+            'time' => $timeSlots[$row["period"]],
             'subject' => $row['subject'],
             'username' => $row['username'] // Include the username
         ];
@@ -283,59 +256,32 @@ foreach ($grades_table1 as $grade) {
 }
 echo "</tr>";
 
-if (is_array($selectedTimeSlots)) {
-    // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $period => $timeSlot) {
-        echo "<tr>";
-        echo "<td>" . $timeSlot . "</td>";
-        foreach ($grades_table1 as $grade) {
-            echo "<td>";
-            $classFound = false;
-            foreach ($classSchedules[$grade] as $class) {
-                if ($class['period'] == $period) {
-                    echo "<div class='name'>" . $class['subject'] . "</div><br>";
-                    echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
-                    if (isset($profilePictures[$class['username']])) {
-                        echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
-                    } else {
-                        echo "Profile picture not found";
-                    }
-                    $classFound = true;
-                    break;
-                }
-            }
-            if (!$classFound) {
-                echo "No class";
-            }
-            echo "</td>";
-        }
-        echo "</tr>";
-    }
-} else {
-    // Display the time slots for the selected time period
-    for ($i = 0; $i < $maxClasses; $i++) {
-        echo "<tr>";
-        // Display the period
-        echo "<td>" . $timePeriodMap["full"][$selectedTimeSlots] . "</td>";
-        foreach ($grades_table1 as $grade) {
-            echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['period'] == $selectedTimeSlots) {
-                // Display the subject name, username, and profile picture
-                echo "<div class='name'>" . $classSchedules[$grade][$i]['subject'] . "</div><br>";
-                echo "<div class='username'>Username: " . $classSchedules[$grade][$i]['username'] . "</div><br>";
-                // Check if profile picture exists for the username
-                if (isset($profilePictures[$classSchedules[$grade][$i]['username']])) {
-                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' alt='User Image'></div>";
+// Display all time slots
+foreach ($timeSlots as $period => $timeSlot) {
+    echo "<tr>";
+    echo "<td>" . $timeSlot . "</td>";
+    foreach ($grades_table1 as $grade) {
+        echo "<td>";
+        $classFound = false;
+        foreach ($classSchedules[$grade] as $class) {
+            if ($class['period'] == $period) {
+                echo "<div class='name'>" . $class['subject'] . "</div><br>";
+                echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
+                if (isset($profilePictures[$class['username']])) {
+                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
                 } else {
                     echo "Profile picture not found";
                 }
-            } else {
-                echo "No class";
+                $classFound = true;
+                break;
             }
-            echo "</td>";
         }
-        echo "</tr>";
+        if (!$classFound) {
+            echo "No class";
+        }
+        echo "</td>";
     }
+    echo "</tr>";
 }
 echo "</table>";
 echo "</div>";
@@ -350,61 +296,33 @@ foreach ($grades_table2 as $grade) {
 }
 echo "</tr>";
 
-if (is_array($selectedTimeSlots)) {
-    // Display all time slots for the full time period
-    foreach ($selectedTimeSlots as $period => $timeSlot) {
-        echo "<tr>";
-        echo "<td>" . $timeSlot . "</td>";
-        foreach ($grades_table2 as $grade) {
-            echo "<td>";
-            $classFound = false;
-            foreach ($classSchedules[$grade] as $class) {
-                if ($class['period'] == $period) {
-                    echo "<div class='name'>" . $class['subject'] . "</div><br>";
-                    echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
-                    if (isset($profilePictures[$class['username']])) {
-                        echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
-                    } else {
-                        echo "Profile picture not found";
-                    }
-                    $classFound = true;
-                    break;
-                }
-            }
-            if (!$classFound) {
-                echo "No class";
-            }
-            echo "</td>";
-        }
-        echo "</tr>";
-    }
-} else {
-    // Display the time slots for the selected time period
-    for ($i = 0; $i < $maxClasses; $i++) {
-        echo "<tr>";
-        // Display the period
-        echo "<td>" . $timePeriodMap["full"][$selectedTimeSlots] . "</td>";
-        foreach ($grades_table2 as $grade) {
-            echo "<td>";
-            if (isset($classSchedules[$grade][$i]) && $classSchedules[$grade][$i]['period'] == $selectedTimeSlots) {
-                // Display the subject name, username, and profile picture
-                echo "<div class='name'>" . $classSchedules[$grade][$i]['subject'] . "</div><br>";
-                echo "<div class='username'>Username: " . $classSchedules[$grade][$i]['username'] . "</div><br>";
-                // Check if profile picture exists for the username
-                if (isset($profilePictures[$classSchedules[$grade][$i]['username']])) {
-                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$classSchedules[$grade][$i]['username']]) . "' alt='User Image'></div>";
+// Display all time slots
+foreach ($timeSlots as $period => $timeSlot) {
+    echo "<tr>";
+    echo "<td>" . $timeSlot . "</td>";
+    foreach ($grades_table2 as $grade) {
+        echo "<td>";
+        $classFound = false;
+        foreach ($classSchedules[$grade] as $class) {
+            if ($class['period'] == $period) {
+                echo "<div class='name'>" . $class['subject'] . "</div><br>";
+                echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
+                if (isset($profilePictures[$class['username']])) {
+                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
                 } else {
                     echo "Profile picture not found";
                 }
-            } else {
-                echo "No class";
+                $classFound = true;
+                break;
             }
-            echo "</td>";
         }
-        echo "</tr>";
+        if (!$classFound) {
+            echo "No class";
+        }
+        echo "</td>";
     }
+    echo "</tr>";
 }
 echo "</table>";
 echo "</div>";
 ?>
-

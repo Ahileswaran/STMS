@@ -146,7 +146,7 @@ try {
                         .then(response => response.json())
                         .then(data => {
                             const currentDateTime = new Date(data.datetime);
-                            const dayOfWeek = ["Sunday", "Monday", Tuesday, "Wednesday", "Thursday", "Friday", "Saturday"];
+                            const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                             const classDay = dayOfWeek[currentDateTime.getDay()]; // Get the day of the week
                             document.getElementById("currentDateTime").textContent = "Current Date and Time: " + currentDateTime.toLocaleString();
                             document.getElementById("classDay").textContent = "Class Day: " + classDay;
@@ -156,40 +156,26 @@ try {
                         });
                 </script>
                 <div class="drop_menu_table">
-                <select id="daySelector" name="Day" onchange="generateTable()">
-    <option value="monday">Monday</option>
-    <option value="tuesday">Tuesday</option>
-    <option value="wednesday">Wednesday</option>
-    <option value="thursday">Thursday</option>
-    <option value="friday">Friday</option>
-</select>
-<select id="timePeriodSelector" name="Time Period">
-    <option value="full">Full Time Period</option>
-    <option value="time_7">07:50:00 - 08:30:00</option>
-    <option value="time_8">08:30:00 - 09:10:00</option>
-    <option value="time_9">09:10:00 - 09:50:00</option>
-    <option value="time_9_50">09:50:00 - 10:30:00</option>
-    <option value="time_10">10:50:00 - 11:30:00</option>
-    <option value="time_11">11:30:00 - 12:10:00</option>
-    <option value="time_12">12:10:00 - 12:50:00</option>
-    <option value="time_1">12:50:00 - 13:30:00</option>
-</select>
-
+                    <select id="daySelector" name="Day" onchange="generateTable()">
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                    </select>
                     <button id="refreshButton" onclick="generateTable()">View Table</button>
                 </div>
             </div>
             <script>
                 function generateTable() {
-                    // Get the selected day and time period
+                    // Get the selected day
                     var selectedDay = document.getElementById("daySelector").value;
-                    var selectedTimePeriod = document.getElementById("timePeriodSelector").value;
-                    // Send an AJAX request to generate_table.php with the selected day and time period
+                    // Send an AJAX request to generate_table.php with the selected day
                     $.ajax({
                         url: "generate_table.php",
                         method: "GET",
                         data: {
-                            day: selectedDay,
-                            time_period: selectedTimePeriod
+                            day: selectedDay
                         },
                         success: function(response) {
                             // Display the generated table in the tableContainer
