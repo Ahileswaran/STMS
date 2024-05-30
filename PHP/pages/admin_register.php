@@ -96,14 +96,12 @@ if (isset($_POST['admin_username']) && isset($_POST['admin_password']) && !$admi
     $mail = new PHPMailer(true);
     try {
         // Server settings
-        $mail->SMTPDebug = 2;                      // Enable verbose debug output
-        $mail->isSMTP();                           // Set mailer to use SMTP
-        $mail->Host       = 'smtp.gmail.com';      // Specify main and backup SMTP servers
-        $mail->SMTPAuth   = true;                  // Enable SMTP authentication
-        $mail->Username   = 'website.stms@gmail.com';// SMTP username
-        $mail->Password   = '12345678@#'; // SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption, `ssl` also accepted
-        $mail->Port       = 587;                   // TCP port to connect to
+        $mail->isSMTP();
+        $mail->Host       = 'sandbox.smtp.mailtrap.io';
+        $mail->SMTPAuth   = true;
+        $mail->Port       = 2525;
+        $mail->Username   = 'da5691c478f9ff';
+        $mail->Password   = 'f134c5d3c35f46';
 
         // Recipients
         $mail->setFrom('website.stms@gmail.com', 'STMS');
@@ -151,7 +149,7 @@ $connection->close();
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Admin Registration</title>
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../..styles.css">
     <style>
         .content {
             margin-top: 100px;
