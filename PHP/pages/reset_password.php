@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session
+session_start();
 
 $username = "root";
 $password = "";
@@ -10,6 +10,27 @@ $connection = new mysqli($server, $username, $password, $database);
 
 if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['reset_password'])) {
+    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+    $username = $_SESSION['reset_username'];
+
+    // Update the password in the database
+    $sql = "UPDATE login SET user_password = ? WHERE username = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ss", $new_password, $username);
+    if ($stmt->execute()) {
+        echo "Password reset successfully.";
+        // Unset the session variables
+        unset($_SESSION['auth_code']);
+        unset($_SESSION['reset_username']);
+        header('Location: login_page.php');
+        exit();
+    } else {
+        echo "Error resetting password.";
+    }
+    $stmt->close();
 }
 
 // Fetch profile picture from database
@@ -39,29 +60,8 @@ $connection->close();
 <html lang="en">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>School Teacher Management System</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="../../styles.css">
-    <style>
-        .form-container {
-            text-align: center;
-            margin-top: 250px;
-        }
-
-        .toggle-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-    </style>
 </head>
 
 <body>
@@ -99,14 +99,17 @@ $connection->close();
                 </div>
             </div>
         <?php endif; ?>
-        </div>
-
     </header>
 
     <div class="content">
         <div class="form-container">
-            <a href="teacher_register.php" class="toggle-button">Teacher</a>
-            <a href="admin_register.php" class="toggle-button">Admin</a>
+            <h2>Reset Password</h2>
+            <form action="reset_password.php" method="post">
+                <label for="new_password">New Password: </label>
+                <input id="new_password" name="new_password" type="password" required><br><br>
+
+                <button type="submit" name="reset_password">Submit</button>
+            </form>
         </div>
     </div>
 
@@ -124,8 +127,6 @@ $connection->close();
             </div>
         </div>
     </footer>
-
-    <script src="../../javaScript.js"></script>
 </body>
 
 </html>

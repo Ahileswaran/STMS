@@ -62,7 +62,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $subject = $_POST['subject'];
     $username = $_POST['username'];
     $mail_id = $_POST['mail_id'];
-    $password = $_POST['password'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
 
     // Check if username already exists
     $sql = "SELECT * FROM teacher WHERE username = ?";
@@ -128,10 +128,11 @@ $connection->close();
     <title>Teacher Registration</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
-        .content{
+        .content {
             margin-top: 100px;
             margin-bottom: 50px;
         }
+
         .status-message {
             display: inline-block;
             margin-left: 200px;
@@ -155,9 +156,9 @@ $connection->close();
         }
     </style>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Username availability check
-            $("#username").keyup(function() {
+            $("#username").keyup(function () {
                 var username = $(this).val().trim();
 
                 if (username != '') {
@@ -168,7 +169,7 @@ $connection->close();
                             check_username: 1,
                             username: username
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response == 'taken') {
                                 $("#username_status").html("Username already taken, please choose another.").removeClass("available").addClass("taken");
                             } else if (response == 'available') {
@@ -182,7 +183,7 @@ $connection->close();
             });
 
             // Registration ID availability and format check
-            $("#teacher_id").keyup(function() {
+            $("#teacher_id").keyup(function () {
                 var registration_id = $(this).val().trim();
                 var regex = /^TN\|TEA.*$/;
 
@@ -197,7 +198,7 @@ $connection->close();
                             check_registration_id: 1,
                             registration_id: registration_id
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response == 'taken') {
                                 $("#teacher_id_status").html("Registration ID already taken, please choose another.").removeClass("available").addClass("taken");
                                 $("#submit_button").prop("disabled", true);
@@ -251,8 +252,6 @@ $connection->close();
                 </div>
             </div>
         <?php endif; ?>
-        </div>
-
     </header>
 
     <div class="content">

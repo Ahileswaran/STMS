@@ -264,6 +264,7 @@ body {
 
 /* Footer style */
 .footer {
+    position: absolute;
     background-color: #29333d;
     color: #fff;
     padding: 20px 0;

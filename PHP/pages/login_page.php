@@ -139,7 +139,7 @@ try {
                     <button type="submit" value="enter" <?php if ($login_form_disabled) echo 'disabled class="disabled-field"'; ?>>Login</button>
 
                     <a href="registering_page.php" class="login_link">Register</a><br>
-                    <a href="reset-password.php" class="login_link">Forgot password</a>
+                    <a href="reset_password_request.php" class="reset_link">Reset password</a>
                 </form>
             </div>
         </div>

@@ -149,7 +149,7 @@ $connection->close();
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Admin Registration</title>
-    <link rel="stylesheet" href="../..styles.css">
+    <link rel="stylesheet" href="../../styles.css">
     <style>
         .content {
             margin-top: 100px;
@@ -157,7 +157,7 @@ $connection->close();
 
         .status-message {
             display: inline-block;
-            margin-left: 200px;
+            margin-left: 150px;
             color: red;
             font-weight: bold;
         }
@@ -167,8 +167,9 @@ $connection->close();
         }
 
         .form-container {
+            justify-content: center;
+            margin-top: 150px;
             text-align: left;
-            margin: auto;
             width: 50%;
         }
 

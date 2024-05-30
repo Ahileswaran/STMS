@@ -12,6 +12,17 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['verify_code'])) {
+    $input_code = $_POST['auth_code'];
+
+    if ($input_code === $_SESSION['auth_code']) {
+        header('Location: reset_password.php');
+        exit();
+    } else {
+        echo "Incorrect code.";
+    }
+}
+
 // Fetch profile picture from database
 $profile_pic_src = 'path_to_default_image.jpg'; // Default profile picture
 
@@ -39,33 +50,12 @@ $connection->close();
 <html lang="en">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>School Teacher Management System</title>
-    <link rel="stylesheet" href="../../styles.css">
-    <style>
-        .form-container {
-            text-align: center;
-            margin-top: 250px;
-        }
-
-        .toggle-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-    </style>
+    <title>Verify Reset Code</title>
+    <link rel="stylesheet" href="../..styles.css">
 </head>
 
 <body>
-    <header class="header">
+<header class="header">
         <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
             <a class="active button" href="../../index.php">Home</a>
@@ -99,14 +89,17 @@ $connection->close();
                 </div>
             </div>
         <?php endif; ?>
-        </div>
-
     </header>
 
     <div class="content">
         <div class="form-container">
-            <a href="teacher_register.php" class="toggle-button">Teacher</a>
-            <a href="admin_register.php" class="toggle-button">Admin</a>
+            <h2>Verify Reset Code</h2>
+            <form action="verify_reset_code.php" method="post">
+                <label for="auth_code">Authentication Code: </label>
+                <input id="auth_code" name="auth_code" type="text" required><br><br>
+
+                <button type="submit" name="verify_code">Submit</button>
+            </form>
         </div>
     </div>
 
@@ -124,8 +117,6 @@ $connection->close();
             </div>
         </div>
     </footer>
-
-    <script src="../../javaScript.js"></script>
 </body>
 
 </html>

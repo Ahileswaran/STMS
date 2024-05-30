@@ -1,6 +1,11 @@
 <?php
 session_start(); // Start the session
 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+
 $username = "root";
 $password = "";
 $server = "localhost";
@@ -10,6 +15,63 @@ $connection = new mysqli($server, $username, $password, $database);
 
 if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
+}
+
+// Handle the form submission for password reset request
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['reset_request'])) {
+    $username = mysqli_real_escape_string($connection, $_POST['username']);
+    $email = mysqli_real_escape_string($connection, $_POST['email']);
+
+    // Check if the username and email address are in the login table
+    $sql = "SELECT * FROM login WHERE username = ? AND email = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ss", $username, $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        // Generate random authentication code
+        $auth_code = bin2hex(random_bytes(3)); // 6-character code
+
+        // Store auth code and username in session
+        $_SESSION['auth_code'] = $auth_code;
+        $_SESSION['reset_username'] = $username;
+
+        // Send authentication code to user's email using PHPMailer with Mailtrap SMTP
+        require '../PHPMailer/src/Exception.php';
+        require '../PHPMailer/src/PHPMailer.php';
+        require '../PHPMailer/src/SMTP.php';
+
+        $mail = new PHPMailer(true);
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host       = 'sandbox.smtp.mailtrap.io';
+            $mail->SMTPAuth   = true;
+            $mail->Port       = 2525;
+            $mail->Username   = 'da5691c478f9ff';
+            $mail->Password   = 'f134c5d3c35f46';
+
+            // Recipients
+            $mail->setFrom('website.stms@gmail.com', 'STMS');
+            $mail->addAddress($email, $username); // Add a recipient
+
+            // Content
+            $mail->isHTML(true); // Set email format to HTML
+            $mail->Subject = 'Your Password Reset Code';
+            $mail->Body    = "Your password reset code is: $auth_code";
+
+            $mail->send();
+            echo "Reset code sent to your email.";
+            header('Location: verify_reset_code.php');
+            exit();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+    } else {
+        echo "Incorrect username or email.";
+    }
+    $stmt->close();
 }
 
 // Fetch profile picture from database
@@ -39,29 +101,8 @@ $connection->close();
 <html lang="en">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>School Teacher Management System</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="../../styles.css">
-    <style>
-        .form-container {
-            text-align: center;
-            margin-top: 250px;
-        }
-
-        .toggle-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-    </style>
 </head>
 
 <body>
@@ -99,14 +140,20 @@ $connection->close();
                 </div>
             </div>
         <?php endif; ?>
-        </div>
-
     </header>
 
     <div class="content">
         <div class="form-container">
-            <a href="teacher_register.php" class="toggle-button">Teacher</a>
-            <a href="admin_register.php" class="toggle-button">Admin</a>
+            <h2>Reset Password</h2>
+            <form action="reset_password_request.php" method="post">
+                <label for="username">Username: </label>
+                <input id="username" name="username" type="text" required><br><br>
+
+                <label for="email">Email Address: </label>
+                <input id="email" name="email" type="email" required><br><br>
+
+                <button type="submit" name="reset_request">Submit</button>
+            </form>
         </div>
     </div>
 
@@ -124,8 +171,6 @@ $connection->close();
             </div>
         </div>
     </footer>
-
-    <script src="../../javaScript.js"></script>
 </body>
 
 </html>
