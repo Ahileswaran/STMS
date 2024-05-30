@@ -176,7 +176,7 @@ try {
                     var selectedDay = document.getElementById("daySelector").value;
                     // Send an AJAX request to generate_table.php with the selected day
                     $.ajax({
-                        url: "generate_table.php",
+                        url: "./PHP/Master_Table/generate_table.php",
                         method: "GET",
                         data: {
                             day: selectedDay
