@@ -22,30 +22,31 @@ try {
         throw new Exception("Connection failed: " . $connection->connect_error);
     }
 
-    // Fetch profile picture from database
-    $session_username = $_SESSION['username'];
-    $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
-    $stmt = $connection->prepare($sql);
-    if ($stmt === false) {
-        throw new Exception("Prepare statement failed: " . $connection->error);
+    $profile_pic_src = 'path_to_default_image.jpg'; // Default profile picture
+
+    if (isset($_SESSION['username'])) {
+        // Fetch profile picture from database
+        $session_username = $_SESSION['username'];
+        $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
+        $stmt = $connection->prepare($sql);
+        if ($stmt === false) {
+            throw new Exception("Prepare statement failed: " . $connection->error);
+        }
+
+        $stmt->bind_param("s", $session_username);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            // Profile picture found, display it
+            $stmt->bind_result($profile_pic_data);
+            $stmt->fetch();
+            $profile_pic = base64_encode($profile_pic_data);
+            $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
+        }
+
+        $stmt->close();
     }
-
-    $stmt->bind_param("s", $session_username);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        // Profile picture found, display it
-        $stmt->bind_result($profile_pic_data);
-        $stmt->fetch();
-        $profile_pic = base64_encode($profile_pic_data);
-        $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
-    } else {
-        // Profile picture not found, use a default image
-        $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
-    }
-
-    $stmt->close();
 
     // Fetch slider images from database
     $slider_images = [];
