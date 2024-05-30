@@ -61,7 +61,7 @@ $connection->close();
 
 <head>
     <title>Reset Password</title>
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../CSS/styles.css">
 </head>
 
 <body>

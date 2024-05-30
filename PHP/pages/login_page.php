@@ -55,7 +55,7 @@ try {
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../CSS/styles.css">
     <style>
         /* Additional CSS to ensure footer placement */
         body,

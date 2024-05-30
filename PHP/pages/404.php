@@ -7,7 +7,7 @@ $error_message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : "The
 
 <head>
     <title>404 Not Found</title>
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../CSS/styles.css">
     <style>
         .not-found {
             display: flex;

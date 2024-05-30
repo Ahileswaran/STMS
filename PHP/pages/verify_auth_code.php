@@ -73,7 +73,7 @@ $connection->close();
 <html lang="en">
 <head>
     <title>Verify Authentication Code</title>
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../CSS/styles.css">
 </head>
 <body>
 <header class="header">

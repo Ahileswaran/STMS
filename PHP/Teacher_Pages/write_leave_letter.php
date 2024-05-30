@@ -87,7 +87,7 @@ $letters = $result->fetch_all(MYSQLI_ASSOC);
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <title>School Teacher Management System</title>
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../CSS/styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
