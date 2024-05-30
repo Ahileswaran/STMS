@@ -75,10 +75,10 @@ try {
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
-                <option value="menu0" disabled selected>Downloads</option>
-                <option value="teachers_guide">Teachers Guides</option>
-                <option value="syllabi">Syllabi</option>
-                <option value="resource_page">Resource Books</option>
+                <option value="" disabled selected>Downloads</option>
+                <option value="https://nie.lk/seletguide">Teachers Guides</option>
+                <option value="https://nie.lk/selesyll">Syllabi</option>
+                <option value="https://nie.lk/showom">Other Materials</option>
             </select>
         </div>
         <div class="Search_field">
@@ -142,6 +142,14 @@ try {
             }
             if (url) {
                 window.location.href = url;
+            }
+        }
+    </script>
+        <script>
+        function redirect(select) {
+            var url = select.value;
+            if (url) {
+                window.open(url, '_blank');
             }
         }
     </script>

@@ -60,11 +60,14 @@ if ($stmt->num_rows > 0) {
             margin-top: 20px;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid #ccc;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: left;
         }
@@ -127,7 +130,7 @@ if ($stmt->num_rows > 0) {
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
@@ -135,7 +138,8 @@ if ($stmt->num_rows > 0) {
             display: block;
         }
 
-        .dropdown-content p, .dropdown-content a {
+        .dropdown-content p,
+        .dropdown-content a {
             padding: 12px 16px;
             text-decoration: none;
             display: block;
@@ -151,7 +155,8 @@ if ($stmt->num_rows > 0) {
 
         .main-content {
             width: 100%;
-            height: 1000px; /* Adjust as needed */
+            height: 1000px;
+            /* Adjust as needed */
             border: none;
             background: transparent;
             overflow-y: auto;
@@ -209,7 +214,8 @@ if ($stmt->num_rows > 0) {
             }
 
             .main-content {
-                height: auto; /* Adjust to fit content */
+                height: auto;
+                /* Adjust to fit content */
             }
         }
     </style>
@@ -225,10 +231,10 @@ if ($stmt->num_rows > 0) {
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
-                <option value="menu0" disabled selected>Downloads</option>
-                <option value="teachers_guide">Teachers Guides</option>
-                <option value="syllabi">Syllabi</option>
-                <option value="resource_page">Resource Books</option>
+                <option value="" disabled selected>Downloads</option>
+                <option value="https://nie.lk/seletguide">Teachers Guides</option>
+                <option value="https://nie.lk/selesyll">Syllabi</option>
+                <option value="https://nie.lk/showom">Other Materials</option>
             </select>
         </div>
         <div class="Search_field">
@@ -287,6 +293,15 @@ if ($stmt->num_rows > 0) {
                 });
             });
         });
+    </script>
+
+    <script>
+        function redirect(select) {
+            var url = select.value;
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
     </script>
 </body>
 

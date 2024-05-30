@@ -148,10 +148,10 @@ unset($_SESSION['search_results']);
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
-                <option value="menu0" disabled selected>Downloads</option>
-                <option value="teachers_guide">Teachers Guides</option>
-                <option value="syllabi">Syllabi</option>
-                <option value="resource_page">Resource Books</option>
+                <option value="" disabled selected>Downloads</option>
+                <option value="https://nie.lk/seletguide">Teachers Guides</option>
+                <option value="https://nie.lk/selesyll">Syllabi</option>
+                <option value="https://nie.lk/showom">Other Materials</option>
             </select>
         </div>
         <div class="Search_field">
@@ -204,20 +204,26 @@ unset($_SESSION['search_results']);
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="../../images/logo-STMS.jpg" alt="Logo">
+                <img src="images/logo-STMS.jpg" alt="Logo">
                 <p>&copy; 2024 School Teachers Management System. All rights reserved.</p>
             </div>
             <div class="footer-links">
                 <ul>
-                    <li><a href="#">Legal Stuff</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Security</a></li>
-                    <li><a href="#">Website Accessibility</a></li>
-                    <li><a href="#">Manage Cookies</a></li>
+                    <li><a href="PHP/pages/about_page.php">About</a></li>
+                    <li><a href="PHP/pages/manage_cookies.php">Manage Cookies</a></li>
                 </ul>
             </div>
         </div>
     </footer>
+    <script src="javaScript.js"></script>
+    <script>
+        function redirect(select) {
+            var url = select.value;
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+    </script>
 </body>
 
 </html>

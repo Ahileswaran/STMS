@@ -22,7 +22,7 @@ try {
         throw new Exception("Connection failed: " . $connection->connect_error);
     }
 
-    $profile_pic_src = 'path_to_default_image.jpg'; // Default profile picture
+    $profile_pic_src = 'images/profile-pic.png';
 
     if (isset($_SESSION['username'])) {
         // Fetch profile picture from database
@@ -78,11 +78,13 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header class="header">
         <img src="images/logo-STMS.jpg" alt="logo" class="logo-image">
@@ -93,10 +95,10 @@ try {
         </nav>
         <div class="drop_menu">
             <select name="menu" onchange="redirect(this)">
-                <option value="menu0" disabled selected>Downloads</option>
-                <option value="teachers_guide">Teachers Guides</option>
-                <option value="syllabi">Syllabi</option>
-                <option value="resource_page">Resource Books</option>
+                <option value="" disabled selected>Downloads</option>
+                <option value="https://nie.lk/seletguide">Teachers Guides</option>
+                <option value="https://nie.lk/selesyll">Syllabi</option>
+                <option value="https://nie.lk/showom">Other Materials</option>
             </select>
         </div>
         <div class="Search_field">
@@ -116,10 +118,11 @@ try {
                     </div>
                 </div>
             </div>
-        <?php else: ?>
+        <?php else : ?>
             <!-- Placeholder for maintaining layout -->
             <div class="login_detail_placeholder"></div>
         <?php endif; ?>
+
     </header>
     <div class="slider-container">
         <div class="slider">
@@ -234,5 +237,14 @@ try {
         </div>
     </footer>
     <script src="javaScript.js"></script>
+    <script>
+        function redirect(select) {
+            var url = select.value;
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+    </script>
 </body>
+
 </html>
