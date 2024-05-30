@@ -1,14 +1,9 @@
 <?php
-//session_start(); // Start the session
+// session_start(); // Start the session
 require_once 'display_propic.php';
 
 // Check if the day parameter is set in the request
-if (isset($_GET['day'])) {
-    $currentDay = strtolower($_GET['day']);
-} else {
-    // Default to 'friday' if the parameter is not provided
-    $currentDay = 'friday';
-}
+$currentDay = isset($_GET['day']) ? strtolower($_GET['day']) : 'friday';
 
 $username = "root";
 $password = "";
@@ -16,15 +11,12 @@ $server = "localhost";
 $database = "stms_database";
 
 $connection = new mysqli($server, $username, $password, $database);
-
 if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
 // Define an array to hold the grades
 $grades = ["Grade_6", "Grade_7", "Grade_8", "Grade_9", "Grade_10", "Grade_11", "Grade_12_Arts", "Grade_12_Science", "Grade_12_Maths"];
-
-$profilePicUrl = 'display_propic.php?'; // URL to fetch profile pictures
 
 // Fetch profile pictures from the database
 $profilePictures = [];
@@ -66,24 +58,18 @@ foreach ($grades as $grade) {
 // Populate class schedules based on fetched data
 if ($result) {
     while ($row = $result->fetch_assoc()) {
-        $classSchedules[$row['class_id']][] = [
-            'class_id' => $row['class_id'], // Ensure class_id is included
+        $classSchedules[$row['class_id']][$row['period']] = [
+            'class_id' => $row['class_id'],
             'period' => $row["period"],
             'time' => $timeSlots[$row["period"]],
             'subject' => $row['subject'],
-            'username' => $row['username'] // Include the username
+            'username' => $row['username']
         ];
     }
 }
 
 // Close the connection
 $connection->close();
-
-// Determine the maximum number of classes among all grades
-$maxClasses = 0;
-foreach ($classSchedules as $gradeSchedule) {
-    $maxClasses = max($maxClasses, count($gradeSchedule));
-}
 
 // Split the grades into two arrays for two tables
 $grades_table1 = array_slice($grades, 0, 5);
@@ -92,15 +78,20 @@ $grades_table2 = array_slice($grades, 5);
 // Include the CSS styles in the output
 echo "<style>
 /* General styles */
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+
+    flex-direction: column;
+}
+
 .container {
-	width: 95%;
-	max-width: 1800px;
-	margin: 0 auto;
-	padding: 23px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	overflow: hidden;
-	background-color: #fff;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 5px;
+
 }
 
 table {
@@ -109,6 +100,7 @@ table {
     background-color: #ffffff;
     border-radius: 8px;
     overflow: hidden;
+
 }
 
 caption {
@@ -197,26 +189,34 @@ th:nth-child(6), td:nth-child(6) {
 
 .username {
     font-size: 1rem;
-    color: #555; /* Darker color for the username */
-    color: #26a9dd;
+    color: #26a9dd; /* Blue color for the username */
     font-weight: bold;
+    margin-top: 5px;
 }
 
 /* Image container styles */
 .image-container {
-    display: inline-block;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
     overflow: hidden;
 }
 
 .image-container img {
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s ease;
 }
 
 .image-container:hover img {
-    transform: scale(1.5); /* Scale image to 1.5 times its size on hover */
+    transform: scale(1.2); /* Scale image to 1.2 times its size on hover */
 }
 
 /* Make table responsive */
@@ -238,13 +238,37 @@ th:nth-child(6), td:nth-child(6) {
     .name, .username {
         font-size: 0.8rem; 
     }
-    .image-container img {
+    .image-container {
         width: 40px; 
         height: 40px;
     }
 }
+.master-table {
+    margin:auto;
+    margin-top: 20px;
+}
+
 
 </style>";
+
+// Function to render a cell for a grade
+if (!function_exists('renderCell')) {
+    function renderCell($grade, $period, $classSchedules, $profilePictures)
+    {
+        if (isset($classSchedules[$grade][$period])) {
+            $class = $classSchedules[$grade][$period];
+            echo "<div class='name'>" . $class['subject'] . "</div>";
+            echo "<div class='username'>" . $class['username'] . "</div>";
+            if (isset($profilePictures[$class['username']])) {
+                echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
+            } else {
+                echo "<div class='image-container'><img src='placeholder.jpg' alt='No Profile Picture'></div>";
+            }
+        } else {
+            echo "No class";
+        }
+    }
+}
 
 // Display the first table for grades 6-10
 echo "<div class='container'>";
@@ -262,23 +286,7 @@ foreach ($timeSlots as $period => $timeSlot) {
     echo "<td>" . $timeSlot . "</td>";
     foreach ($grades_table1 as $grade) {
         echo "<td>";
-        $classFound = false;
-        foreach ($classSchedules[$grade] as $class) {
-            if ($class['period'] == $period) {
-                echo "<div class='name'>" . $class['subject'] . "</div><br>";
-                echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
-                if (isset($profilePictures[$class['username']])) {
-                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
-                } else {
-                    echo "Profile picture not found";
-                }
-                $classFound = true;
-                break;
-            }
-        }
-        if (!$classFound) {
-            echo "No class";
-        }
+        renderCell($grade, $period, $classSchedules, $profilePictures);
         echo "</td>";
     }
     echo "</tr>";
@@ -302,27 +310,10 @@ foreach ($timeSlots as $period => $timeSlot) {
     echo "<td>" . $timeSlot . "</td>";
     foreach ($grades_table2 as $grade) {
         echo "<td>";
-        $classFound = false;
-        foreach ($classSchedules[$grade] as $class) {
-            if ($class['period'] == $period) {
-                echo "<div class='name'>" . $class['subject'] . "</div><br>";
-                echo "<div class='username'>Username: " . $class['username'] . "</div><br>";
-                if (isset($profilePictures[$class['username']])) {
-                    echo "<div class='image-container'><img src='data:image/jpeg;base64," . base64_encode($profilePictures[$class['username']]) . "' alt='User Image'></div>";
-                } else {
-                    echo "Profile picture not found";
-                }
-                $classFound = true;
-                break;
-            }
-        }
-        if (!$classFound) {
-            echo "No class";
-        }
+        renderCell($grade, $period, $classSchedules, $profilePictures);
         echo "</td>";
     }
     echo "</tr>";
 }
 echo "</table>";
 echo "</div>";
-?>

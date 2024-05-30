@@ -28,8 +28,6 @@ if(isset($_GET['day']) && isset($_GET['time_period'])) {
     $currentTimePeriod = 'full';
 }
 
-
-
 // Check if class ID, subject, and day of the week are received via GET request
 if(isset($_GET['class_id']) && isset($_GET['subject']) && isset($_GET['day_of_week'])) {
     // Get the class ID, subject, and day of the week from the GET request

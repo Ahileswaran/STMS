@@ -43,9 +43,23 @@ $connection->close();
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+
         .form-container {
-            text-align: center;
-            margin-top: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(20vh - 30px); /* Adjust based on header and footer height */
+            margin-top: 220px;
+            margin-bottom: 50px;
         }
 
         .toggle-button {
@@ -60,6 +74,27 @@ $connection->close();
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 12px;
+        }
+
+        .footer {
+            position: fixed;
+     
+        }
+
+        @media (max-width: 768px) {
+            .toggle-button {
+                width: 80%;
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toggle-button {
+                width: 100%;
+                font-size: 12px;
+                padding: 10px 18px;
+            }
         }
     </style>
 </head>
@@ -99,8 +134,6 @@ $connection->close();
                 </div>
             </div>
         <?php endif; ?>
-        </div>
-
     </header>
 
     <div class="content">

@@ -204,7 +204,7 @@ unset($_SESSION['search_results']);
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="images/logo-STMS.jpg" alt="Logo">
+                <img src="../../Images/logo-STMS.jpg" alt="Logo">
                 <p>&copy; 2024 School Teachers Management System. All rights reserved.</p>
             </div>
             <div class="footer-links">

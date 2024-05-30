@@ -153,6 +153,14 @@ $connection->close();
     <title>Admin Registration</title>
     <link rel="stylesheet" href="../../styles.css">
     <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
         .content {
             margin-top: 100px;
         }
@@ -178,6 +186,9 @@ $connection->close();
         .radio-buttons {
             display: flex;
             gap: 10px;
+        }
+        .footer{
+            position: fixed;
         }
     </style>
     <script>

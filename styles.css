@@ -186,9 +186,6 @@ tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-.master-table {
-    margin-top: 20px;
-}
 
 /* Style for the current date and time display */
 .worldclock {
@@ -241,12 +238,7 @@ tr:nth-child(odd) {
 }
 
 /* Style for the footer */
-.footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
+
 
 .footer a {
     color: #fff;
@@ -264,7 +256,6 @@ body {
 
 /* Footer style */
 .footer {
-    position: absolute;
     background-color: #29333d;
     color: #fff;
     padding: 20px 0;
