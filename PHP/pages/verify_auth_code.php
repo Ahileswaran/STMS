@@ -80,6 +80,7 @@ if (isset($_SESSION['username'])) {
         <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
             <a class="active button" href="../../index.php">Home</a>
+            <a class="active button" href="../profile_redirect.php">Dashboard</a>
             <a class="active button" href="#">Register</a>
             <a class="active button" href="./login_page.php">Login</a>
         </nav>

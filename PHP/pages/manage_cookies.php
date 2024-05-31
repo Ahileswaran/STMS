@@ -105,6 +105,7 @@ try {
         <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
         <nav>
             <a class="active button" href="../../index.php">Home</a>
+            <a class="active button" href="../profile_redirect.php">Dashboard</a>
             <a class="active button" href="../pages/registering_page.php">Register</a>
             <a class="active button" href="../pages/login_page.php">Login</a>
         </nav>
