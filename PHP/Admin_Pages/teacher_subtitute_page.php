@@ -45,6 +45,206 @@ if($stmt->num_rows > 0) {
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../CSS/styles.css">
     <script src="../../JavaScripts/javaScript.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+
+        .glass-box-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .glass-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .title-container {
+            text-align: center;
+        }
+
+        .banner-image-full {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        .drop_menu select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin: 0 10px;
+        }
+
+        .Search_field input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 200px;
+            margin: 0 10px;
+        }
+
+        .search_button button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .search_button button:hover {
+            background-color: #45a049;
+        }
+
+        .login_detail {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .dropdown_details {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown_details:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content p, .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .content {
+            margin: 20px 0;
+        }
+
+        .background-glass {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .substitute-page h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .edit-delete-teacher {
+            margin-bottom: 20px;
+        }
+
+        .edit-delete-teacher label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .edit-delete-teacher input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .edit-delete-teacher button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .edit-delete-teacher button:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #007BFF;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .nav-container nav, .drop_menu, .Search_field, .search_button, .login_detail {
+                margin-bottom: 10px;
+            }
+
+            .login_detail {
+                flex-direction: column;
+            }
+
+            .search_button button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -123,11 +323,11 @@ if($stmt->num_rows > 0) {
             <h1>Substitute Teacher</h1>
           </div>
           <div class="edit-delete-teacher">
-            <label for="input"><b>Display Avilable Teachers: </b></label><br><br>
+            <label for="input"><b>Display Available Teachers: </b></label><br><br>
             <label for="input"><b>Teacher ID: </b></label>
             <input type="text" placeholder="Insert teacher id..."><br><br>
             <label for="input"><b>Class: </b></label>
-            <input type="text" placeholder="Insert clsas..."><br><br>
+            <input type="text" placeholder="Insert class..."><br><br>
             <button value="search">Display</button>
           </div>
 

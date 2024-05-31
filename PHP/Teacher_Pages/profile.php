@@ -288,7 +288,7 @@ $connection->close();
             margin-top: 20px;
             background-color: #ffffff;
             border-radius: 10px;
-            padding: 20px;
+            padding: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 600px;

@@ -82,7 +82,6 @@ if (!empty($table_name)) {
         body {
             font-family: 'Arial', sans-serif;
             background: none;
-            /* Remove background color */
             margin: 0;
             padding: 0;
             display: flex;
@@ -95,7 +94,7 @@ if (!empty($table_name)) {
             width: 90%;
             max-width: 922px;
             padding: 20px;
-            background-color: transparent;
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-top: 50px;

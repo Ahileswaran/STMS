@@ -29,6 +29,13 @@ $teachers = readTeachers($connection);
     <title>School Teacher Management System</title>
     <link rel="stylesheet" href="../../CSS/styles.css">
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+
         .container {
             display: flex;
             flex-direction: row;
@@ -36,7 +43,7 @@ $teachers = readTeachers($connection);
         }
 
         .scrollable {
-            overflow-y: scroll;
+            overflow-y: auto;
             height: 1000px;
             flex: 1;
             max-width: 1174px;
@@ -57,28 +64,28 @@ $teachers = readTeachers($connection);
         th, td {
             padding: 10px;
             text-align: left;
+            transition: background-color 0.3s ease-in-out;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+        }
+
+        td:hover {
+            background-color: #f1f1f1;
         }
 
         .form-container {
             flex: 1;
             padding: 20px;
             margin-left: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            max-width: 282px;
-            margin: 0 auto;
-            margin-top: 0px;
-            margin-bottom: 0px;
-            margin-left: auto;
-            padding: 2rem;
-            background-color: #f9f9f9;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 71px;
+            max-width: 300px;
+            margin-top: 50px;
         }
 
         .form-container input[type="text"],
@@ -87,6 +94,9 @@ $teachers = readTeachers($connection);
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .form-container button {
@@ -96,6 +106,8 @@ $teachers = readTeachers($connection);
             border: none;
             cursor: pointer;
             width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
         .form-container button:hover {
@@ -144,8 +156,26 @@ $teachers = readTeachers($connection);
             height: 1000px; /* Adjust as needed */
             border: none;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .scrollable {
+                margin: 20px 0;
+                max-width: 100%;
+            }
+
+            .form-container {
+                margin: 20px 0;
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
+<body>
 <div class="container">
     <div class="scrollable">
         <h2>Edit Teachers</h2>
@@ -239,3 +269,5 @@ $teachers = readTeachers($connection);
         bindEditTeacherFunction();
     });
 </script>
+</body>
+</html>
