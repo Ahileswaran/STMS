@@ -1,7 +1,4 @@
 <?php
-// session_start(); // Start the session
-require_once 'display_propic.php';
-
 // Check if the day parameter is set in the request
 $currentDay = isset($_GET['day']) ? strtolower($_GET['day']) : 'friday';
 
