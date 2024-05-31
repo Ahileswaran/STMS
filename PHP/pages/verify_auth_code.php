@@ -28,7 +28,7 @@ if (isset($_POST['auth_code'])) {
             $stmt_login = $connection->prepare($sql_login);
             $stmt_login->bind_param("sss", $registration_data['username'], $registration_data['mail_id'], $hashed_password);
             if ($stmt_login->execute()) {
-                echo "<script>alert('Registration successful.'); window.location.href = '../index.php';</script>";
+                echo "<script>alert('Registration successful.'); window.location.href = '../../index.php';</script>";
             } else {
                 echo "ERROR: Could not execute $sql_login. " . $stmt_login->error;
             }
@@ -65,7 +65,7 @@ if (isset($_SESSION['username'])) {
     $stmt->close();
 }
 
-$connection->close();
+
 ?>
 
 
