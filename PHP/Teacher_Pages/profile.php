@@ -162,6 +162,7 @@ $connection->close();
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f0f2f5;
         }
         .glass-container {
             padding: 20px;
@@ -229,7 +230,7 @@ $connection->close();
             color: orange;
         }
         .notification {
-            background-color: #f9f9f9;
+            background-color: #e3f2fd;
             border-left: 4px solid #007bff;
             padding: 10px;
             margin: 20px 0;
@@ -283,6 +284,17 @@ $connection->close();
         .delete-button:hover {
             background-color: #cc0000;
         }
+        .status-section, .syllabus-section {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: auto;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -314,17 +326,6 @@ $connection->close();
                 <h4><span class="label">Registration Id:</span> <?php echo $_SESSION['registration_id']; ?></h4>
                 <h4><span class="label">Username:</span> <?php echo $_SESSION['username']; ?></h4>
                 <h4><span class="label">Email:</span> <?php echo $_SESSION['email']; ?></h4>
-                <h4 class="<?php echo $leave_granted === NULL ? 'message-pending' : ($leave_granted == 1 ? 'message-granted' : 'message-not-granted'); ?>">
-                    <?php echo $leave_status_message; ?>
-                </h4>
-                <?php if (!empty($syllabus_notifications)) { ?>
-                    <div class="notification">
-                        <h4>Today's Assignments:</h4>
-                        <?php foreach ($syllabus_notifications as $notification) { ?>
-                            <span><?php echo htmlspecialchars($notification['assign_date']); ?> - Class: <?php echo htmlspecialchars($notification['class_id']); ?> - Content: <?php echo htmlspecialchars($notification['course_content']); ?></span><br>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
                 <button id="edit_button" class="edit-button">Edit</button>
             </div>
 
@@ -348,6 +349,23 @@ $connection->close();
                 <button id="cancel_button" class="edit-button">Cancel</button>
             </div>
         </div>
+    </div>
+
+    <div class="status-section">
+        <h4 class="<?php echo $leave_granted === NULL ? 'message-pending' : ($leave_granted == 1 ? 'message-granted' : 'message-not-granted'); ?>">
+            <?php echo $leave_status_message; ?>
+        </h4>
+    </div>
+
+    <div class="syllabus-section">
+        <?php if (!empty($syllabus_notifications)) { ?>
+            <div class="notification">
+                <h4>Today's Assignments:</h4>
+                <?php foreach ($syllabus_notifications as $notification) { ?>
+                    <span><?php echo htmlspecialchars($notification['assign_date']); ?> - Class: <?php echo htmlspecialchars($notification['class_id']); ?> - Content: <?php echo htmlspecialchars($notification['course_content']); ?></span><br>
+                <?php } ?>
+            </div>
+        <?php } ?>
     </div>
 
     <script>
