@@ -20,9 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['find_username'])) {
         $find_username = $_POST['username'];
         $table_name = "teacher_time_table_" . strtolower($find_username);
-        $result = $connection->query("SHOW TABLES LIKE '$table_name'");
+        $table_name_escaped = $connection->real_escape_string($table_name);
+        $result = $connection->query("SHOW TABLES LIKE '$table_name_escaped'");
         if ($result->num_rows == 1) {
-            $_SESSION['table_name'] = $table_name;
+            $_SESSION['table_name'] = $table_name_escaped;
         } else {
             $feedback = "Table for username '$find_username' does not exist.";
         }
@@ -32,9 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['delete_registration_id'])) {
             // Delete operation
             $delete_registration_id = $_POST['delete_registration_id'];
-            $sql = "DELETE FROM $table_name WHERE registration_id=?";
+            $delete_class_id = $_POST['delete_class_id'];
+            $delete_subject_id = $_POST['delete_subject_id'];
+            $delete_class_day = $_POST['delete_class_day'];
+            $delete_start_time = $_POST['delete_start_time'];
+            $delete_end_time = $_POST['delete_end_time'];
+
+            $sql = "DELETE FROM $table_name WHERE registration_id=? AND class_id=? AND subject_id=? AND class_day=? AND start_time=? AND end_time=?";
             $stmt = $connection->prepare($sql);
-            $stmt->bind_param("s", $delete_registration_id);
+            $stmt->bind_param("ssssss", $delete_registration_id, $delete_class_id, $delete_subject_id, $delete_class_day, $delete_start_time, $delete_end_time);
             $stmt->execute();
         } else {
             // Create or Update operation
@@ -48,9 +55,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST['update_registration_id'])) {
                 // Update existing record
                 $update_registration_id = $_POST['update_registration_id'];
-                $sql = "UPDATE $table_name SET class_id=?, subject_id=?, class_day=?, start_time=?, end_time=? WHERE registration_id=?";
+                $update_class_id = $_POST['update_class_id'];
+                $update_subject_id = $_POST['update_subject_id'];
+                $update_class_day = $_POST['update_class_day'];
+                $update_start_time = $_POST['update_start_time'];
+                $update_end_time = $_POST['update_end_time'];
+
+                $sql = "UPDATE $table_name SET class_id=?, subject_id=?, class_day=?, start_time=?, end_time=? WHERE registration_id=? AND class_id=? AND subject_id=? AND class_day=? AND start_time=? AND end_time=?";
                 $stmt = $connection->prepare($sql);
-                $stmt->bind_param("ssssss", $class_id, $subject_id, $class_day, $start_time, $end_time, $update_registration_id);
+                $stmt->bind_param("sssssssssss", $class_id, $subject_id, $class_day, $start_time, $end_time, $update_registration_id, $update_class_id, $update_subject_id, $update_class_day, $update_start_time, $update_end_time);
             } else {
                 // Insert new record
                 $sql = "INSERT INTO $table_name (registration_id, class_id, subject_id, class_day, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)";
@@ -100,7 +113,6 @@ if (!empty($table_name)) {
             margin-top: 50px;
             margin-left: 250px;
         }
-        
 
         h2 {
             text-align: center;
@@ -239,9 +251,14 @@ if (!empty($table_name)) {
                                 <td><?php echo htmlspecialchars($row['start_time']); ?></td>
                                 <td><?php echo htmlspecialchars($row['end_time']); ?></td>
                                 <td>
-                                    <button class="edit-button" data-registration-id="<?php echo $row['registration_id']; ?>">Edit</button>
+                                    <button class="edit-button" data-registration-id="<?php echo $row['registration_id']; ?>" data-class-id="<?php echo $row['class_id']; ?>" data-subject-id="<?php echo $row['subject_id']; ?>" data-class-day="<?php echo $row['class_day']; ?>" data-start-time="<?php echo $row['start_time']; ?>" data-end-time="<?php echo $row['end_time']; ?>">Edit</button>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="delete_registration_id" value="<?php echo $row['registration_id']; ?>">
+                                        <input type="hidden" name="delete_class_id" value="<?php echo $row['class_id']; ?>">
+                                        <input type="hidden" name="delete_subject_id" value="<?php echo $row['subject_id']; ?>">
+                                        <input type="hidden" name="delete_class_day" value="<?php echo $row['class_day']; ?>">
+                                        <input type="hidden" name="delete_start_time" value="<?php echo $row['start_time']; ?>">
+                                        <input type="hidden" name="delete_end_time" value="<?php echo $row['end_time']; ?>">
                                         <button type="submit" class="delete-button">Delete</button>
                                     </form>
                                 </td>
@@ -255,6 +272,11 @@ if (!empty($table_name)) {
                 <h3>Add/Edit Teacher Time Table</h3>
                 <form id="teacher-time-table-form" method="POST">
                     <input type="hidden" name="update_registration_id" id="update_registration_id">
+                    <input type="hidden" name="update_class_id" id="update_class_id">
+                    <input type="hidden" name="update_subject_id" id="update_subject_id">
+                    <input type="hidden" name="update_class_day" id="update_class_day">
+                    <input type="hidden" name="update_start_time" id="update_start_time">
+                    <input type="hidden" name="update_end_time" id="update_end_time">
                     <label for="registration_id">Registration ID:</label>
                     <input type="text" name="registration_id" id="registration_id" required>
                     <label for="class_id">Class ID:</label>
@@ -279,23 +301,29 @@ if (!empty($table_name)) {
                 document.querySelectorAll('.edit-button').forEach(button => {
                     button.addEventListener('click', function() {
                         const registration_id = this.dataset.registrationId;
-                        editRecord(registration_id);
+                        const class_id = this.dataset.classId;
+                        const subject_id = this.dataset.subjectId;
+                        const class_day = this.dataset.classDay;
+                        const start_time = this.dataset.startTime;
+                        const end_time = this.dataset.endTime;
+                        editRecord(registration_id, class_id, subject_id, class_day, start_time, end_time);
                     });
                 });
             }
 
-            function editRecord(registration_id) {
-                const records = <?php echo json_encode($teacher_time_table); ?>;
-                const record = records.find(r => r.registration_id === registration_id);
-                if (record) {
-                    document.getElementById('update_registration_id').value = record.registration_id;
-                    document.getElementById('registration_id').value = record.registration_id;
-                    document.getElementById('class_id').value = record.class_id;
-                    document.getElementById('subject_id').value = record.subject_id;
-                    document.getElementById('class_day').value = record.class_day;
-                    document.getElementById('start_time').value = record.start_time;
-                    document.getElementById('end_time').value = record.end_time;
-                }
+            function editRecord(registration_id, class_id, subject_id, class_day, start_time, end_time) {
+                document.getElementById('update_registration_id').value = registration_id;
+                document.getElementById('update_class_id').value = class_id;
+                document.getElementById('update_subject_id').value = subject_id;
+                document.getElementById('update_class_day').value = class_day;
+                document.getElementById('update_start_time').value = start_time;
+                document.getElementById('update_end_time').value = end_time;
+                document.getElementById('registration_id').value = registration_id;
+                document.getElementById('class_id').value = class_id;
+                document.getElementById('subject_id').value = subject_id;
+                document.getElementById('class_day').value = class_day;
+                document.getElementById('start_time').value = start_time;
+                document.getElementById('end_time').value = end_time;
             }
 
             bindEditFunction();
