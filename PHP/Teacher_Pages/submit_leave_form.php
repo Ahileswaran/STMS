@@ -50,18 +50,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Leave Form</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
         .form-container {
             max-width: 600px;
             margin: auto;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .form-container label {
             display: block;
             margin: 10px 0 5px;
+            color: #333;
+            font-weight: bold;
         }
 
         .form-container input[type="text"],
@@ -70,8 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form-container textarea,
         .form-container select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .form-container button {
@@ -81,10 +98,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: none;
             cursor: pointer;
             width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .form-container button:hover {
             background-color: #45a049;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            .form-container button {
+                padding: 12px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>

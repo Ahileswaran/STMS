@@ -156,6 +156,7 @@ try {
             margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
 
         .form-container button {
@@ -166,6 +167,8 @@ try {
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
+            font-size: 16px;
         }
 
         .form-container button:hover {

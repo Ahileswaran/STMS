@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start the session
 
-$username = "root"; 
-$password = ""; 
-$server = "localhost";  
-$database = "stms_database"; 
+$username = "root";
+$password = "";
+$server = "localhost";
+$database = "stms_database";
 
 $connection = new mysqli($server, $username, $password, $database);
 
@@ -45,23 +45,85 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Table</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
         .glass-container {
             padding: 20px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 800px;
             margin: auto;
             margin-top: 50px;
         }
+
+        .glass-container h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        .glass-container h5 {
+            text-align: center;
+            color: #777;
+        }
+
+        .timetable {
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
+
         th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            border: 1px solid #ddd;
             text-align: center;
+            font-size: 14px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        td:hover {
+            background-color: #f1f1f1;
+        }
+
+        th:first-child, td:first-child {
+            background-color: #24bccc;
+            font-weight: bold;
+        }
+
+        caption {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            th, td {
+                font-size: 12px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
