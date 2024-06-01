@@ -13,7 +13,7 @@ if ($connection->connect_error) {
 }
 
 // Define an array to hold the grades
-$grades = ["Grade_6", "Grade_7", "Grade_8", "Grade_9", "Grade_10", "Grade_11", "Grade_12_Arts", "Grade_12_Science", "Grade_12_Maths"];
+$grades = ["Grade_1", "Grade_2", "Grade_3", "Grade_4", "Grade_5", "Grade_6", "Grade_7", "Grade_8", "Grade_9", "Grade_10", "Grade_11", "Grade_12_Arts", "Grade_12_Science", "Grade_12_Maths"];
 
 // Fetch profile pictures from the database
 $profilePictures = [];
@@ -58,7 +58,7 @@ if ($result) {
         $classSchedules[$row['class_id']][$row['period']] = [
             'class_id' => $row['class_id'],
             'period' => $row["period"],
-            'time' => $timeSlots[$row["period"]],
+            'time' => isset($timeSlots[$row["period"]]) ? $timeSlots[$row["period"]] : '',
             'subject' => $row['subject'],
             'username' => $row['username']
         ];
@@ -68,9 +68,10 @@ if ($result) {
 // Close the connection
 $connection->close();
 
-// Split the grades into two arrays for two tables
+// Split the grades into three arrays for three tables
 $grades_table1 = array_slice($grades, 0, 5);
-$grades_table2 = array_slice($grades, 5);
+$grades_table2 = array_slice($grades, 5, 5);
+$grades_table3 = array_slice($grades, 10);
 
 // Include the CSS styles in the output
 echo "<style>
@@ -267,23 +268,33 @@ if (!function_exists('renderCell')) {
     }
 }
 
-// Display the first table for grades 6-10
+// Display the first table for grades 1-5
 echo "<div class='container'>";
 echo "<table border='1'>";
-echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
+echo "<caption><h3>Time Table - Grades 1 to 5</h3></caption>";
 echo "<tr><th>Period</th>";
 foreach ($grades_table1 as $grade) {
     echo "<th>$grade</th>";
 }
 echo "</tr>";
 
-// Display all time slots
+// Display all time slots except the specified ones for grades 1-5
 foreach ($timeSlots as $period => $timeSlot) {
+    // Skip specific time slots for grades 1-5
+    if (in_array($timeSlot, ['10:50:00 - 11:30:00', '11:30:00 - 12:10:00', '12:10:00 - 12:50:00', '12:50:00 - 13:30:00'])) {
+        continue;
+    }
+
     echo "<tr>";
     echo "<td>" . $timeSlot . "</td>";
     foreach ($grades_table1 as $grade) {
         echo "<td>";
-        renderCell($grade, $period, $classSchedules, $profilePictures);
+        // Skip displaying "No class" for specific grades and period
+        if ($period == 4 && in_array($grade, ['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4'])) {
+            echo "";
+        } else {
+            renderCell($grade, $period, $classSchedules, $profilePictures);
+        }
         echo "</td>";
     }
     echo "</tr>";
@@ -291,10 +302,10 @@ foreach ($timeSlots as $period => $timeSlot) {
 echo "</table>";
 echo "</div>";
 
-// Display the second table for grades 11-12
+// Display the second table for grades 6-10
 echo "<div class='container'>";
 echo "<table border='1'>";
-echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
+echo "<caption><h3>Time Table - Grades 6 to 10</h3></caption>";
 echo "<tr><th>Period</th>";
 foreach ($grades_table2 as $grade) {
     echo "<th>$grade</th>";
@@ -314,3 +325,28 @@ foreach ($timeSlots as $period => $timeSlot) {
 }
 echo "</table>";
 echo "</div>";
+
+// Display the third table for grades 11-12
+echo "<div class='container'>";
+echo "<table border='1'>";
+echo "<caption><h3>Time Table - Grades 11 to 12</h3></caption>";
+echo "<tr><th>Period</th>";
+foreach ($grades_table3 as $grade) {
+    echo "<th>$grade</th>";
+}
+echo "</tr>";
+
+// Display all time slots
+foreach ($timeSlots as $period => $timeSlot) {
+    echo "<tr>";
+    echo "<td>" . $timeSlot . "</td>";
+    foreach ($grades_table3 as $grade) {
+        echo "<td>";
+        renderCell($grade, $period, $classSchedules, $profilePictures);
+        echo "</td>";
+    }
+    echo "</tr>";
+}
+echo "</table>";
+echo "</div>";
+?>
