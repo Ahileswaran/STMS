@@ -37,11 +37,11 @@ $timeSlots = [
     8 => '12:50:00 - 13:30:00'
 ];
 
-// Modify the SQL query to join class_time_table with master_time_table and teacher_classes based on the period, username, and subject
-$sql = "SELECT c.class_id, m.period, c.$currentDay AS subject, m.username, t.subject_name
+// Modify the SQL query to join class_time_table with master_time_table and teacher_classes based on the period and username
+$sql = "SELECT c.class_id, m.period, c.$currentDay AS subject, m.username
         FROM class_time_table c
         INNER JOIN master_time_table m ON c.start_time = m.start_time AND c.end_time = m.end_time
-        INNER JOIN teacher_classes t ON m.username = t.username AND c.$currentDay = t.subject_name
+        INNER JOIN teacher_classes t ON m.username = t.username
         WHERE c.$currentDay IS NOT NULL AND (
             c.class_id = t.class_1 OR
             c.class_id = t.class_2 OR
