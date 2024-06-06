@@ -1,10 +1,10 @@
 <?php
 session_start(); // Start the session
 
-// Define the error logging function or include it
+// error logging function 
 function log_error($error_message)
 {
-    $log_file = __DIR__ . '/error_log.txt'; // Adjust path as needed
+    $log_file = __DIR__ . '/error_log.txt'; 
     $current_time = date('Y-m-d H:i:s');
     $log_message = "[{$current_time}] Error: {$error_message}\n";
     file_put_contents($log_file, $log_message, FILE_APPEND);

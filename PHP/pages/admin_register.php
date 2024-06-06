@@ -162,7 +162,7 @@ $connection->close();
         }
 
         .content {
-            margin-top: 100px;
+            margin-top: 10px;
         }
 
         .status-message {
@@ -187,9 +187,7 @@ $connection->close();
             display: flex;
             gap: 10px;
         }
-        .footer{
-            position: fixed;
-        }
+
     </style>
     <script>
         $(document).ready(function() {

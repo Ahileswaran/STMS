@@ -18,6 +18,37 @@ function readTeachers($connection) {
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['delete_id'])) {
+        $delete_id = $_POST['delete_id'];
+        $stmt = $connection->prepare("DELETE FROM teacher WHERE registration_id = ?");
+        $stmt->bind_param("s", $delete_id);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: ".$_SERVER['PHP_SELF']); // Refresh the page to reflect changes
+        exit;
+    } elseif (isset($_POST['registration_id'])) {
+        // Update the teacher details
+        $registration_id = $_POST['registration_id'];
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $user_address = $_POST['user_address'];
+        $age = $_POST['age'];
+        $sex = $_POST['sex'];
+        $marital_status = $_POST['marital_status'];
+        $subject_name = $_POST['subject_name'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        
+        $stmt = $connection->prepare("UPDATE teacher SET first_name = ?, last_name = ?, user_address = ?, age = ?, sex = ?, marital_status = ?, subject_name = ?, username = ?, email = ? WHERE registration_id = ?");
+        $stmt->bind_param("ssssssssss", $first_name, $last_name, $user_address, $age, $sex, $marital_status, $subject_name, $username, $email, $registration_id);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: ".$_SERVER['PHP_SELF']); // Refresh the page to reflect changes
+        exit;
+    }
+}
+
 $teachers = readTeachers($connection);
 ?>
 
@@ -211,7 +242,7 @@ $teachers = readTeachers($connection);
 
     <div class="form-container">
         <h3>Add/Edit Teacher</h3>
-        <form id="teacher-form" method="POST">
+        <form id="teacher-form" method="POST" action="">
             <input type="hidden" name="registration_id" id="registration_id">
             <label for="first_name">First Name:</label>
             <input type="text" name="first_name" id="first_name" required>
@@ -231,8 +262,6 @@ $teachers = readTeachers($connection);
             <input type="text" name="username" id="username" required>
             <label for="email">Email:</label>
             <input type="text" name="email" id="email" required>
-            <label for="user_password">Password:</label>
-            <input type="text" name="user_password" id="user_password" required>
             <button type="submit">Save</button>
         </form>
     </div>
@@ -252,7 +281,7 @@ $teachers = readTeachers($connection);
         function editTeacher(registration_id) {
             // Fetch teacher data and fill the form for editing
             const teachers = <?php echo json_encode($teachers); ?>;
-            const teacher = teachers.find(t => t.registration_id === registration_id);
+            const teacher = teachers.find(t => t.registration_id == registration_id);
             document.getElementById('registration_id').value = teacher.registration_id;
             document.getElementById('first_name').value = teacher.first_name;
             document.getElementById('last_name').value = teacher.last_name;
@@ -263,7 +292,6 @@ $teachers = readTeachers($connection);
             document.getElementById('subject_name').value = teacher.subject_name;
             document.getElementById('username').value = teacher.username;
             document.getElementById('email').value = teacher.email;
-            document.getElementById('user_password').value = teacher.user_password;
         }
 
         bindEditTeacherFunction();

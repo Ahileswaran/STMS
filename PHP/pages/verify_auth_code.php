@@ -74,6 +74,11 @@ if (isset($_SESSION['username'])) {
 <head>
     <title>Verify Authentication Code</title>
     <link rel="stylesheet" href="../../CSS/styles.css">
+    <style>
+        .footer{
+            position: fixed;
+        }
+    </style>
 </head>
 <body>
 <header class="header">
