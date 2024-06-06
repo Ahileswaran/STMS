@@ -13,7 +13,7 @@ if ($connection->connect_error) {
 }
 
 // Check if the user is an admin
-//$is_admin = $_SESSION['role'] === 'admin';
+$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
 // Assessment planner table
 $teacher_username = $_SESSION['username'];
@@ -23,10 +23,11 @@ $assessment_table_name = "teacher_assessment_table_" . $teacher_username;
 $create_assessment_table_query = "CREATE TABLE IF NOT EXISTS $assessment_table_name (
     id INT AUTO_INCREMENT PRIMARY KEY,
     registration_id VARCHAR(255) NOT NULL,
-    area VARCHAR(255) NOT NULL,
-    criteria TEXT NOT NULL,
-    rating INT NOT NULL,
-    improvement TEXT
+    mastery TEXT NOT NULL,
+    mastery_level TEXT NOT NULL,
+    assessment_type VARCHAR(255) NOT NULL,
+    intended_date DATE NOT NULL,
+    completion_date DATE NOT NULL
 )";
 $connection->query($create_assessment_table_query);
 
@@ -35,23 +36,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $registration_id = $_SESSION['registration_id'];
     if (isset($_POST['action'])) {
         $action = $_POST['action'];
-        $area = $_POST['area'];
-        $criteria = $_POST['criteria'];
-        $rating = $_POST['rating'];
-        $improvement = $_POST['improvement'];
+        $mastery = strip_tags($_POST['mastery']);
+        $mastery_level = strip_tags($_POST['mastery_level']);
+        $assessment_type = $_POST['assessment_type'];
+        $intended_date = $_POST['intended_date'];
+        $completion_date = $_POST['completion_date'];
         $id = $_POST['id'];
 
         if ($action == 'create_assessment') {
-            $create_query = "INSERT INTO $assessment_table_name (registration_id, area, criteria, rating, improvement)
-                             VALUES (?, ?, ?, ?, ?)";
+            $create_query = "INSERT INTO $assessment_table_name (registration_id, mastery, mastery_level, assessment_type, intended_date, completion_date)
+                             VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $connection->prepare($create_query);
-            $stmt->bind_param("sssds", $registration_id, $area, $criteria, $rating, $improvement);
+            $stmt->bind_param("ssssss", $registration_id, $mastery, $mastery_level, $assessment_type, $intended_date, $completion_date);
             $stmt->execute();
         } elseif ($action == 'update_assessment') {
-            $update_query = "UPDATE $assessment_table_name SET area = ?, criteria = ?, rating = ?, improvement = ?
+            $update_query = "UPDATE $assessment_table_name SET mastery = ?, mastery_level = ?, assessment_type = ?, intended_date = ?, completion_date = ?
                              WHERE id = ? AND registration_id = ?";
             $stmt = $connection->prepare($update_query);
-            $stmt->bind_param("ssdsis", $area, $criteria, $rating, $improvement, $id, $registration_id);
+            $stmt->bind_param("sssssis", $mastery, $mastery_level, $assessment_type, $intended_date, $completion_date, $id, $registration_id);
             $stmt->execute();
         } elseif ($action == 'delete_assessment' && $is_admin) {
             $delete_query = "DELETE FROM $assessment_table_name WHERE id = ? AND registration_id = ?";
@@ -82,6 +84,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assessment Planner</title>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -182,31 +185,48 @@ try {
         }
     </style>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var quillCriteria = new Quill('#criteria-editor', {
+            var quillMastery = new Quill('#mastery-editor', {
+                theme: 'snow'
+            });
+            var quillMasteryLevel = new Quill('#mastery-level-editor', {
                 theme: 'snow'
             });
 
+            $("#intended_date").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#completion_date").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+
             document.getElementById('assessment-form').onsubmit = function() {
-                var criteriaContent = document.querySelector('#criteria-editor .ql-editor').innerHTML;
-                document.getElementById('criteria').value = criteriaContent;
+                var masteryContent = document.querySelector('#mastery-editor .ql-editor').innerHTML;
+                document.getElementById('mastery').value = masteryContent.replace(/<\/?p[^>]*>/g, '');
+                var masteryLevelContent = document.querySelector('#mastery-level-editor .ql-editor').innerHTML;
+                document.getElementById('mastery_level').value = masteryLevelContent.replace(/<\/?p[^>]*>/g, '');
             };
         });
 
         function fillAssessmentForm(data) {
             document.getElementById('assessment_id').value = data.id;
-            document.getElementById('area').value = data.area;
-            document.getElementById('criteria').value = data.criteria;
-            document.querySelector('#criteria-editor .ql-editor').innerHTML = data.criteria;
-            document.getElementById('rating').value = data.rating;
-            document.getElementById('improvement').value = data.improvement;
+            document.getElementById('mastery').value = data.mastery;
+            document.querySelector('#mastery-editor .ql-editor').innerHTML = data.mastery;
+            document.getElementById('mastery_level').value = data.mastery_level;
+            document.querySelector('#mastery-level-editor .ql-editor').innerHTML = data.mastery_level;
+            document.getElementById('assessment_type').value = data.assessment_type;
+            document.getElementById('intended_date').value = data.intended_date;
+            document.getElementById('completion_date').value = data.completion_date;
             document.getElementById('assessment_action').value = 'update_assessment';
         }
 
         function resetAssessmentForm() {
             document.getElementById('assessment-form').reset();
-            document.querySelector('#criteria-editor .ql-editor').innerHTML = '';
+            document.querySelector('#mastery-editor .ql-editor').innerHTML = '';
+            document.querySelector('#mastery-level-editor .ql-editor').innerHTML = '';
             document.getElementById('assessment_action').value = 'create_assessment';
         }
     </script>
@@ -218,10 +238,11 @@ try {
             <h3>Assessment Planner</h3>
             <table border="1">
                 <tr>
-                    <th>Area</th>
-                    <th>Criteria</th>
-                    <th>Rating</th>
-                    <th>Improvement</th>
+                    <th>Mastery</th>
+                    <th>Mastery Level</th>
+                    <th>Assessment Type</th>
+                    <th>Intended Date</th>
+                    <th>Completion Date</th>
                     <th>Actions</th>
                 </tr>
                 <?php
@@ -229,10 +250,11 @@ try {
                     if ($assessment_result->num_rows > 0) {
                         while ($row = $assessment_result->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['area']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['criteria']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['rating']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['improvement']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['mastery']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['mastery_level']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['assessment_type']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['intended_date']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['completion_date']) . "</td>";
                             echo "<td>
                                     <button onclick='fillAssessmentForm(" . json_encode($row) . ")'>Edit</button>";
                             if ($is_admin) {
@@ -246,10 +268,10 @@ try {
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='5' class='error'>No assessment details available for this user.</td></tr>";
+                        echo "<tr><td colspan='6' class='error'>No assessment details available for this user.</td></tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='5' class='error'>Assessment planner not available.</td></tr>";
+                    echo "<tr><td colspan='6' class='error'>Assessment planner not available.</td></tr>";
                 }
                 ?>
             </table>
@@ -260,15 +282,18 @@ try {
             <form id="assessment-form" method="post" action="">
                 <input type="hidden" id="assessment_id" name="id">
                 <input type="hidden" id="assessment_action" name="action" value="create_assessment">
-                <label for="area">Area:</label>
-                <input type="text" id="area" name="area" required>
-                <label for="criteria">Criteria:</label>
-                <div id="criteria-editor" class="quill-editor"></div>
-                <input type="hidden" id="criteria" name="criteria">
-                <label for="rating">Rating:</label>
-                <input type="number" id="rating" name="rating" min="1" max="5" required>
-                <label for="improvement">Improvement:</label>
-                <textarea id="improvement" name="improvement"></textarea>
+                <label for="mastery">Mastery</label>
+                <div id="mastery-editor" class="quill-editor"></div>
+                <input type="hidden" id="mastery" name="mastery">
+                <label for="mastery_level">Mastery Level</label>
+                <div id="mastery-level-editor" class="quill-editor"></div>
+                <input type="hidden" id="mastery_level" name="mastery_level">
+                <label for="assessment_type">Assessment Type</label>
+                <input type="text" id="assessment_type" name="assessment_type" required>
+                <label for="intended_date">Intended Date</label>
+                <input type="text" id="intended_date" name="intended_date">
+                <label for="completion_date">Completion Date</label>
+                <input type="text" id="completion_date" name="completion_date">
                 <button type="submit">Save</button>
                 <button type="button" class="cancel" onclick="resetAssessmentForm()">Cancel</button>
             </form>
