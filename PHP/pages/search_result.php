@@ -50,12 +50,20 @@ unset($_SESSION['search_results']);
     <link rel="stylesheet" href="../../CSS/styles.css">
     
     <style>
-     
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
         .content {
             padding: 200px;
             justify-content: center;
             max-width: 800px;
             margin: auto;
+            flex: 1;
         }
         
         .content h1 {
@@ -82,9 +90,8 @@ unset($_SESSION['search_results']);
             color: white;
             padding: 20px;
             text-align: center;
-            position: fixed;
             width: 100%;
-            bottom: 0;
+            position: relative;
         }
         
         .footer-container {

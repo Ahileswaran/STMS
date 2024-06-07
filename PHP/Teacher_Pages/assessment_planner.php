@@ -159,6 +159,14 @@ try {
             background-color: #e41e1e;
         }
 
+        .form-container button.delete-button {
+            background-color: #f44336;
+        }
+
+        .form-container button.delete-button:hover {
+            background-color: #e41e1e;
+        }
+
         .buttons-container button {
             background-color: #007BFF;
             color: white;
@@ -261,7 +269,7 @@ try {
                                 echo "<form method='post' action='' style='display:inline;'>
                                         <input type='hidden' name='id' value='" . htmlspecialchars($row['id']) . "'>
                                         <input type='hidden' name='action' value='delete_assessment'>
-                                        <button type='submit'>Delete</button>
+                                        <button type='submit' class='delete-button'>Delete</button>
                                       </form>";
                             }
                             echo "</td>";
