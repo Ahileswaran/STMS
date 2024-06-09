@@ -12,6 +12,9 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
+// Initialize success variable
+$success = false;
+
 // Fetch profile picture from database
 $session_username = $_SESSION['username'];
 $sql = "SELECT profile_pic FROM profile_picture WHERE username = ?";
@@ -108,12 +111,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['marital_status'] = $marital_status;
             $_SESSION['email'] = $email;
             $update_message = "Details updated successfully.";
+            $success = true;
         } else {
             $update_message = "Error updating details: (" . $stmt->errno . ") " . $stmt->error;
+            $success = false;
         }
         $stmt->close();
     }
-
 
     // Handle profile picture upload within the same form submission
     if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
@@ -128,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $success = true;
         } else {
             $upload_message = "Error uploading profile picture.";
+            $success = false;
         }
         $stmt->close();
     }
@@ -143,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $success = true;
         } else {
             $delete_message = "Error deleting profile picture.";
+            $success = false;
         }
 
         $stmt->close();
