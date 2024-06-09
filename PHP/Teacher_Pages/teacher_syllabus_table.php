@@ -41,11 +41,96 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bind_param("ssssssssssssss", $registration_id, $term_id, $class_id, $subject_id, $assign_date, $week_id, $conduct_date, $start_time, $lesson_time, $mastery, $section_number, $course_content, $teaching_date, $note);
             $stmt->execute();
         } elseif ($action == 'update') {
-            $update_query = "UPDATE $syllabus_table_name SET term_id = ?, class_id = ?, subject_id = ?, assign_date = ?, week_id = ?, conduct_date = ?, start_time = ?, lesson_time = ?, mastery = ?, section_number = ?, course_content = ?, teaching_date = ?, note = ?
-                             WHERE registration_id = ? AND term_id = ? AND class_id = ? AND subject_id = ?";
-            $stmt = $connection->prepare($update_query);
-            $stmt->bind_param("ssssssssssssssss", $term_id, $class_id, $subject_id, $assign_date, $week_id, $conduct_date, $start_time, $lesson_time, $mastery, $section_number, $course_content, $teaching_date, $note, $registration_id, $term_id, $class_id, $subject_id);
+            $existing_query = "SELECT * FROM $syllabus_table_name WHERE registration_id = ? AND term_id = ? AND class_id = ? AND subject_id = ?";
+            $stmt = $connection->prepare($existing_query);
+            $stmt->bind_param("ssss", $registration_id, $term_id, $class_id, $subject_id);
             $stmt->execute();
+            $result = $stmt->get_result();
+            $existing_record = $result->fetch_assoc();
+
+            if ($existing_record) {
+                $updates = [];
+                $types = '';
+                $values = [];
+
+                if ($term_id !== $existing_record['term_id']) {
+                    $updates[] = 'term_id = ?';
+                    $types .= 's';
+                    $values[] = $term_id;
+                }
+                if ($class_id !== $existing_record['class_id']) {
+                    $updates[] = 'class_id = ?';
+                    $types .= 's';
+                    $values[] = $class_id;
+                }
+                if ($subject_id !== $existing_record['subject_id']) {
+                    $updates[] = 'subject_id = ?';
+                    $types .= 's';
+                    $values[] = $subject_id;
+                }
+                if ($assign_date !== $existing_record['assign_date']) {
+                    $updates[] = 'assign_date = ?';
+                    $types .= 's';
+                    $values[] = $assign_date;
+                }
+                if ($week_id !== $existing_record['week_id']) {
+                    $updates[] = 'week_id = ?';
+                    $types .= 's';
+                    $values[] = $week_id;
+                }
+                if ($conduct_date !== $existing_record['conduct_date']) {
+                    $updates[] = 'conduct_date = ?';
+                    $types .= 's';
+                    $values[] = $conduct_date;
+                }
+                if ($start_time !== $existing_record['start_time']) {
+                    $updates[] = 'start_time = ?';
+                    $types .= 's';
+                    $values[] = $start_time;
+                }
+                if ($lesson_time !== $existing_record['lesson_time']) {
+                    $updates[] = 'lesson_time = ?';
+                    $types .= 's';
+                    $values[] = $lesson_time;
+                }
+                if ($mastery !== $existing_record['mastery']) {
+                    $updates[] = 'mastery = ?';
+                    $types .= 's';
+                    $values[] = $mastery;
+                }
+                if ($section_number !== $existing_record['section_number']) {
+                    $updates[] = 'section_number = ?';
+                    $types .= 'i';
+                    $values[] = $section_number;
+                }
+                if ($course_content !== $existing_record['course_content']) {
+                    $updates[] = 'course_content = ?';
+                    $types .= 's';
+                    $values[] = $course_content;
+                }
+                if ($teaching_date !== $existing_record['teaching_date']) {
+                    $updates[] = 'teaching_date = ?';
+                    $types .= 's';
+                    $values[] = $teaching_date;
+                }
+                if ($note !== $existing_record['note']) {
+                    $updates[] = 'note = ?';
+                    $types .= 's';
+                    $values[] = $note;
+                }
+
+                if (!empty($updates)) {
+                    $update_query = "UPDATE $syllabus_table_name SET " . implode(', ', $updates) . " WHERE registration_id = ? AND term_id = ? AND class_id = ? AND subject_id = ?";
+                    $stmt = $connection->prepare($update_query);
+                    $types .= 'ssss';
+                    $values[] = $registration_id;
+                    $values[] = $term_id;
+                    $values[] = $class_id;
+                    $values[] = $subject_id;
+                    $stmt->bind_param($types, ...$values);
+                    $stmt->execute();
+                }
+            }
         } elseif ($action == 'delete') {
             $delete_query = "DELETE FROM $syllabus_table_name WHERE registration_id = ? AND term_id = ? AND class_id = ? AND subject_id = ?";
             $stmt = $connection->prepare($delete_query);
