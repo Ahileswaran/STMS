@@ -1,11 +1,7 @@
 <?php
 
 require_once 'stay_login.php';
-//require_once 'profile_page.php';
-//require_once 'admin_profile_page.php';
-//require_once 'login.php';
 
-// session_start(); // Start the session to access session variables
 
 $username = "root";
 $password = "";
@@ -59,7 +55,7 @@ if ($stmt->num_rows > 0) {
     $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
 } else {
     // Profile picture not found, use a default image
-    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+    $profile_pic_src = '../images/profile-pic.png'; 
 }
 
 // Syllabus table

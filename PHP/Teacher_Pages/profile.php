@@ -28,7 +28,7 @@ if ($stmt->num_rows > 0) {
     $profile_pic_src = 'data:image/jpeg;base64,' . $profile_pic;
 } else {
     // Profile picture not found, use a default image
-    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+    $profile_pic_src = '../../images/profile-pic.png'; 
 }
 
 $stmt->close();
@@ -81,7 +81,6 @@ $syllabus_stmt->close();
 
 // Handle post request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $success = false;
     if (isset($_POST['update_details'])) {
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
@@ -91,8 +90,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $marital_status = $_POST['marital_status'];
         $email = $_POST['email'];
 
-        $sql = "UPDATE principal SET first_name = ?, last_name = ?, user_address = ?, age = ?, sex = ?, marital_status = ?, email = ? WHERE username = ?";
+        $sql = "UPDATE teacher SET first_name = ?, last_name = ?, user_address = ?, age = ?, sex = ?, marital_status = ?, email = ? WHERE username = ?";
         $stmt = $connection->prepare($sql);
+        
+        if (!$stmt) {
+            die("Prepare failed: (" . $connection->errno . ") " . $connection->error);
+        }
+
         $stmt->bind_param("ssssssss", $first_name, $last_name, $user_address, $age, $sex, $marital_status, $email, $session_username);
 
         if ($stmt->execute()) {
@@ -104,12 +108,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['marital_status'] = $marital_status;
             $_SESSION['email'] = $email;
             $update_message = "Details updated successfully.";
-            $success = true;
         } else {
-            $update_message = "Error updating details.";
+            $update_message = "Error updating details: (" . $stmt->errno . ") " . $stmt->error;
         }
         $stmt->close();
     }
+
 
     // Handle profile picture upload within the same form submission
     if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
