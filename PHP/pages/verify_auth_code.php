@@ -46,7 +46,7 @@ if (isset($_POST['auth_code'])) {
 }
 
 // Fetch profile picture from database
-$profile_pic_src = 'path_to_default_image.jpg'; // Default profile picture
+$profile_pic_src = '../../images/profile-pic.png'; 
 
 if (isset($_SESSION['username'])) {
     $session_username = $_SESSION['username'];

@@ -43,7 +43,7 @@ try {
         throw new Exception("User not logged in.");
     }
 } catch (Exception $e) {
-    $profile_pic_src = 'path_to_default_image.jpg'; // Replace with the path to your default image
+    $profile_pic_src = '../../images/profile-pic.png';
     $login_form_disabled = false;
 }
 
