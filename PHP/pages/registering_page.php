@@ -57,7 +57,7 @@ $connection->close();
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: calc(20vh - 30px); /* Adjust based on header and footer height */
+            height: calc(20vh - 30px); 
             margin-top: 220px;
             margin-bottom: 50px;
         }

@@ -85,7 +85,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $stmt_login->bind_param("sss", $username, $mail_id, $password);
 
             if ($stmt_login->execute()) {
-                echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../index.php';</script>";
+                echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../../index.php';</script>";
             } else {
                 echo "ERROR: Could not execute $sql_login. " . $stmt_login->error;
             }
