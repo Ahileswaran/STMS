@@ -153,16 +153,18 @@ $connection->close();
     <title>Admin Registration</title>
     <link rel="stylesheet" href="../../CSS/styles.css">
     <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
+        body {
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
         }
-
         .content {
-            margin-top: 10px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .status-message {
