@@ -86,8 +86,6 @@ if (isset($_SESSION['username'])) {
             padding: 20px;
         }
         .footer {
-            background: #f1f1f1;
-            text-align: center;
             padding: 10px;
         }
         @media (max-width: 768px) {
