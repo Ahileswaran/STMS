@@ -1,39 +1,76 @@
 <?php
-session_start();
+session_start(); // Start the session
 
+// Database connection details
 $username = "root";
 $password = "";
 $server = "localhost";
 $database = "stms_database";
 
+// Create connection
 $connection = new mysqli($server, $username, $password, $database);
 
+// Check connection
 if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
+// Handle the form submission for resetting the password
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['reset_password'])) {
-    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-    $username = $_SESSION['reset_username'];
+    if (isset($_SESSION['reset_username']) && isset($_POST['new_password'])) {
+        $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+        $username = $_SESSION['reset_username'];
 
-    // Update the password in the database
-    $sql = "UPDATE login SET user_password = ? WHERE username = ?";
-    $stmt = $connection->prepare($sql);
-    $stmt->bind_param("ss", $new_password, $username);
-    if ($stmt->execute()) {
-        echo "Password reset successfully.";
-        // Unset the session variables
-        unset($_SESSION['auth_code']);
-        unset($_SESSION['reset_username']);
-        header('Location: login_page.php');
-        exit();
+        // Check if the user is in the principal table
+        $query_principal = "SELECT * FROM principal WHERE username = ?";
+        $stmt = $connection->prepare($query_principal);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result_principal = $stmt->get_result();
+
+        if ($result_principal->num_rows === 1) {
+            // User is in the principal table, update password
+            $sql = "UPDATE principal SET user_password = ? WHERE username = ?";
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("ss", $new_password, $username);
+        } else {
+            // Check if the user is in the teacher table
+            $query_teacher = "SELECT * FROM teacher WHERE username = ?";
+            $stmt = $connection->prepare($query_teacher);
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result_teacher = $stmt->get_result();
+
+            if ($result_teacher->num_rows === 1) {
+                // User is in the teacher table, update password
+                $sql = "UPDATE teacher SET user_password = ? WHERE username = ?";
+                $stmt = $connection->prepare($sql);
+                $stmt->bind_param("ss", $new_password, $username);
+            } else {
+                echo "User not found.";
+                exit();
+            }
+        }
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            echo "Password reset successfully.";
+            // Unset the session variables
+            unset($_SESSION['auth_code']);
+            unset($_SESSION['reset_username']);
+            // Redirect to the login page
+            header('Location: login_page.php');
+            exit();
+        } else {
+            echo "Error resetting password.";
+        }
+        $stmt->close();
     } else {
-        echo "Error resetting password.";
+        echo "New password is required.";
     }
-    $stmt->close();
 }
 
-// Fetch profile picture from database
+// Fetch profile picture from the database
 $profile_pic_src = '../../images/profile-pic.png';
 
 if (isset($_SESSION['username'])) {
@@ -58,12 +95,15 @@ $connection->close();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Reset Password</title>
     <link rel="stylesheet" href="../../CSS/styles.css">
+    <style>
+        .footer {
+            position: fixed;
+        }
+    </style>
 </head>
-
 <body>
     <header class="header">
         <img src="../../images/logo-STMS.jpg" alt="logo" class="logo-image">
@@ -108,7 +148,6 @@ $connection->close();
             <form action="reset_password.php" method="post">
                 <label for="new_password">New Password: </label>
                 <input id="new_password" name="new_password" type="password" required><br><br>
-
                 <button type="submit" name="reset_password">Submit</button>
             </form>
         </div>
@@ -137,5 +176,4 @@ $connection->close();
         }
     </script>
 </body>
-
 </html>

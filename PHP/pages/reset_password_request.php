@@ -103,6 +103,11 @@ $connection->close();
 <head>
     <title>Reset Password</title>
     <link rel="stylesheet" href="../../CSS/styles.css">
+    <style>
+        .footer{
+            position: fixed;
+        }
+    </style>
 </head>
 
 <body>
