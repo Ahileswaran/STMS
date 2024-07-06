@@ -16,17 +16,45 @@ $table_name = "";
 $teacher_time_table = [];
 $feedback = "";
 
+// Function to create timetable table for a new teacher if it doesn't exist
+function createTimetableTable($username, $connection) {
+    $table_name = "teacher_time_table_" . strtolower($username);
+
+    // Check if table already exists
+    $check_sql = "SHOW TABLES LIKE '$table_name'";
+    $result = $connection->query($check_sql);
+
+    if ($result->num_rows == 0) {
+        // Create the table if it doesn't exist
+        $create_sql = "
+            CREATE TABLE `$table_name` (
+                `registration_id` varchar(20) DEFAULT NULL,
+                `class_id` varchar(20) DEFAULT NULL,
+                `subject_id` varchar(20) DEFAULT NULL,
+                `class_day` varchar(20) DEFAULT NULL,
+                `start_time` time DEFAULT NULL,
+                `end_time` time DEFAULT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+        ";
+        if ($connection->query($create_sql) === TRUE) {
+            return $table_name;
+        } else {
+            die("Error creating table: " . $connection->error);
+        }
+    } else {
+        return $table_name;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['find_username'])) {
         $find_username = $_POST['username'];
-        $table_name = "teacher_time_table_" . strtolower($find_username);
-        $table_name_escaped = $connection->real_escape_string($table_name);
-        $result = $connection->query("SHOW TABLES LIKE '$table_name_escaped'");
-        if ($result->num_rows == 1) {
-            $_SESSION['table_name'] = $table_name_escaped;
-        } else {
-            $feedback = "Table for username '$find_username' does not exist.";
+        $table_name = createTimetableTable($find_username, $connection);
+        $result = $connection->query("SELECT * FROM $table_name");
+        if ($result) {
+            $teacher_time_table = $result->fetch_all(MYSQLI_ASSOC);
         }
+        $_SESSION['table_name'] = $table_name;
     } elseif (isset($_SESSION['table_name'])) {
         $table_name = $_SESSION['table_name'];
 
@@ -83,6 +111,8 @@ if (!empty($table_name)) {
         $teacher_time_table = $result->fetch_all(MYSQLI_ASSOC);
     }
 }
+
+$connection->close();
 ?>
 
 <!DOCTYPE html>
@@ -226,50 +256,52 @@ if (!empty($table_name)) {
         </form>
         <p><?php echo $feedback; ?></p>
 
-        <?php if (!empty($teacher_time_table)) : ?>
-            <div class="scrollable">
-                <h2>Edit Teacher Time Table: <?php echo htmlspecialchars($table_name); ?></h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Registration ID</th>
-                            <th>Class ID</th>
-                            <th>Subject ID</th>
-                            <th>Class Day</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($teacher_time_table as $row) : ?>
+        <?php if (!empty($table_name)) : ?>
+            <?php if (!empty($teacher_time_table)) : ?>
+                <div class="scrollable">
+                    <h2>Edit Teacher Time Table: <?php echo htmlspecialchars($table_name); ?></h2>
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['registration_id']); ?></td>
-                                <td><?php echo htmlspecialchars($row['class_id']); ?></td>
-                                <td><?php echo htmlspecialchars($row['subject_id']); ?></td>
-                                <td><?php echo htmlspecialchars($row['class_day']); ?></td>
-                                <td><?php echo htmlspecialchars($row['start_time']); ?></td>
-                                <td><?php echo htmlspecialchars($row['end_time']); ?></td>
-                                <td>
-                                    <button class="edit-button" data-registration-id="<?php echo $row['registration_id']; ?>" data-class-id="<?php echo $row['class_id']; ?>" data-subject-id="<?php echo $row['subject_id']; ?>" data-class-day="<?php echo $row['class_day']; ?>" data-start-time="<?php echo $row['start_time']; ?>" data-end-time="<?php echo $row['end_time']; ?>">Edit</button>
-                                    <form method="POST" style="display:inline;">
-                                        <input type="hidden" name="delete_registration_id" value="<?php echo $row['registration_id']; ?>">
-                                        <input type="hidden" name="delete_class_id" value="<?php echo $row['class_id']; ?>">
-                                        <input type="hidden" name="delete_subject_id" value="<?php echo $row['subject_id']; ?>">
-                                        <input type="hidden" name="delete_class_day" value="<?php echo $row['class_day']; ?>">
-                                        <input type="hidden" name="delete_start_time" value="<?php echo $row['start_time']; ?>">
-                                        <input type="hidden" name="delete_end_time" value="<?php echo $row['end_time']; ?>">
-                                        <button type="submit" class="delete-button">Delete</button>
-                                    </form>
-                                </td>
+                                <th>Registration ID</th>
+                                <th>Class ID</th>
+                                <th>Subject ID</th>
+                                <th>Class Day</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Action</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($teacher_time_table as $row) : ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['registration_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['class_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['subject_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['class_day']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['start_time']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['end_time']); ?></td>
+                                    <td>
+                                        <button class="edit-button" data-registration-id="<?php echo $row['registration_id']; ?>" data-class-id="<?php echo $row['class_id']; ?>" data-subject-id="<?php echo $row['subject_id']; ?>" data-class-day="<?php echo $row['class_day']; ?>" data-start-time="<?php echo $row['start_time']; ?>" data-end-time="<?php echo $row['end_time']; ?>">Edit</button>
+                                        <form method="POST" style="display:inline;">
+                                            <input type="hidden" name="delete_registration_id" value="<?php echo $row['registration_id']; ?>">
+                                            <input type="hidden" name="delete_class_id" value="<?php echo $row['class_id']; ?>">
+                                            <input type="hidden" name="delete_subject_id" value="<?php echo $row['subject_id']; ?>">
+                                            <input type="hidden" name="delete_class_day" value="<?php echo $row['class_day']; ?>">
+                                            <input type="hidden" name="delete_start_time" value="<?php echo $row['start_time']; ?>">
+                                            <input type="hidden" name="delete_end_time" value="<?php echo $row['end_time']; ?>">
+                                            <button type="submit" class="delete-button">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
 
             <div class="form-container">
-                <h3>Add/Edit Teacher Time Table</h3>
+                <h3>Add/Edit Teacher Time Table: <?php echo htmlspecialchars($table_name); ?></h3>
                 <form id="teacher-time-table-form" method="POST">
                     <input type="hidden" name="update_registration_id" id="update_registration_id">
                     <input type="hidden" name="update_class_id" id="update_class_id">
