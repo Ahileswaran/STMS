@@ -12,6 +12,36 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
+// Function to create timetable table for a new teacher
+function createTimetableTable($username, $connection) {
+    $table_name = "teacher_time_table_" . $username;
+
+    // Check if table already exists
+    $check_sql = "SHOW TABLES LIKE '$table_name'";
+    $result = $connection->query($check_sql);
+
+    if ($result->num_rows == 0) {
+        // Create the table if it doesn't exist
+        $create_sql = "
+            CREATE TABLE `$table_name` (
+                `registration_id` varchar(20) DEFAULT NULL,
+                `class_id` varchar(20) DEFAULT NULL,
+                `subject_id` varchar(20) DEFAULT NULL,
+                `class_day` varchar(20) DEFAULT NULL,
+                `start_time` time DEFAULT NULL,
+                `end_time` time DEFAULT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+        ";
+        if ($connection->query($create_sql) === TRUE) {
+            echo "Table $table_name created successfully.";
+        } else {
+            echo "Error creating table: " . $connection->error;
+        }
+    } else {
+        echo "Table $table_name already exists.";
+    }
+}
+
 // Handle the AJAX request for checking username availability
 if (isset($_POST['check_username'])) {
     $username = $_POST['username'];
@@ -85,6 +115,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $stmt_login->bind_param("sss", $username, $mail_id, $password);
 
             if ($stmt_login->execute()) {
+                createTimetableTable($username, $connection); // Create timetable table for the new teacher
                 echo "<script>alert('$first_name $last_name added successfully.'); window.location.href = '../../index.php';</script>";
             } else {
                 echo "ERROR: Could not execute $sql_login. " . $stmt_login->error;
@@ -119,6 +150,7 @@ if (isset($_SESSION['username'])) {
 
 $connection->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

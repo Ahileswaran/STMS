@@ -1,1 +1,10 @@
 [2024-05-28 05:44:43] Error: Unknown database 'stms_database'
+[2024-07-03 18:01:11] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-03 18:02:27] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-03 18:02:37] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-03 18:03:12] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-03 18:04:40] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-04 17:47:05] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-05 18:46:22] Error: Unknown database 'stms_data'
+[2024-07-05 18:47:59] Error: Access denied for user 'root'@'localhost' (using password: YES)
+[2024-07-06 03:10:05] Error: No connection could be made because the target machine actively refused it
